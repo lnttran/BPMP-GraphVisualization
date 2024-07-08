@@ -5,6 +5,10 @@ import Node from "../ui/node";
 import coordinate_5 from "./../../../public/data/5_nodes/coordinate_5.json";
 import t5_data from "./../../../public/data/5_nodes/t5_data.json";
 import Line from "../ui/line";
+import { node } from "prop-types";
+import { useRouteContext } from "../context/RouteContext";
+
+const dataSize = coordinate_5.coordinate_05_01_data.length;
 
 function getCoordinatesByNode(node: number) {
   const nodeData = coordinate_5.coordinate_05_01_data.find(
@@ -13,20 +17,60 @@ function getCoordinatesByNode(node: number) {
   if (nodeData) {
     return { x: nodeData.x, y: nodeData.y };
   }
-  return null;
+
+  throw new Error("Invalid coordinate");
+}
+
+function getLineType(line: {
+  w: number;
+  d: number;
+  from?: number;
+  to?: number;
+  selectedRoute?: number[];
+}): {
+  style: string;
+  color: string;
+} {
+  const { from, to, selectedRoute } = line;
+  if (
+    selectedRoute &&
+    selectedRoute.length > 1 &&
+    from !== undefined &&
+    to !== undefined
+  ) {
+    // Check if there exists a segment in selectedRoute matching from -> to
+    return { style: "solid", color: "text-accent" };
+  } else if (line.w === 0.0) {
+    return { style: "dashed", color: "text-red-500" };
+  } else {
+    return { style: "dashed", color: "text-accent" };
+  }
 }
 
 const lines = t5_data.coordinate_05_01_data.reduce<
-  { x1: number; y1: number; x2: number; y2: number }[]
+  {
+    x1: number;
+    y1: number;
+    x2: number;
+    y2: number;
+    w: number;
+    d: number;
+    style: string;
+    color: string;
+  }[]
 >((lines, link) => {
   const node1Coordinates = getCoordinatesByNode(link.x);
   const node2Coordinates = getCoordinatesByNode(link.y);
+  const w = link.w;
+  const d = link.d;
+
+  const { style: style, color: color } = getLineType({ w: w, d: d });
 
   if (node1Coordinates && node2Coordinates) {
     const { x: x1, y: y1 } = node1Coordinates;
     const { x: x2, y: y2 } = node2Coordinates;
 
-    lines.push({ x1, y1, x2, y2 });
+    lines.push({ x1, y1, x2, y2, w, d, style, color });
   }
 
   return lines;
@@ -35,12 +79,6 @@ const lines = t5_data.coordinate_05_01_data.reduce<
 interface Point {
   x: number;
   y: number;
-}
-
-interface Circle {
-  cx: number;
-  cy: number;
-  r: number;
 }
 
 function calculateSnapPoints(
@@ -92,26 +130,147 @@ function findClosestSnapPoint(
 
 export default function GraphVisualiser() {
   const [hoveredNode, setHoveredNode] = useState<number | null>(null);
+  const [clickedNode, setClicketNode] = useState<number>(1);
+  // const [selectedRoute, setSelectedRoute] = useState<number[]>([1]);
+  const { selectedRoute, setSelectedRoute } = useRouteContext();
+
   const [mapState, setMapState] = useState({
     scale: 0.8,
     translation: { x: 0, y: 0 },
   });
 
-  const renderLines = () => {
-    if (hoveredNode === null) return null;
-    const filteredLines = lines.filter((line) => {
-      return (
-        line.x1 === getCoordinatesByNode(hoveredNode)?.x &&
-        line.y1 === getCoordinatesByNode(hoveredNode)?.y
-      );
-    });
+  const handleOnClickedNode = (isSelected: boolean, i: number) => {
+    if (i == 0) {
+      return;
+    }
+    if (!isSelected) {
+      setSelectedRoute((prevRoute) => [...prevRoute, i + 1]);
+    } else {
+      let indexToRemove: number = selectedRoute.indexOf(i + 1);
+      if (indexToRemove !== -1) {
+        setSelectedRoute((prevRoute) => {
+          const newRoute = [...prevRoute];
+          newRoute.splice(indexToRemove);
+          return newRoute;
+        });
+      }
+    }
+  };
 
+  const renderRoute = () => {
+    let filteredLines: {
+      x1: number;
+      y1: number;
+      x2: number;
+      y2: number;
+      w: number;
+      d: number;
+      color: string;
+      style: string;
+    }[] = [];
+
+    const selectedRouteLength = selectedRoute.length;
+
+    // Iterate through selectedRoute
+    for (let i = 0; i < selectedRouteLength; i++) {
+      if (i < selectedRouteLength - 1) {
+        const startNode = selectedRoute[i];
+        const endNode = selectedRoute[i + 1];
+        let lineType: { color: string; style: string } = {
+          color: "",
+          style: "",
+        };
+
+        // Find lines connecting current node to the next node
+        const matchingLines = lines.filter((line) => {
+          lineType = getLineType({
+            w: line.w,
+            d: line.d,
+            from: startNode,
+            to: endNode,
+            selectedRoute: selectedRoute,
+          });
+          return (
+            line.x1 === getCoordinatesByNode(startNode).x &&
+            line.y1 === getCoordinatesByNode(startNode).y &&
+            line.x2 === getCoordinatesByNode(endNode).x &&
+            line.y2 === getCoordinatesByNode(endNode).y
+          );
+        })[0];
+
+        filteredLines.push({
+          ...matchingLines,
+          color: lineType.color,
+          style: lineType.style,
+        });
+      } else {
+        // Last element logic: Connect to remaining nodes not in selectedRoute
+        const lastNode = selectedRoute[i];
+
+        const remainingNodes: number[] = [];
+        for (let j = 2; j <= dataSize; j++) {
+          if (!selectedRoute.includes(j)) {
+            remainingNodes.push(j);
+          }
+        }
+
+        const matchingLines = lines.filter((line) =>
+          remainingNodes.some((node) => {
+            return (
+              line.x1 === getCoordinatesByNode(lastNode)?.x &&
+              line.y1 === getCoordinatesByNode(lastNode)?.y &&
+              line.x2 === getCoordinatesByNode(node)?.x &&
+              line.y2 === getCoordinatesByNode(node)?.y
+            );
+          })
+        );
+
+        filteredLines.push(...matchingLines);
+      }
+    }
+
+    return renderLines(filteredLines);
+  };
+
+  const renderHoverLines = () => {
+    if (hoveredNode === null) return null;
+    const remainingNodes: number[] = [];
+    for (let j = 2; j <= dataSize; j++) {
+      if (!selectedRoute.includes(j)) {
+        remainingNodes.push(j);
+      }
+    }
+    const filteredLines = lines.filter((line) =>
+      remainingNodes.some((node) => {
+        return (
+          line.x1 === getCoordinatesByNode(hoveredNode)?.x &&
+          line.y1 === getCoordinatesByNode(hoveredNode)?.y &&
+          line.x2 === getCoordinatesByNode(node)?.x &&
+          line.y2 === getCoordinatesByNode(node)?.y
+        );
+      })
+    );
+    return renderLines(filteredLines);
+  };
+
+  const renderLines = (
+    lineList: {
+      x1: number;
+      y1: number;
+      x2: number;
+      y2: number;
+      w: number;
+      d: number;
+      style: string;
+      color: string;
+    }[]
+  ) => {
     return (
       <div>
-        {filteredLines.map((p, i) => {
+        {lineList.map((line, i) => {
           const radius = 15;
-          const center1 = { cx: p.x1, cy: p.y1, r: radius };
-          const center2 = { cx: p.x2, cy: p.y2, r: radius };
+          const center1 = { cx: line.x1, cy: line.y1, r: radius };
+          const center2 = { cx: line.x2, cy: line.y2, r: radius };
           const numSnapPoints = 10;
 
           const snapPoints1: Point[] = calculateSnapPoints(
@@ -134,30 +293,20 @@ export default function GraphVisualiser() {
             center1.cy
           );
 
+          // const lineType = getLineType(line);
+
           return (
             <Line
               key={i}
               to={{ x: closestPoint1.x, y: closestPoint1.y }}
-              from={{ x: p.x2, y: p.y2 }}
-              style={"2px dashed"}
-              className="text-accent"
+              from={{ x: line.x2, y: line.y2 }}
+              style={`3px ${line.style}`}
+              className={line.color}
             />
           );
         })}
       </div>
     );
-    // return (
-    //     <div>
-    //         {
-    //             lines.map((p, i) => <Line
-    //                 key={i}
-    //                 from={{ x: p.x1 + 15, y: p.y1 + 12 }}
-    //                 to={{ x: p.x2 + 15, y: p.y2 + 12 }}
-    //                 style={"2px solid blue"}
-    //             />)
-    //         }
-    //     </div>
-    // );
   };
 
   const renderBoardPiece = () => {
@@ -168,6 +317,10 @@ export default function GraphVisualiser() {
         y={nodeList.y}
         onMouseEnter={() => setHoveredNode(nodeList.node)}
         onMouseLeave={() => setHoveredNode(null)}
+        onClickedDefault={index === 0}
+        onClick={(isSelected: boolean) =>
+          handleOnClickedNode(isSelected, index)
+        }
       >
         {nodeList.node}{" "}
       </Node>
@@ -175,12 +328,13 @@ export default function GraphVisualiser() {
   };
 
   return (
-    <div className="w-full h-[800px] bg-white">
+    <div className="max-w-full h-[660px] bg-popover rounded-xl">
       <MapInteractionCSS
         value={mapState}
         onChange={(value) => setMapState(value)}
       >
-        {renderLines()}
+        {renderHoverLines()}
+        {renderRoute()}
         {renderBoardPiece()}
       </MapInteractionCSS>
     </div>

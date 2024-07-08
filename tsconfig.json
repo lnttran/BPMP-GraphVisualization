@@ -32,7 +32,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "src/components/ui/line.jsx", "src/components/ui/arrow.jsx"  ],
   "exclude": [
     "node_modules"
   ]
