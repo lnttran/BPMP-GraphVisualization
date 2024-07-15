@@ -8,6 +8,8 @@ export default class Line extends React.Component<{
   to: { x: number; y: number };
   style?: string;
   className?: string;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
 }> {
   static propTypes = {
     from: PropTypes.shape({
@@ -20,6 +22,18 @@ export default class Line extends React.Component<{
     }),
     style: PropTypes.string,
     className: PropTypes.string,
+  };
+
+  state = {
+    isHovered: false,
+  };
+
+  handleMouseEnter = () => {
+    this.setState({ isHovered: true });
+  };
+
+  handleMouseLeave = () => {
+    this.setState({ isHovered: false });
   };
 
   render() {
@@ -48,8 +62,16 @@ export default class Line extends React.Component<{
     const lineStyle: CSSProperties = {
       position: "absolute",
       width: `${len}px`,
-      height: "2px",
-      borderBottom: this.props.style || "2px solid black",
+      height: "0px",
+      borderBottom: `3px ${this.props.style || "solid black"}`,
+      transition: "height 0.2s, box-shadow 0.2s",
+      ...(this.state.isHovered && {
+        borderBottom: `3px ${this.props.style || "solid black"}`,
+        boxShadow: `
+        0px 0px 12px rgba(0, 0, 0, 0.4), /* Top shadow */
+        0px 4px 12px rgba(0, 0, 0, 0.5) /* Bottom shadow */
+      `,
+      }),
     };
 
     const arrowStyle: CSSProperties = {
@@ -60,7 +82,18 @@ export default class Line extends React.Component<{
     };
 
     return (
-      <div className="relative w-[100%] h-[100%] z-0">
+      <div
+        className="relative w-[100%] h-[100%] z-0 "
+        onMouseEnter={() => {
+          console.log("mouse hover to line");
+          this.setState({ isHovered: true });
+          this.props.onMouseEnter();
+        }}
+        onMouseLeave={() => {
+          this.setState({ isHovered: false });
+          this.props.onMouseLeave();
+        }}
+      >
         <div style={wrapperStyle}>
           <div style={lineStyle} className={cn(this.props.className)}></div>
           <FaChevronRight style={arrowStyle} />

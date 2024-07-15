@@ -2,11 +2,14 @@
 import React, { useState, useEffect } from "react";
 import { MapInteractionCSS } from "react-map-interaction";
 import Node from "../ui/node";
-import coordinate_5 from "./../../../public/data/5_nodes/coordinate_5.json";
-import t5_data from "./../../../public/data/5_nodes/t5_data.json";
+import coordinate_5 from "../../../public/data/5_nodes/coordinate_5.json";
+import t5_data from "../../../public/data/5_nodes/t5_data.json";
 import Line from "../ui/line";
 import { node } from "prop-types";
 import { useRouteContext } from "../context/RouteContext";
+import NoteBox from "../ui/noteBox";
+import CollapsableSheet from "../collapsableSheet/CollapsableSheet";
+import { useCargoContext } from "../context/CargoContext";
 
 const dataSize = coordinate_5.coordinate_05_01_data.length;
 
@@ -19,6 +22,21 @@ function getCoordinatesByNode(node: number) {
   }
 
   throw new Error("Invalid coordinate");
+}
+
+function getWeightDistantbyPickupDropoff(
+  pickup: number,
+  dropoff: number
+): { w: number; d: number } {
+  const foundData = t5_data.coordinate_05_01_data.find(
+    (data) => data.x === pickup && data.y === dropoff
+  );
+  if (foundData === undefined) {
+    throw new Error(
+      `No data found for pickup ${pickup} and dropoff ${dropoff}`
+    );
+  }
+  return { w: foundData.w, d: foundData.d };
 }
 
 function getLineType(line: {
@@ -49,6 +67,8 @@ function getLineType(line: {
 
 const lines = t5_data.coordinate_05_01_data.reduce<
   {
+    from: number;
+    to: number;
     x1: number;
     y1: number;
     x2: number;
@@ -70,7 +90,18 @@ const lines = t5_data.coordinate_05_01_data.reduce<
     const { x: x1, y: y1 } = node1Coordinates;
     const { x: x2, y: y2 } = node2Coordinates;
 
-    lines.push({ x1, y1, x2, y2, w, d, style, color });
+    lines.push({
+      x1,
+      y1,
+      x2,
+      y2,
+      w,
+      d,
+      style,
+      color,
+      from: link.x,
+      to: link.y,
+    });
   }
 
   return lines;
@@ -130,10 +161,9 @@ function findClosestSnapPoint(
 
 export default function GraphVisualiser() {
   const [hoveredNode, setHoveredNode] = useState<number | null>(null);
-  const [clickedNode, setClicketNode] = useState<number>(1);
-  // const [selectedRoute, setSelectedRoute] = useState<number[]>([1]);
   const { selectedRoute, setSelectedRoute } = useRouteContext();
-
+  const { selectedCargo, setSelectedCargo } = useCargoContext();
+  const [noteContent, setNoteContent] = useState("");
   const [mapState, setMapState] = useState({
     scale: 0.8,
     translation: { x: 0, y: 0 },
@@ -144,14 +174,37 @@ export default function GraphVisualiser() {
       return;
     }
     if (!isSelected) {
-      setSelectedRoute((prevRoute) => [...prevRoute, i + 1]);
+      //add the node to selected route
+      const lastElement = selectedRoute[selectedRoute.length - 1];
+      setSelectedRoute((prevRoute) => [...prevRoute, i]);
+      // Get the previous last element before adding i
+
+      const { w, d } = getWeightDistantbyPickupDropoff(lastElement, i);
+
+      //add the node to the selected cargo by default
+      setSelectedCargo((prevCargo) => [
+        ...prevCargo,
+        {
+          pickup: lastElement,
+          dropoff: i,
+          w: w,
+          d: d,
+        },
+      ]);
     } else {
-      let indexToRemove: number = selectedRoute.indexOf(i + 1);
+      let indexToRemove: number = selectedRoute.indexOf(i);
       if (indexToRemove !== -1) {
         setSelectedRoute((prevRoute) => {
           const newRoute = [...prevRoute];
           newRoute.splice(indexToRemove);
           return newRoute;
+        });
+
+        setSelectedCargo((prevCargo) => {
+          const lastElement = selectedRoute[indexToRemove - 1];
+          return prevCargo.filter(
+            (cargo) => !(cargo.pickup === lastElement && cargo.dropoff === i)
+          );
         });
       }
     }
@@ -167,6 +220,8 @@ export default function GraphVisualiser() {
       d: number;
       color: string;
       style: string;
+      from: number;
+      to: number;
     }[] = [];
 
     const selectedRouteLength = selectedRoute.length;
@@ -194,7 +249,9 @@ export default function GraphVisualiser() {
             line.x1 === getCoordinatesByNode(startNode).x &&
             line.y1 === getCoordinatesByNode(startNode).y &&
             line.x2 === getCoordinatesByNode(endNode).x &&
-            line.y2 === getCoordinatesByNode(endNode).y
+            line.y2 === getCoordinatesByNode(endNode).y &&
+            line.from === startNode &&
+            line.to === endNode
           );
         })[0];
 
@@ -220,7 +277,9 @@ export default function GraphVisualiser() {
               line.x1 === getCoordinatesByNode(lastNode)?.x &&
               line.y1 === getCoordinatesByNode(lastNode)?.y &&
               line.x2 === getCoordinatesByNode(node)?.x &&
-              line.y2 === getCoordinatesByNode(node)?.y
+              line.y2 === getCoordinatesByNode(node)?.y &&
+              line.from === lastNode &&
+              line.to === node
             );
           })
         );
@@ -246,11 +305,26 @@ export default function GraphVisualiser() {
           line.x1 === getCoordinatesByNode(hoveredNode)?.x &&
           line.y1 === getCoordinatesByNode(hoveredNode)?.y &&
           line.x2 === getCoordinatesByNode(node)?.x &&
-          line.y2 === getCoordinatesByNode(node)?.y
+          line.y2 === getCoordinatesByNode(node)?.y &&
+          line.from === hoveredNode &&
+          line.to === node
         );
       })
     );
     return renderLines(filteredLines);
+  };
+
+  const handleLineMouseEnter = (
+    from: number,
+    to: number,
+    w: number,
+    d: number
+  ) => {
+    setNoteContent(`From: ${from}\nTo: ${to}\nW: ${w}\nD: ${d}`);
+  };
+
+  const handleLineMouseLeave = () => {
+    setNoteContent("");
   };
 
   const renderLines = (
@@ -263,6 +337,8 @@ export default function GraphVisualiser() {
       d: number;
       style: string;
       color: string;
+      from: number;
+      to: number;
     }[]
   ) => {
     return (
@@ -293,15 +369,17 @@ export default function GraphVisualiser() {
             center1.cy
           );
 
-          // const lineType = getLineType(line);
-
           return (
             <Line
               key={i}
               to={{ x: closestPoint1.x, y: closestPoint1.y }}
               from={{ x: line.x2, y: line.y2 }}
-              style={`3px ${line.style}`}
+              style={`${line.style}`}
               className={line.color}
+              onMouseEnter={() =>
+                handleLineMouseEnter(line.from, line.to, line.w, line.d)
+              }
+              onMouseLeave={handleLineMouseLeave}
             />
           );
         })}
@@ -319,7 +397,7 @@ export default function GraphVisualiser() {
         onMouseLeave={() => setHoveredNode(null)}
         onClickedDefault={index === 0}
         onClick={(isSelected: boolean) =>
-          handleOnClickedNode(isSelected, index)
+          handleOnClickedNode(isSelected, index + 1)
         }
       >
         {nodeList.node}{" "}
@@ -328,7 +406,7 @@ export default function GraphVisualiser() {
   };
 
   return (
-    <div className="max-w-full h-[660px] bg-popover rounded-xl">
+    <div className="max-w-full h-[830px] bg-popover rounded-xl relative">
       <MapInteractionCSS
         value={mapState}
         onChange={(value) => setMapState(value)}
@@ -337,6 +415,8 @@ export default function GraphVisualiser() {
         {renderRoute()}
         {renderBoardPiece()}
       </MapInteractionCSS>
+      <NoteBox isVisible={true}>{noteContent}</NoteBox>
+      <CollapsableSheet />
     </div>
   );
 }

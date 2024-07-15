@@ -1,4 +1,4 @@
-import GraphVisualiser from "@/components/GraphVisualizer/graphVisualizer";
+import GraphVisualiser from "@/components/graphVisualizer/GraphVisualizer";
 import { Button } from "@/components/ui/button";
 import Node from "@/components/ui/node";
 import {
@@ -15,8 +15,8 @@ import React from "react";
 
 export default function GraphVisualization() {
   return (
-    <div className="relative bg-background w-full px-10 pt-16">
-      <div className="flex flex-col gap-3">
+    <div className="relative bg-background w-full h-screen px-10 pt-16">
+      <div className="flex flex-col gap-3 flew-grow">
         <div className="font-extrabold text-[32px]">Graph Visulization</div>
         <div className="w-full h-20 mb-4 bg-popover rounded-xl flex flex-row">
           <div className="p-5 flex flex-row gap-5">
@@ -52,7 +52,9 @@ export default function GraphVisualization() {
             </Button>
           </div>
         </div>
-        <GraphVisualiser />
+        <div className="flex-grow">
+          <GraphVisualiser />
+        </div>
       </div>
     </div>
   );
