@@ -8,6 +8,7 @@ export default class Line extends React.Component<{
   to: { x: number; y: number };
   style?: string;
   className?: string;
+  display: string;
   onMouseEnter: () => void;
   onMouseLeave: () => void;
 }> {
@@ -83,9 +84,8 @@ export default class Line extends React.Component<{
 
     return (
       <div
-        className="relative w-[100%] h-[100%] z-0 "
+        className={cn("relative w-[100%] h-[100%] z-0", this.props.display)}
         onMouseEnter={() => {
-          console.log("mouse hover to line");
           this.setState({ isHovered: true });
           this.props.onMouseEnter();
         }}

@@ -10,6 +10,7 @@ import { useRouteContext } from "../context/RouteContext";
 import NoteBox from "../ui/noteBox";
 import CollapsableSheet from "../collapsableSheet/CollapsableSheet";
 import { useCargoContext } from "../context/CargoContext";
+import { LineType } from "../tools/LineType";
 
 const dataSize = coordinate_5.coordinate_05_01_data.length;
 
@@ -39,32 +40,7 @@ function getWeightDistantbyPickupDropoff(
   return { w: foundData.w, d: foundData.d };
 }
 
-function getLineType(line: {
-  w: number;
-  d: number;
-  from?: number;
-  to?: number;
-  selectedRoute?: number[];
-}): {
-  style: string;
-  color: string;
-} {
-  const { from, to, selectedRoute } = line;
-  if (
-    selectedRoute &&
-    selectedRoute.length > 1 &&
-    from !== undefined &&
-    to !== undefined
-  ) {
-    // Check if there exists a segment in selectedRoute matching from -> to
-    return { style: "solid", color: "text-accent" };
-  } else if (line.w === 0.0) {
-    return { style: "dashed", color: "text-red-500" };
-  } else {
-    return { style: "dashed", color: "text-accent" };
-  }
-}
-
+//returning the cordinates of lines
 const lines = t5_data.coordinate_05_01_data.reduce<
   {
     from: number;
@@ -77,6 +53,7 @@ const lines = t5_data.coordinate_05_01_data.reduce<
     d: number;
     style: string;
     color: string;
+    display: string;
   }[]
 >((lines, link) => {
   const node1Coordinates = getCoordinatesByNode(link.x);
@@ -84,7 +61,11 @@ const lines = t5_data.coordinate_05_01_data.reduce<
   const w = link.w;
   const d = link.d;
 
-  const { style: style, color: color } = getLineType({ w: w, d: d });
+  const {
+    style: style,
+    color: color,
+    display: display,
+  } = LineType({ w: w, d: d });
 
   if (node1Coordinates && node2Coordinates) {
     const { x: x1, y: y1 } = node1Coordinates;
@@ -99,6 +80,7 @@ const lines = t5_data.coordinate_05_01_data.reduce<
       d,
       style,
       color,
+      display,
       from: link.x,
       to: link.y,
     });
@@ -161,9 +143,12 @@ function findClosestSnapPoint(
 
 export default function GraphVisualiser() {
   const [hoveredNode, setHoveredNode] = useState<number | null>(null);
-  const { selectedRoute, setSelectedRoute } = useRouteContext();
-  const { selectedCargo, setSelectedCargo } = useCargoContext();
+  const { selectedRoute, setSelectedRoute, addNodeToRoute, deleteNodeToRoute } =
+    useRouteContext();
+  const { selectedCargo, setSelectedCargo, addCargo, removeCargo } =
+    useCargoContext();
   const [noteContent, setNoteContent] = useState("");
+  const [currentLineType, setCurrentLineType] = useState("");
   const [mapState, setMapState] = useState({
     scale: 0.8,
     translation: { x: 0, y: 0 },
@@ -176,34 +161,29 @@ export default function GraphVisualiser() {
     if (!isSelected) {
       //add the node to selected route
       const lastElement = selectedRoute[selectedRoute.length - 1];
-      setSelectedRoute((prevRoute) => [...prevRoute, i]);
       // Get the previous last element before adding i
-
       const { w, d } = getWeightDistantbyPickupDropoff(lastElement, i);
-
-      //add the node to the selected cargo by default
-      setSelectedCargo((prevCargo) => [
-        ...prevCargo,
-        {
+      addNodeToRoute(i, w, d);
+      if (w > 0) {
+        //add the node to the selected cargo by default
+        addCargo({
           pickup: lastElement,
           dropoff: i,
           w: w,
           d: d,
-        },
-      ]);
+        });
+      }
     } else {
       let indexToRemove: number = selectedRoute.indexOf(i);
+      const previousElement = selectedRoute[indexToRemove - 1];
+      const { w, d } = getWeightDistantbyPickupDropoff(previousElement, i);
       if (indexToRemove !== -1) {
-        setSelectedRoute((prevRoute) => {
-          const newRoute = [...prevRoute];
-          newRoute.splice(indexToRemove);
-          return newRoute;
-        });
+        deleteNodeToRoute(i, d);
 
         setSelectedCargo((prevCargo) => {
-          const lastElement = selectedRoute[indexToRemove - 1];
           return prevCargo.filter(
-            (cargo) => !(cargo.pickup === lastElement && cargo.dropoff === i)
+            (cargo) =>
+              !(cargo.pickup === previousElement && cargo.dropoff === i)
           );
         });
       }
@@ -220,46 +200,50 @@ export default function GraphVisualiser() {
       d: number;
       color: string;
       style: string;
+      display: string;
       from: number;
       to: number;
     }[] = [];
 
-    const selectedRouteLength = selectedRoute.length;
-
     // Iterate through selectedRoute
-    for (let i = 0; i < selectedRouteLength; i++) {
-      if (i < selectedRouteLength - 1) {
-        const startNode = selectedRoute[i];
-        const endNode = selectedRoute[i + 1];
-        let lineType: { color: string; style: string } = {
-          color: "",
-          style: "",
-        };
+    for (let i = 0; i < selectedRoute.length; i++) {
+      if (i < selectedRoute.length - 1) {
+        for (let j = i + 1; j < selectedRoute.length; j++) {
+          const startNode = selectedRoute[i];
+          const endNode = selectedRoute[j];
+          let lineType: { color: string; style: string; display: string } = {
+            color: "",
+            style: "",
+            display: "",
+          };
 
-        // Find lines connecting current node to the next node
-        const matchingLines = lines.filter((line) => {
-          lineType = getLineType({
-            w: line.w,
-            d: line.d,
-            from: startNode,
-            to: endNode,
-            selectedRoute: selectedRoute,
+          // Find lines connecting current node to the next node
+          const matchingLines = lines.filter((line) => {
+            lineType = LineType({
+              w: line.w,
+              d: line.d,
+              from: startNode,
+              to: endNode,
+              selectedRoute: selectedRoute,
+              selectedCargo: selectedCargo,
+            });
+            return (
+              line.x1 === getCoordinatesByNode(startNode).x &&
+              line.y1 === getCoordinatesByNode(startNode).y &&
+              line.x2 === getCoordinatesByNode(endNode).x &&
+              line.y2 === getCoordinatesByNode(endNode).y &&
+              line.from === startNode &&
+              line.to === endNode
+            );
+          })[0];
+
+          filteredLines.push({
+            ...matchingLines,
+            color: lineType.color,
+            style: lineType.style,
+            display: lineType.display,
           });
-          return (
-            line.x1 === getCoordinatesByNode(startNode).x &&
-            line.y1 === getCoordinatesByNode(startNode).y &&
-            line.x2 === getCoordinatesByNode(endNode).x &&
-            line.y2 === getCoordinatesByNode(endNode).y &&
-            line.from === startNode &&
-            line.to === endNode
-          );
-        })[0];
-
-        filteredLines.push({
-          ...matchingLines,
-          color: lineType.color,
-          style: lineType.style,
-        });
+        }
       } else {
         // Last element logic: Connect to remaining nodes not in selectedRoute
         const lastNode = selectedRoute[i];
@@ -318,13 +302,17 @@ export default function GraphVisualiser() {
     from: number,
     to: number,
     w: number,
-    d: number
+    d: number,
+    color: string,
+    style: string
   ) => {
     setNoteContent(`From: ${from}\nTo: ${to}\nW: ${w}\nD: ${d}`);
+    setCurrentLineType(`${style} ${color}`);
   };
 
   const handleLineMouseLeave = () => {
     setNoteContent("");
+    setCurrentLineType("");
   };
 
   const renderLines = (
@@ -336,6 +324,7 @@ export default function GraphVisualiser() {
       w: number;
       d: number;
       style: string;
+      display: string;
       color: string;
       from: number;
       to: number;
@@ -376,8 +365,16 @@ export default function GraphVisualiser() {
               from={{ x: line.x2, y: line.y2 }}
               style={`${line.style}`}
               className={line.color}
+              display={line.display}
               onMouseEnter={() =>
-                handleLineMouseEnter(line.from, line.to, line.w, line.d)
+                handleLineMouseEnter(
+                  line.from,
+                  line.to,
+                  line.w,
+                  line.d,
+                  line.color,
+                  line.style
+                )
               }
               onMouseLeave={handleLineMouseLeave}
             />
@@ -415,7 +412,9 @@ export default function GraphVisualiser() {
         {renderRoute()}
         {renderBoardPiece()}
       </MapInteractionCSS>
-      <NoteBox isVisible={true}>{noteContent}</NoteBox>
+      <NoteBox isVisible={true} currentLineType={currentLineType}>
+        {noteContent}
+      </NoteBox>
       <CollapsableSheet />
     </div>
   );

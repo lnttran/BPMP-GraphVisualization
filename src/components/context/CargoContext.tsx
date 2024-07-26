@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
 // Step 1: Define context type
-type Cargo = {
+export type Cargo = {
   pickup: number | null;
   dropoff: number | null;
   w: number | null;
@@ -13,6 +13,8 @@ type CargoContextType = {
   setSelectedCargo: React.Dispatch<React.SetStateAction<Cargo[]>>;
   calculateTotalWeight: () => number;
   calculateTotalDistance: () => number;
+  addCargo: (cargo: Cargo) => void;
+  removeCargo: (cargoToRemove: Cargo) => void;
 };
 
 // Step 2: Create context
@@ -42,11 +44,27 @@ export const CargoProvider: React.FC<CargoProviderProps> = ({ children }) => {
     );
   };
 
+  const addCargo = (cargo: Cargo) => {
+    setSelectedCargo((prevSelectedCargo) => [...prevSelectedCargo, cargo]);
+  };
+
+  const removeCargo = (cargoToRemove: Cargo) => {
+    setSelectedCargo((prevSelectedCargo) =>
+      prevSelectedCargo.filter(
+        (cargo) =>
+          cargo.pickup !== cargoToRemove.pickup ||
+          cargo.dropoff !== cargoToRemove.dropoff
+      )
+    );
+  };
+
   return (
     <CargoContext.Provider
       value={{
         selectedCargo,
+        removeCargo,
         setSelectedCargo,
+        addCargo,
         calculateTotalWeight,
         calculateTotalDistance,
       }}
