@@ -4,6 +4,7 @@ import { TfiLineDashed } from "react-icons/tfi";
 import { IoIosArrowForward } from "react-icons/io";
 import { RxDividerHorizontal } from "react-icons/rx";
 import { TbLineDotted } from "react-icons/tb";
+import { useGlobalComponentManager } from "../context/UIContext";
 
 const lineTypes = [
   {
@@ -47,20 +48,23 @@ const NoteBox = ({
   currentLineType: string;
   children: React.ReactNode;
 }) => {
-  const [isMinimized, setIsMinimized] = useState(false);
+  const { state, setComponentState } = useGlobalComponentManager();
 
   const handleToggle = () => {
-    setIsMinimized(!isMinimized);
+    setComponentState("noteBox", {
+      isVisible: !state["noteBox"]["isVisible"], // Fixed typo from isVisble to isVisible
+    });
   };
+
   return (
     <div
       className={`absolute bottom-0 m-5 ${
-        isMinimized
+        !state["noteBox"]["isVisible"]
           ? "w-[50px] h-[50px] p-1.5 rounded-full"
           : "w-fill h-fill p-2 rounded-xl"
       } bg-[#1B4332] bg-opacity-50 text-white z-60  flex items-center justify-center`}
     >
-      {isMinimized ? (
+      {!state["noteBox"]["isVisible"] ? (
         <div className=" p-1.5 cursor-pointer" onClick={handleToggle}>
           <FaStickyNote />
         </div>

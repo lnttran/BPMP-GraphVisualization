@@ -41,3 +41,6 @@ next-env.d.ts
 .vscode
 /public/data
 note.md
+
+
+.env

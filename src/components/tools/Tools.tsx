@@ -5,18 +5,12 @@ const TRAVEL_COST = 1;
 const VEHICLE_WEIGHT = 0.1;
 
 //get Cargo
-type Weight = {
-  from: number;
-  to: number;
-  w: number;
-  d: number;
-};
 
 type Cargo = {
-  pickup: number | null;
-  dropoff: number | null;
-  w: number | null;
-  d: number | null;
+  pickup: number;
+  dropoff: number;
+  w: number;
+  d: number;
 };
 
 //calculate cargo
@@ -25,7 +19,7 @@ export const calculateProfit = ({
   selectedCargo,
   distance,
 }: {
-  selectedRouteWeightMap: Weight[];
+  selectedRouteWeightMap: Cargo[];
   selectedCargo: Cargo[];
   distance: number;
 }) => {

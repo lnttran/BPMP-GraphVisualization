@@ -1,14 +1,18 @@
+import { Cargo, useCargoContext } from "../context/CargoContext";
+
 export const LineType = ({
   w,
   from,
   to,
   selectedRoute,
+  routeWeightMap,
   selectedCargo,
 }: {
   w?: number;
   d?: number;
   from?: number;
   to?: number;
+  routeWeightMap?: Cargo[];
   selectedRoute?: number[];
   selectedCargo?: {
     pickup: number | null;
@@ -21,6 +25,7 @@ export const LineType = ({
   if (
     selectedRoute &&
     selectedCargo &&
+    routeWeightMap &&
     selectedRoute.length > 1 &&
     from !== undefined &&
     to !== undefined
@@ -28,10 +33,9 @@ export const LineType = ({
     //if passing from and to does not found in the selectedCargo array
     if (
       //selected route with empty truck
-      !selectedCargo.some(
-        (cargo) => cargo.pickup === from && cargo.dropoff === to
-      ) &&
-      areNodesAdjacentInRoute(from, to, selectedRoute)
+      routeWeightMap.some(
+        (cargo) => cargo.pickup === from && cargo.dropoff === to && cargo.w == 0
+      )
     ) {
       return { style: "dotted", color: "text-accent", display: "block" };
     } else if (
@@ -48,10 +52,9 @@ export const LineType = ({
         display: "block",
       };
     } else if (
-      selectedCargo.some(
-        (cargo) => cargo.pickup === from && cargo.dropoff === to
-      ) &&
-      areNodesAdjacentInRoute(from, to, selectedRoute)
+      routeWeightMap.some(
+        (cargo) => cargo.pickup === from && cargo.dropoff === to && cargo.w > 0
+      )
     ) {
       return { style: "solid", color: "text-accent", display: "block" }; // selected route with cargo
     } else return { style: "solid", color: "text-accent", display: "hidden" }; //not yet define

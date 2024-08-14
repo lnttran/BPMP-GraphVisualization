@@ -1,7 +1,11 @@
 import React, { CSSProperties } from "react";
 import PropTypes from "prop-types";
 import { FaChevronRight } from "react-icons/fa";
-import { cn } from "@/lib/utils";
+import { cn } from "../../lib/utils";
+import {
+  GlobalComponentManagerContext,
+  useGlobalComponentManager,
+} from "../context/UIContext";
 
 export default class Line extends React.Component<{
   from: { x: number; y: number };
@@ -83,22 +87,30 @@ export default class Line extends React.Component<{
     };
 
     return (
-      <div
-        className={cn("relative w-[100%] h-[100%] z-0", this.props.display)}
-        onMouseEnter={() => {
-          this.setState({ isHovered: true });
-          this.props.onMouseEnter();
-        }}
-        onMouseLeave={() => {
-          this.setState({ isHovered: false });
-          this.props.onMouseLeave();
-        }}
-      >
-        <div style={wrapperStyle}>
-          <div style={lineStyle} className={cn(this.props.className)}></div>
-          <FaChevronRight style={arrowStyle} />
-        </div>
-      </div>
+      <GlobalComponentManagerContext.Consumer>
+        {({ state, setComponentState }) => (
+          <div
+            className={cn("relative w-[100%] h-[100%] z-0", this.props.display)}
+            onMouseEnter={() => {
+              this.setState({ isHovered: true });
+              this.props.onMouseEnter();
+
+              setComponentState("noteBox", {
+                isVisible: true, // Fixed typo from isVisble to isVisible
+              });
+            }}
+            onMouseLeave={() => {
+              this.setState({ isHovered: false });
+              this.props.onMouseLeave();
+            }}
+          >
+            <div style={wrapperStyle}>
+              <div style={lineStyle} className={cn(this.props.className)}></div>
+              <FaChevronRight style={arrowStyle} />
+            </div>
+          </div>
+        )}
+      </GlobalComponentManagerContext.Consumer>
     );
   }
 }

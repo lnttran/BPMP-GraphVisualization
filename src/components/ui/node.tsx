@@ -1,6 +1,7 @@
-import { cn } from "@/lib/utils";
-import React, { useState } from "react";
+import { cn } from "../../lib/utils";
+import React, { useContext, useState } from "react";
 import { Button } from "./button";
+import { useRouteContext } from "../context/RouteContext";
 
 const Node = ({
   x,
@@ -19,24 +20,30 @@ const Node = ({
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
   onClickedDefault?: boolean;
-  onClick: (isSelected: boolean) => void;
+  onClick: (isSelected: boolean) => boolean;
 }) => {
-  const [isClicked, setIsClicked] = useState(onClickedDefault);
+  const [isClicked, setIsClicked] = useState(true);
+  const [isAdded, setIsAdded] = useState(onClickedDefault);
 
   const handleClick = () => {
-    if (!onClickedDefault) setIsClicked(!isClicked);
-    onClick(isClicked);
+    setIsClicked(!isClicked);
+    if (onClick(isClicked)) {
+      setIsAdded(true);
+    } else {
+      setIsAdded(false);
+      console.log("IsAdded not success");
+    }
   };
   return (
     <div>
       <Button
-        style={{ left: x, top: y }}
+        style={{ left: x * 100, top: y * 100 }}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         className={cn(
           "absolute rounded-full w-12 h-12 bg-background border-2 hover:bg-accent hover:text-white hover:font-bold -translate-x-1/2 -translate-y-1/2",
           {
-            "bg-accent text-white": isClicked,
+            "bg-accent text-white": isAdded,
           },
           classname
         )}
@@ -47,13 +54,5 @@ const Node = ({
     </div>
   );
 };
-
-// const Node = ({ x, y, children }: { x: number, y: number, children: React.ReactNode }) => {
-//     return (
-//         <div className="absolute w-[200px] h-[200px] rounded-full bg-background left-{} right-{}" style={{ left: x, right: y }}>
-//             {children}
-//         </div>
-//     )
-// }
 
 export default Node;

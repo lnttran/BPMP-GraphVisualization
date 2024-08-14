@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import { SlGraph } from "react-icons/sl";
 import Link from "next/link";
 import { useContext } from "react";
@@ -13,7 +12,7 @@ import {
   LayoutGrid,
   CircleUser,
 } from "lucide-react";
-// import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 
 const sidebarItems = [
   {
@@ -23,24 +22,23 @@ const sidebarItems = [
   },
   {
     name: "Data",
-    href: "/",
+    href: "/database",
     icon: Database,
   },
   {
     name: "About",
-    href: "/",
+    href: "/about",
     icon: LayoutGrid,
   },
   {
     name: "Contact",
-    href: "/",
+    href: "/contact",
     icon: CircleUser,
   },
 ];
 
 const Sidebar = () => {
-  // const router = useRouter();
-
+  const pathname = usePathname();
   const { isCollapsed, toggleSidebarcollapse } = useContext(SidebarContext);
 
   return (
@@ -62,23 +60,18 @@ const Sidebar = () => {
         <ul className="list-none">
           {sidebarItems.map(({ name, href, icon: Icon }) => {
             return (
-              <li
-                className="p-3 rounded-xl flex flex-row gap-5 items-center justify-start hover:bg-popover-foreground mb-6"
-                key={name}
-              >
-                {/* <div className="p-3 bg-red-50 rounded-xl flex flex-row gap-5"> */}
-                {/* <Link
-                                    className={`sidebar__link ${router.pathname === href ? "sidebar__link--active" : ""
-                                        }`}
-                                    href={href}
-                                > */}
-
-                <div className="inline-block">
-                  <Icon size={25} />
-                </div>
-                {!isCollapsed && <div className="text-[16px]">{name}</div>}
-                {/* </Link>/ */}
-                {/* </div> */}
+              <li key={name}>
+                <Link
+                  className={`sidebar__link ${
+                    pathname === href ? "sidebar__link--active" : ""
+                  }`}
+                  href={href}
+                >
+                  <span className="sidebar__icon">
+                    <Icon />
+                  </span>
+                  <span className="sidebar__name">{name}</span>
+                </Link>
               </li>
             );
           })}

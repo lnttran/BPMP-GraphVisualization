@@ -5,8 +5,10 @@ import { useRouteContext } from "../context/RouteContext";
 import { CargoCard } from "./CargoCard";
 import { useCargoContext } from "../context/CargoContext";
 import { calculateProfit } from "../tools/Tools";
-import t5_data from "../../../public/data/5_nodes/t5_data.json";
 import { Cargo } from "../context/CargoContext";
+import { InferRawDocType } from "mongoose";
+import { coordinateSchema } from "@/db/coordinate";
+import { weightDistant, weightDistantSchema } from "@/db/data";
 
 const constVariations = {
   close: {
@@ -40,10 +42,11 @@ const redDivVariants = {
 
 const returnAvailableCargo = (
   selectedCargo: Cargo[],
-  selectedRoute: number[]
+  selectedRoute: number[],
+  weightDistantArray: weightDistant[]
 ): Cargo[] => {
   const lastRouteElement = selectedRoute[selectedRoute.length - 1];
-  const availableCargo = t5_data.coordinate_05_01_data
+  const availableCargo = weightDistantArray
     .filter(
       (data) =>
         !selectedCargo.some(
@@ -65,15 +68,18 @@ const returnAvailableCargo = (
   return availableCargo;
 };
 
-export default function CollapsableSheet() {
+export default function CollapsableSheet({
+  weightDistantArray,
+}: {
+  weightDistantArray: weightDistant[];
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const containerControls = useAnimationControls();
-  const { routeWeightMap, getRoute, totalDistance, selectedRoute } =
-    useRouteContext();
+  const { getRoute, totalDistance, selectedRoute } = useRouteContext();
   const {
     selectedCargo,
+    routeWeightMap,
     calculateTotalWeight,
-    calculateTotalDistance,
     removeCargo,
     addCargo,
   } = useCargoContext();
@@ -113,9 +119,8 @@ export default function CollapsableSheet() {
               <div className="text-black">
                 Total Cargo: {calculateTotalWeight()}{" "}
               </div>
-              <div className="text-black">
-                Total Distance: {calculateTotalDistance()}{" "}
-              </div>
+
+              <div className="text-black">Total Distance: {totalDistance} </div>
               <div className="text-black">
                 Total Profit:{" "}
                 {calculateProfit({
@@ -141,19 +146,21 @@ export default function CollapsableSheet() {
             </ul>
             <ul>
               <p className="mb-2">Available Cargo:</p>
-              {returnAvailableCargo(selectedCargo, selectedRoute).map(
-                (cargo, index) => (
-                  <li key={index}>
-                    <CargoCard
-                      x={cargo.pickup!}
-                      y={cargo.dropoff!}
-                      w={cargo.w!}
-                      isAdd={true}
-                      onClick={() => addCargo(cargo)}
-                    />
-                  </li>
-                )
-              )}
+              {returnAvailableCargo(
+                selectedCargo,
+                selectedRoute,
+                weightDistantArray
+              ).map((cargo, index) => (
+                <li key={index}>
+                  <CargoCard
+                    x={cargo.pickup!}
+                    y={cargo.dropoff!}
+                    w={cargo.w!}
+                    isAdd={true}
+                    onClick={() => addCargo(selectedRoute, cargo)}
+                  />
+                </li>
+              ))}
             </ul>
           </div>
         </motion.nav>
