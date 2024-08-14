@@ -6,7 +6,8 @@ import { RouteProvider } from "@/components/context/RouteContext";
 import { CargoProvider } from "@/components/context/CargoContext";
 import { GlobalComponentManagerProvider } from "@/components/context/UIContext";
 import { ToastProvider, ToastViewport } from "@/components/ui/toast";
-import BaseLayout from "@/components/Sidebar/BaseLayout";
+import { useToast } from "@/components/ui/use-toast";
+import { useEffect } from "react";
 
 export default function Home() {
   return (

@@ -29,7 +29,6 @@ export default function DataBase() {
   );
 
   useEffect(() => {
-    // Define the async function to fetch data
     const fetchData = async () => {
       try {
         const response = await fetch(`/api/data?fileName=${selectedValue}`);
@@ -48,7 +47,6 @@ export default function DataBase() {
       }
     };
 
-    // Call the fetchData function
     fetchData();
   }, [selectedValue]);
 

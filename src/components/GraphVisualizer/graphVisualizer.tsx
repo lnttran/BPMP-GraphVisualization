@@ -17,7 +17,7 @@ export function getWeightDistantbyPickupDropoff(
   data: weightDistant[]
 ): { w: number; d: number } {
   const foundData = data.find(
-    (data) => data.x === pickup && data.y === dropoff
+    (item) => item.x === pickup && item.y === dropoff
   );
   if (foundData === undefined) {
     throw new Error(
@@ -95,15 +95,15 @@ export default function GraphVisualiser({ filename }: { filename: string }) {
   } = useCargoContext();
   const [noteContent, setNoteContent] = useState("");
   const [currentLineType, setCurrentLineType] = useState("");
-  const [retrievedData, setRetrievedData] = useState<DataItem[] | null>(null);
+  const [retrievedData, setRetrievedData] = useState<DataItem | null>(null);
   const [error, setError] = useState("");
   const [mapState, setMapState] = useState({
     scale: 0.8,
     translation: { x: 0, y: 0 },
   });
 
-  const weightDistantData = retrievedData?.[0]?.data?.weightDistantData || [];
-  const coordinateData = retrievedData?.[0]?.coordinate || [];
+  const weightDistantData = retrievedData?.data?.weightDistantData || [];
+  const coordinateData = retrievedData?.coordinate || [];
   const dataSize = coordinateData.length;
 
   useEffect(() => {
@@ -115,7 +115,7 @@ export default function GraphVisualiser({ filename }: { filename: string }) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const result = await response.json();
-        setRetrievedData(result);
+        setRetrievedData(result[0]);
       } catch (err) {
         if (err instanceof Error) {
           setError(err.message);
@@ -444,6 +444,7 @@ export default function GraphVisualiser({ filename }: { filename: string }) {
         onClick={(isSelected: boolean) =>
           handleOnClickedNode(isSelected, index + 1)
         }
+        filename={filename}
       >
         {nodeList.node}{" "}
       </Node>

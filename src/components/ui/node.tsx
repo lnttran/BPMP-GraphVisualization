@@ -1,5 +1,5 @@
 import { cn } from "../../lib/utils";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button } from "./button";
 import { useRouteContext } from "../context/RouteContext";
 
@@ -12,6 +12,7 @@ const Node = ({
   onMouseLeave,
   onClick,
   onClickedDefault = false,
+  filename,
 }: {
   x: number;
   y: number;
@@ -21,6 +22,7 @@ const Node = ({
   onMouseLeave?: () => void;
   onClickedDefault?: boolean;
   onClick: (isSelected: boolean) => boolean;
+  filename: string;
 }) => {
   const [isClicked, setIsClicked] = useState(true);
   const [isAdded, setIsAdded] = useState(onClickedDefault);
@@ -34,6 +36,11 @@ const Node = ({
       console.log("IsAdded not success");
     }
   };
+
+  useEffect(() => {
+    setIsAdded(onClickedDefault);
+  }, [filename]);
+
   return (
     <div>
       <Button
