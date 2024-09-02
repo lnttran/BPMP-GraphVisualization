@@ -1,5 +1,5 @@
 "use client";
-import GraphVisualiser from "@/components/graphVisualizer/GraphVisualizer";
+import GraphVisualiser from "@/components/GraphVisualizer/GraphVisualizer";
 import { Button } from "@/components/ui/button";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";

@@ -14,7 +14,7 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { MdErrorOutline } from "react-icons/md";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
-import { getWeightDistantbyPickupDropoff } from "../graphVisualizer/GraphVisualizer";
+import { getWeightDistantbyPickupDropoff } from "../GraphVisualizer/GraphVisualizer";
 import { weightDistant } from "@/db/data";
 
 // Step 1: Define context type
