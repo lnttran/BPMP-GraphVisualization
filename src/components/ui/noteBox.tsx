@@ -82,6 +82,7 @@ const NoteBox = ({
             <pre className="mb-2 font-bold">Line Types:</pre>
             {lineTypes.map((lineType, index) => (
               <div
+                key={index}
                 className={`px-2 rounded-md ${
                   currentLineType === lineType.id ? "bg-background" : ""
                 }`}
