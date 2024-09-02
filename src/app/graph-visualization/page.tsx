@@ -1,7 +1,5 @@
 "use client";
-import BaseLayout from "@/components/Sidebar/BaseLayout";
 import GraphVisualiser from "@/components/graphVisualizer/GraphVisualizer";
-import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
