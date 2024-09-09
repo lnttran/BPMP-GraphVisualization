@@ -1,6 +1,4 @@
 "use client";
-import GraphVisualiser from "@/components/GraphVisualizer/GraphVisualizer";
-import { Button } from "@/components/ui/button";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -57,15 +55,15 @@ export default function DataBase() {
   const coordinateData = retrievedData?.[0]?.coordinate || [];
 
   return (
-    <div className="relative bg-background w-full h-screen px-10 pt-16">
-      <div className="flex flex-col gap-3 flew-grow">
+    <div className="relative bg-background h-full">
+      {/* <div className="relative h-full"> */}
+      <div className="relative flex flex-col gap-4 h-full">
         <div className="font-extrabold text-[32px]">Data</div>
-      </div>
-      <div className="w-full h-5/6 mb-4 bg-popover rounded-xl flex flex-row">
-        <div className="w-[600px] bg-background m-5 rounded-xl">
-          <div className="p-5 flex flex-row gap-5">
+        <div className="relative w-full bg-popover rounded-xl flex flex-row gap-4 h-full p-5">
+          <div className="relative bg-background rounded-xl h-full p-5">
+            {/* <div className="p-5 gap-5"> */}
             <Select value={selectedValue} onValueChange={setSelectedValue}>
-              <SelectTrigger className="w-[450px] border-black">
+              <SelectTrigger className=" border-black">
                 <SelectValue placeholder="Select dataset" />
               </SelectTrigger>
               <SelectContent className="text-text__primary bg-background">
@@ -79,31 +77,39 @@ export default function DataBase() {
                 </SelectGroup>
               </SelectContent>
             </Select>
+            {/* </div> */}
+          </div>
+          <div className="relative w-full bg-background rounded-xl h-full">
+            <Tabs defaultValue="data" className="relative w-full h-full">
+              {/* <div className="relative h-full"> */}
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="data">Data</TabsTrigger>
+                <TabsTrigger value="coordinate">Coordinate</TabsTrigger>
+              </TabsList>
+              <TabsContent
+                value="data"
+                className="mt-10 ml-10 absolute h-5/6 w-11/12"
+              >
+                <ScrollArea className="absolute h-full overflow-y-auto ">
+                  <pre>{JSON.stringify(allInfoData, null, 2)}</pre>
+                </ScrollArea>
+              </TabsContent>
+              <TabsContent
+                value="coordinate"
+                className="mt-10 ml-10 absolute h-5/6 w-11/12"
+              >
+                <ScrollArea className="absolute h-full overflow-y-auto">
+                  <div>
+                    <pre>{JSON.stringify(coordinateData, null, 2)}</pre>
+                  </div>
+                </ScrollArea>
+              </TabsContent>
+              {/* </div> */}
+            </Tabs>
           </div>
         </div>
-        <div className="w-full bg-background m-5 rounded-xl">
-          <Tabs defaultValue="data" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="data">Data</TabsTrigger>
-              <TabsTrigger value="coordinate">Coordinate</TabsTrigger>
-            </TabsList>
-            <TabsContent value="data">
-              <ScrollArea className="h-[800px]  p-4">
-                <div>
-                  <pre>{JSON.stringify(allInfoData, null, 2)}</pre>
-                </div>
-              </ScrollArea>
-            </TabsContent>
-            <TabsContent value="coordinate">
-              <ScrollArea className="h-[800px]  p-4">
-                <div>
-                  <pre>{JSON.stringify(coordinateData, null, 2)}</pre>
-                </div>
-              </ScrollArea>
-            </TabsContent>
-          </Tabs>
-        </div>
       </div>
+      {/* </div> */}
     </div>
   );
 }

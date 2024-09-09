@@ -11,14 +11,16 @@ import { useEffect } from "react";
 
 export default function Home() {
   return (
-    <main className="flex h-screen">
-      <RouteProvider>
-        <CargoProvider>
-          <GlobalComponentManagerProvider>
-            <GraphVisualization />
-          </GlobalComponentManagerProvider>
-        </CargoProvider>
-      </RouteProvider>
+    <main className="relative max-h-screen h-full">
+      <div className="h-full">
+        <RouteProvider>
+          <CargoProvider>
+            <GlobalComponentManagerProvider>
+              <GraphVisualization />
+            </GlobalComponentManagerProvider>
+          </CargoProvider>
+        </RouteProvider>
+      </div>
     </main>
   );
 }

@@ -25,32 +25,27 @@ export default function GraphVisualization() {
   if (!filenames) return <div>Loading...</div>;
 
   return (
-    <div className="relative bg-background w-full h-screen px-10 pt-16">
-      <div className="flex flex-col gap-3 flew-grow">
-        <div className="font-extrabold text-[32px]">Graph Visulization</div>
-        <div className="w-full h-20 mb-4 bg-popover rounded-xl flex flex-row">
-          <div className="p-5 flex flex-row gap-5">
-            <Select value={selectedValue} onValueChange={setSelectedValue}>
-              <SelectTrigger className="w-[450px] border-black">
-                <SelectValue placeholder="Select dataset" />
-              </SelectTrigger>
-              <SelectContent className="text-text__primary bg-background">
-                <SelectGroup>
-                  <SelectLabel>5 nodes</SelectLabel>
-                  {filenames.map((filename) => (
-                    <SelectItem key={filename} value={filename}>
-                      {filename}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            {/* <Button className="bg-accent hover:bg-destructive text-white">
-              Select
-            </Button> */}
-          </div>
+    <div className="relative bg-background w-full h-full">
+      <div className="flex flex-col gap-4 h-full">
+        <div className="font-extrabold text-[32px]">Graph Visualization</div>
+        <div className="h-16 bg-popover rounded-xl flex flex-row items-center px-3">
+          <Select value={selectedValue} onValueChange={setSelectedValue}>
+            <SelectTrigger className="w-[450px] border-black">
+              <SelectValue placeholder="Select dataset" />
+            </SelectTrigger>
+            <SelectContent className="text-text__primary bg-background">
+              <SelectGroup>
+                <SelectLabel>5 nodes</SelectLabel>
+                {filenames.map((filename) => (
+                  <SelectItem key={filename} value={filename}>
+                    {filename}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
         </div>
-        <div className="flex-grow">
+        <div className="relative h-full">
           <GraphVisualiser filename={selectedValue} />
         </div>
       </div>

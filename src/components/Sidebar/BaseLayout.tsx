@@ -5,7 +5,7 @@ const BaseLayout = ({ children }: { children: ReactNode }) => {
   return (
     <div className="layout bg-background">
       <Sidebar />
-      <main className="layout__main-content">{children}</main>;
+      <main className="layout__main-content h-full">{children}</main>
     </div>
   );
 };

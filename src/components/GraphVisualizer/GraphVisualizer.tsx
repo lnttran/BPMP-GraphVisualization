@@ -452,7 +452,7 @@ export default function GraphVisualiser({ filename }: { filename: string }) {
   };
 
   return (
-    <div className="max-w-full h-[830px] bg-popover rounded-xl relative">
+    <div className="bg-popover rounded-xl h-full">
       <MapInteractionCSS
         value={mapState}
         onChange={(value) => setMapState(value)}

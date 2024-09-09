@@ -142,6 +142,9 @@ body {
 
 .layout__main-content {
   flex-grow: 1;
+  padding-bottom: 2rem;
+  padding-top: 2rem;
+  margin-right: 2rem;
 }
 
 .sidebar__wrapper {
@@ -158,10 +161,11 @@ body {
 }
 
 .sidebar__logo {
-  width: 3.5rem;
-  height: 3.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
   object-fit: contain;
   border-radius: 1rem;
+  margin-left: 10px;
 }
 
 .sidebar__logo-name {
@@ -191,17 +195,29 @@ body {
 }
 
 .sidebar__name {
-  margin-left: 0.5rem;
+  margin-left: 1rem;
+  font-size: 14px;
 }
 
 [data-collapse="true"] {
-  width: 6rem;
+  width: 5rem;
 }
 
-[data-collapse="true"] .sidebar__name,
+[data-collapse="true"] .sidebar__name {
+ display: none;
+}
 [data-collapse="true"] .sidebar__logo-name {
   display: none;
 }
+
+[data-collapse="true"]  .sidebar__logo {
+  width: 2.5rem;
+  height: 2.5rem;
+  object-fit: contain;
+  border-radius: 1rem;
+  margin-left: 6px;
+}
+
 
 .btn {
   position: absolute;

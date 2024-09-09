@@ -79,7 +79,7 @@ const NoteBox = ({
           <pre className="mx-3 mt-2">{children}</pre>
           {/* Line Type Node */}
           <div className="flex mx-3 mt-2 flex-col">
-            <pre className="mb-2 font-bold">Line Types:</pre>
+            <p className="mb-2 font-bold">Line Types:</p>
             {lineTypes.map((lineType, index) => (
               <div
                 key={index}
@@ -108,17 +108,17 @@ const NoteBox = ({
 
           {/* information */}
           <div className="flex mx-3 mt-4 flex-col">
-            <pre className="mb-2 font-bold">Vehicle information: </pre>
-            <pre>Price charge per cargo: 1.2</pre>
-            <pre>Travel cost: 1</pre>
-            <pre>Vehicle weight: 0.1</pre>
+            <p className="mb-2 font-bold">Vehicle information: </p>
+            <p>Price charge per cargo: 1.2</p>
+            <p>Travel cost: 1</p>
+            <p>Vehicle weight: 0.1</p>
           </div>
 
           {/* constraint */}
           <div className="flex mx-3 mt-4 flex-col">
-            <pre className="mb-2 font-bold">Constraint: </pre>
-            <pre>Distance constraint: 20</pre>
-            <pre>Cargo constraint: 2</pre>
+            <p className="mb-2 font-bold">Constraint: </p>
+            <p>Distance constraint: 20</p>
+            <p>Cargo constraint: 2</p>
           </div>
         </div>
       )}

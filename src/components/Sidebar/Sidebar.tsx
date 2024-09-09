@@ -1,5 +1,4 @@
 "use client";
-import { SlGraph } from "react-icons/sl";
 import Link from "next/link";
 import { useContext } from "react";
 import { SidebarContext } from "./SidebarContext";
@@ -11,14 +10,16 @@ import {
   Truck,
   LayoutGrid,
   CircleUser,
+  GanttChart,
 } from "lucide-react";
+
 import { usePathname } from "next/navigation";
 
 const sidebarItems = [
   {
-    name: "Data visualization",
+    name: "Visualization",
     href: "/",
-    icon: SlGraph,
+    icon: GanttChart,
   },
   {
     name: "Data",
@@ -44,20 +45,20 @@ const Sidebar = () => {
   return (
     <div className="relative">
       <Button
-        className="absolute w-14 h-14 rounded-full top-14 bg-background -right-5"
+        className="absolute w-12 h-12 rounded-full top-20 bg-background -right-5"
         onClick={toggleSidebarcollapse}
       >
         {isCollapsed ? <ChevronRight /> : <ChevronLeft />}
       </Button>
       <aside
-        className="h-full w-[250px] bg-popover p-4 transition-all duration-400 overflow-hidden ease-linear"
+        className="h-full w-[13rem] bg-popover p-3 transition-all duration-400 overflow-hidden ease-linear"
         data-collapse={isCollapsed}
       >
-        <div className="flex w-auto gap-4 items-center pb-10 p-5">
-          <Truck size={36} />
+        <div className="flex w-auto min-w-20 gap-4 items-center pb-10 pt-5">
+          <Truck className="sidebar__logo" />
           {!isCollapsed && <p className="text-[24px] font-bold">BPMP</p>}
         </div>
-        <ul className="list-none">
+        <ul className="list-none pt-8">
           {sidebarItems.map(({ name, href, icon: Icon }) => {
             return (
               <li key={name}>
