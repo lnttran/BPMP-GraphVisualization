@@ -45,7 +45,7 @@ const Sidebar = () => {
   return (
     <div className="relative">
       <Button
-        className="absolute w-12 h-12 rounded-full top-20 bg-background -right-5"
+        className="absolute w-12 h-12 rounded-full top-20 bg-background -right-5 hover:bg-background"
         onClick={toggleSidebarcollapse}
       >
         {isCollapsed ? <ChevronRight /> : <ChevronLeft />}

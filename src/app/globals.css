@@ -54,6 +54,7 @@
     --accent-foreground: 359 47% 51%;
 
     --destructive: 159 56% 7%;
+
     /* --destructive-foreground: 216 243 220; */
 
     --border: 159 56% 7%;
@@ -191,7 +192,7 @@ body {
 
 .sidebar__link--active {
   color: #fff;
-  background-color: #10b981;
+  background-color: #081C15;
 }
 
 .sidebar__name {

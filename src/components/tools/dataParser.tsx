@@ -1,5 +1,7 @@
 // import fs from "fs";
 
+import { DataItem } from "@/db/data";
+
 export function convertWeightDistanceData(fileContent: string) {
   try {
     const lines = fileContent
@@ -116,4 +118,8 @@ export function getNodeCoordinate(fileContent: string) {
     console.error("Error converting data:", error);
     return null;
   }
+}
+
+export function JSONtoText(data: DataItem[]) {
+  return;
 }

@@ -10,6 +10,8 @@ import { useCargoContext } from "../context/CargoContext";
 import { LineType } from "../tools/LineType";
 import { coordinate } from "@/db/coordinate";
 import { DataItem, weightDistant } from "@/db/data";
+import { Plus, Minus } from "lucide-react"; // Import icons
+import { Button } from "../ui/button";
 
 export function getWeightDistantbyPickupDropoff(
   pickup: number,
@@ -81,7 +83,15 @@ function findClosestSnapPoint(
   return closestPoint;
 }
 
-export default function GraphVisualiser({ filename }: { filename: string }) {
+export default function GraphVisualiser({
+  filename,
+  resetSignal,
+  isToggled,
+}: {
+  filename: string;
+  resetSignal: boolean;
+  isToggled: boolean;
+}) {
   const [hoveredNode, setHoveredNode] = useState<number | null>(null);
   const { selectedRoute, addNodeToRoute, deleteNodeToRoute, resetRoute } =
     useRouteContext();
@@ -98,7 +108,7 @@ export default function GraphVisualiser({ filename }: { filename: string }) {
   const [retrievedData, setRetrievedData] = useState<DataItem | null>(null);
   const [error, setError] = useState("");
   const [mapState, setMapState] = useState({
-    scale: 0.8,
+    scale: 0.5,
     translation: { x: 0, y: 0 },
   });
 
@@ -248,73 +258,105 @@ export default function GraphVisualiser({ filename }: { filename: string }) {
       to: number;
     }[] = [];
 
-    // Iterate through selectedRoute
-    for (let i = 0; i < selectedRoute.length; i++) {
-      if (i < selectedRoute.length - 1) {
-        for (let j = i + 1; j < selectedRoute.length; j++) {
-          const startNode = selectedRoute[i];
-          const endNode = selectedRoute[j];
-          let lineType: { color: string; style: string; display: string } = {
-            color: "",
-            style: "",
-            display: "",
-          };
-
-          // Find lines connecting current node to the next node
-          const matchingLines = lines.filter((line) => {
-            lineType = LineType({
+    if (isToggled) {
+      // console.log("weightDistantData:", weightDistantData);
+      filteredLines = lines.map((line) => {
+        for (let i = 0; i < selectedRoute.length - 1; i++) {
+          if (
+            line.from === selectedRoute[i] &&
+            line.to === selectedRoute[i + 1]
+          ) {
+            const lineType = LineType({
               w: line.w,
               d: line.d,
-              from: startNode,
-              to: endNode,
+              from: line.from,
+              to: line.to,
               routeWeightMap: routeWeightMap,
               selectedRoute: selectedRoute,
               selectedCargo: selectedCargo,
             });
-            return (
-              line.x1 === getCoordinatesByNode(startNode).x &&
-              line.y1 === getCoordinatesByNode(startNode).y &&
-              line.x2 === getCoordinatesByNode(endNode).x &&
-              line.y2 === getCoordinatesByNode(endNode).y &&
-              line.from === startNode &&
-              line.to === endNode
-            );
-          })[0];
 
-          filteredLines.push({
-            ...matchingLines,
-            color: lineType.color,
-            style: lineType.style,
-            display: lineType.display,
-          });
-        }
-      } else {
-        // Last element logic: Connect to remaining nodes not in selectedRoute
-        const lastNode = selectedRoute[i];
-
-        const remainingNodes: number[] = [];
-        for (let j = 2; j <= dataSize; j++) {
-          if (!selectedRoute.includes(j)) {
-            remainingNodes.push(j);
+            return {
+              ...line,
+              color: lineType.color,
+              style: lineType.style,
+              display: lineType.display,
+            };
           }
         }
 
-        const matchingLines = lines.filter((line) =>
-          remainingNodes.some((node) => {
-            return (
-              line.x1 === getCoordinatesByNode(lastNode)?.x &&
-              line.y1 === getCoordinatesByNode(lastNode)?.y &&
-              line.x2 === getCoordinatesByNode(node)?.x &&
-              line.y2 === getCoordinatesByNode(node)?.y &&
-              line.from === lastNode &&
-              line.to === node
-            );
-          })
-        );
+        return line;
+      });
+    } else {
+      for (let i = 0; i < selectedRoute.length; i++) {
+        if (i < selectedRoute.length - 1) {
+          for (let j = i + 1; j < selectedRoute.length; j++) {
+            const startNode = selectedRoute[i];
+            const endNode = selectedRoute[j];
+            let lineType: { color: string; style: string; display: string } = {
+              color: "",
+              style: "",
+              display: "",
+            };
 
-        filteredLines.push(...matchingLines);
+            // Find lines connecting current node to the next node
+            const matchingLines = lines.filter((line) => {
+              lineType = LineType({
+                w: line.w,
+                d: line.d,
+                from: startNode,
+                to: endNode,
+                routeWeightMap: routeWeightMap,
+                selectedRoute: selectedRoute,
+                selectedCargo: selectedCargo,
+              });
+              return (
+                line.x1 === getCoordinatesByNode(startNode).x &&
+                line.y1 === getCoordinatesByNode(startNode).y &&
+                line.x2 === getCoordinatesByNode(endNode).x &&
+                line.y2 === getCoordinatesByNode(endNode).y &&
+                line.from === startNode &&
+                line.to === endNode
+              );
+            })[0];
+
+            filteredLines.push({
+              ...matchingLines,
+              color: lineType.color,
+              style: lineType.style,
+              display: lineType.display,
+            });
+          }
+        } else {
+          // Last element logic: Connect to remaining nodes not in selectedRoute
+          const lastNode = selectedRoute[i];
+
+          const remainingNodes: number[] = [];
+          for (let j = 2; j <= dataSize; j++) {
+            if (!selectedRoute.includes(j)) {
+              remainingNodes.push(j);
+            }
+          }
+
+          const matchingLines = lines.filter((line) =>
+            remainingNodes.some((node) => {
+              return (
+                line.x1 === getCoordinatesByNode(lastNode)?.x &&
+                line.y1 === getCoordinatesByNode(lastNode)?.y &&
+                line.x2 === getCoordinatesByNode(node)?.x &&
+                line.y2 === getCoordinatesByNode(node)?.y &&
+                line.from === lastNode &&
+                line.to === node
+              );
+            })
+          );
+
+          filteredLines.push(...matchingLines);
+        }
       }
     }
+
+    // Iterate through selectedRoute
 
     return renderLines(filteredLines);
   };
@@ -445,22 +487,57 @@ export default function GraphVisualiser({ filename }: { filename: string }) {
           handleOnClickedNode(isSelected, index + 1)
         }
         filename={filename}
+        resetSignal={resetSignal}
       >
         {nodeList.node}{" "}
       </Node>
     ));
   };
 
+  const handleZoomIn = () => {
+    setMapState((prev) => ({
+      ...prev,
+      scale: prev.scale * 1.2,
+    }));
+  };
+
+  const handleZoomOut = () => {
+    setMapState((prev) => ({
+      ...prev,
+      scale: prev.scale / 1.2,
+    }));
+  };
+
   return (
-    <div className="bg-popover rounded-xl h-full">
+    <div className="bg-popover rounded-xl h-full relative">
       <MapInteractionCSS
         value={mapState}
         onChange={(value) => setMapState(value)}
+        minScale={0.1}
+        maxScale={3}
       >
         {renderHoverLines()}
         {renderRoute()}
         {renderBoardPiece()}
       </MapInteractionCSS>
+      <div className="absolute left-4 top-4 flex flex-col gap-2">
+        <Button
+          onClick={handleZoomIn}
+          className="relative w-8 h-8 flex items-center justify-center bg-white shadow-md text-destructive rounded-md hover:bg-destructive hover:text-white"
+        >
+          <div>
+            <Plus size={16} />
+          </div>
+        </Button>
+        <Button
+          onClick={handleZoomOut}
+          className="relative w-8 h-8 flex items-center justify-center bg-white shadow-md rounded-md  hover:bg-black hover:text-white"
+        >
+          <div>
+            <Minus size={16} />
+          </div>
+        </Button>
+      </div>
       <NoteBox isVisible={true} currentLineType={currentLineType}>
         {noteContent}
       </NoteBox>

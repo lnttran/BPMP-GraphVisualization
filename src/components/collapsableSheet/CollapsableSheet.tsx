@@ -73,7 +73,7 @@ export default function CollapsableSheet({
 }: {
   weightDistantArray: weightDistant[];
 }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const containerControls = useAnimationControls();
   const { getRoute, totalDistance, selectedRoute } = useRouteContext();
   const {

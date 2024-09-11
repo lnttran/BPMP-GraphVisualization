@@ -60,7 +60,7 @@ export default function DataBase() {
       <div className="relative flex flex-col gap-4 h-full">
         <div className="font-extrabold text-[32px]">Data</div>
         <div className="relative w-full bg-popover rounded-xl flex flex-row gap-4 h-full p-5">
-          <div className="relative bg-background rounded-xl h-full p-5">
+          <div className="relative bg-background rounded-xl h-full p-5 w-2/6">
             {/* <div className="p-5 gap-5"> */}
             <Select value={selectedValue} onValueChange={setSelectedValue}>
               <SelectTrigger className=" border-black">
@@ -82,9 +82,19 @@ export default function DataBase() {
           <div className="relative w-full bg-background rounded-xl h-full">
             <Tabs defaultValue="data" className="relative w-full h-full">
               {/* <div className="relative h-full"> */}
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="data">Data</TabsTrigger>
-                <TabsTrigger value="coordinate">Coordinate</TabsTrigger>
+              <TabsList className="grid w-full grid-cols-2 bg-background">
+                <TabsTrigger
+                  value="data"
+                  className="data-[state=active]:bg-destructive data-[state=active]:text-white"
+                >
+                  Data
+                </TabsTrigger>
+                <TabsTrigger
+                  value="coordinate"
+                  className="data-[state=active]:bg-destructive data-[state=active]:text-white"
+                >
+                  Coordinate
+                </TabsTrigger>
               </TabsList>
               <TabsContent
                 value="data"

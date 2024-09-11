@@ -12,6 +12,7 @@ const Node = ({
   onMouseLeave,
   onClick,
   onClickedDefault = false,
+  resetSignal,
   filename,
 }: {
   x: number;
@@ -23,6 +24,7 @@ const Node = ({
   onClickedDefault?: boolean;
   onClick: (isSelected: boolean) => boolean;
   filename: string;
+  resetSignal: boolean;
 }) => {
   const [isClicked, setIsClicked] = useState(true);
   const [isAdded, setIsAdded] = useState(onClickedDefault);
@@ -39,7 +41,7 @@ const Node = ({
 
   useEffect(() => {
     setIsAdded(onClickedDefault);
-  }, [filename]);
+  }, [resetSignal, filename]);
 
   return (
     <div>
