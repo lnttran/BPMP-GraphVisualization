@@ -29,6 +29,8 @@ type RouteContextType = {
   ) => { status: boolean; selectedRoute: number[] };
   deleteNodeToRoute: (nodeToRemove: number, distance: number) => void;
   totalDistance: number;
+  maxDistance: number;
+  setNewMaxDistance: (newDistance: number) => void;
 };
 
 // Step 2: Create context
@@ -42,10 +44,19 @@ type RouteProviderProps = {
 export const RouteProvider: React.FC<RouteProviderProps> = ({ children }) => {
   const [selectedRoute, setSelectedRoute] = useState<number[]>([1]);
   const [totalDistance, setTotalDistance] = useState<number>(0);
+  const [maxDistance, setMaxDistance] = useState<number>(20);
   const { toast } = useToast();
 
   const getRoute = () => {
     return selectedRoute.join(" -> ");
+  };
+
+  const setNewMaxDistance = (newDistance: number) => {
+    if (newDistance > 0) {
+      setMaxDistance(newDistance);
+    } else {
+      console.error("Max distance must be greater than 0");
+    }
   };
 
   const resetRoute = () => {
@@ -53,14 +64,12 @@ export const RouteProvider: React.FC<RouteProviderProps> = ({ children }) => {
     setTotalDistance(0);
   };
 
-  const MAX_DISTANCE = 20;
-
   const addNodeToRoute = (
     node: number,
     weight: number,
     distance: number
   ): { status: boolean; selectedRoute: number[] } => {
-    if (totalDistance + distance > MAX_DISTANCE) {
+    if (totalDistance + distance > maxDistance) {
       toast({
         variant: "destructive",
         style: {
@@ -149,6 +158,8 @@ export const RouteProvider: React.FC<RouteProviderProps> = ({ children }) => {
       value={{
         selectedRoute,
         totalDistance,
+        maxDistance,
+        setNewMaxDistance,
         resetRoute,
         setSelectedRoute,
         getRoute,

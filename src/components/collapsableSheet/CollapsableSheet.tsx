@@ -120,7 +120,9 @@ export default function CollapsableSheet({
                 Total Cargo: {calculateTotalWeight()}{" "}
               </div>
 
-              <div className="text-black">Total Distance: {totalDistance} </div>
+              <div className="text-black">
+                Total Distance: {Number(totalDistance).toFixed(4)}{" "}
+              </div>
               <div className="text-black">
                 Total Profit:{" "}
                 {calculateProfit({

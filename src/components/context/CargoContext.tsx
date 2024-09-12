@@ -25,13 +25,15 @@ export type Cargo = {
   d: number;
 };
 
-const MAX_CAPACITY = 1;
+// const MAX_CAPACITY = 1;
 
 type CargoContextType = {
   selectedCargo: Cargo[];
   setSelectedCargo: React.Dispatch<React.SetStateAction<Cargo[]>>;
   setRouteWeightMap: React.Dispatch<React.SetStateAction<Cargo[]>>;
   calculateTotalWeight: () => number;
+  setNewMaxCapacity: (newCapacity: number) => void;
+  maxCapacity: number;
   resetCargo: () => void;
   routeWeightMap: Cargo[];
   addCargo: (selectedRoute: number[], cargo: Cargo) => void;
@@ -52,10 +54,19 @@ type CargoProviderProps = {
 };
 
 export const CargoProvider: React.FC<CargoProviderProps> = ({ children }) => {
+  const [maxCapacity, setMaxCapacity] = useState(1);
   const [selectedCargo, setSelectedCargo] = useState<Cargo[]>([]);
   const [routeWeightMap, setRouteWeightMap] = useState<Cargo[]>([]);
   const { selectedRoute } = useRouteContext();
   const { toast } = useToast();
+
+  const setNewMaxCapacity = (newCapacity: number) => {
+    if (newCapacity > 0) {
+      setMaxCapacity(newCapacity);
+    } else {
+      console.error("Max capacity must be greater than 0");
+    }
+  };
 
   const calculateTotalWeight = () => {
     return Number(
@@ -115,7 +126,7 @@ export const CargoProvider: React.FC<CargoProviderProps> = ({ children }) => {
         modifiedRouteWeightMap = modifiedRouteWeightMap.map((item) => {
           if (
             item.pickup === selectedRoute[i] &&
-            (item.w || 0) + (cargo.w || 0) > MAX_CAPACITY
+            (item.w || 0) + (cargo.w || 0) > maxCapacity
           ) {
             exceedCapacity = true;
           } else if (item.pickup === selectedRoute[i]) {
@@ -318,6 +329,8 @@ export const CargoProvider: React.FC<CargoProviderProps> = ({ children }) => {
       value={{
         selectedCargo,
         routeWeightMap,
+        maxCapacity,
+        setNewMaxCapacity,
         resetCargo,
         removeCargoGivenRemovedNode,
         setRouteWeightMap,

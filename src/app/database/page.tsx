@@ -10,15 +10,19 @@ import {
   SelectLabel,
   SelectGroup,
 } from "@/components/ui/select";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
 
 import { fetcher } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
 import useSWR from "swr";
 import { DataItem } from "@/db/data";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { JSONtoText } from "@/components/tools/dataParser";
 
 export default function DataBase() {
   const [selectedValue, setSelectedValue] = useState("t5_10_data.txt");
+  const [showJSON, setShowJSON] = useState(false);
   const [retrievedData, setRetrievedData] = useState<DataItem[] | null>(null);
   const [dataError, setDataError] = useState("");
   const { data: filenames, error } = useSWR<string[]>(
@@ -56,38 +60,43 @@ export default function DataBase() {
 
   return (
     <div className="relative bg-background h-full">
-      {/* <div className="relative h-full"> */}
       <div className="relative flex flex-col gap-4 h-full">
         <div className="font-extrabold text-[32px]">Data</div>
         <div className="relative w-full bg-popover rounded-xl flex flex-row gap-4 h-full p-5">
-          <div className="relative bg-background rounded-xl h-full p-5 w-2/6">
-            {/* <div className="p-5 gap-5"> */}
-            <Select value={selectedValue} onValueChange={setSelectedValue}>
-              <SelectTrigger className=" border-black">
-                <SelectValue placeholder="Select dataset" />
-              </SelectTrigger>
-              <SelectContent className="text-text__primary bg-background">
-                <SelectGroup>
-                  <SelectLabel>5 nodes</SelectLabel>
-                  {filenames.map((filename) => (
-                    <SelectItem key={filename} value={filename}>
-                      {filename}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            {/* </div> */}
+          <div className="relative bg-background rounded-xl h-full p-5 w-2/6 flex flex-col gap-2">
+            <div className="flex items-center space-x-2 mb-2">
+              <Switch
+                checked={showJSON}
+                onCheckedChange={setShowJSON}
+                thumbClassName="data-[state=checked]:bg-background data-[state=unchecked]:bg-destructive"
+                className="data-[state=checked]:bg-destructive data-[state=unchecked]:bg-background border-destructive border-[1.5px]"
+              />
+              <div>Show JSON format</div>
+            </div>
+
+            <ScrollArea className="h-full border-[1.5px] rounded-lg border-destructive">
+              {filenames.map((filename) => (
+                <Button
+                  key={filename}
+                  variant={
+                    selectedValue === filename ? "destructive" : "default"
+                  }
+                  className="w-full justify-start mb-1"
+                  onClick={() => setSelectedValue(filename)}
+                >
+                  {filename}
+                </Button>
+              ))}
+            </ScrollArea>
           </div>
           <div className="relative w-full bg-background rounded-xl h-full">
-            <Tabs defaultValue="data" className="relative w-full h-full">
-              {/* <div className="relative h-full"> */}
+            <Tabs defaultValue="request" className="relative w-full h-full">
               <TabsList className="grid w-full grid-cols-2 bg-background">
                 <TabsTrigger
-                  value="data"
+                  value="request"
                   className="data-[state=active]:bg-destructive data-[state=active]:text-white"
                 >
-                  Data
+                  Request
                 </TabsTrigger>
                 <TabsTrigger
                   value="coordinate"
@@ -97,11 +106,15 @@ export default function DataBase() {
                 </TabsTrigger>
               </TabsList>
               <TabsContent
-                value="data"
+                value="request"
                 className="mt-10 ml-10 absolute h-5/6 w-11/12"
               >
                 <ScrollArea className="absolute h-full overflow-y-auto ">
-                  <pre>{JSON.stringify(allInfoData, null, 2)}</pre>
+                  {!showJSON && allInfoData !== null ? (
+                    <pre>{JSONtoText(allInfoData)}</pre>
+                  ) : (
+                    <pre>{JSON.stringify(allInfoData, null, 2)}</pre>
+                  )}
                 </ScrollArea>
               </TabsContent>
               <TabsContent
@@ -114,12 +127,10 @@ export default function DataBase() {
                   </div>
                 </ScrollArea>
               </TabsContent>
-              {/* </div> */}
             </Tabs>
           </div>
         </div>
       </div>
-      {/* </div> */}
     </div>
   );
 }

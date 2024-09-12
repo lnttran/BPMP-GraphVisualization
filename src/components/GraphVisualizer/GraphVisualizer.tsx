@@ -244,6 +244,8 @@ export default function GraphVisualiser({
   };
 
   const renderRoute = () => {
+    console.log("weightDistantData:", weightDistantData);
+
     let filteredLines: {
       x1: number;
       y1: number;
@@ -259,7 +261,6 @@ export default function GraphVisualiser({
     }[] = [];
 
     if (isToggled) {
-      // console.log("weightDistantData:", weightDistantData);
       filteredLines = lines.map((line) => {
         for (let i = 0; i < selectedRoute.length - 1; i++) {
           if (
@@ -509,32 +510,35 @@ export default function GraphVisualiser({
   };
 
   return (
-    <div className="bg-popover rounded-xl h-full relative">
+    <div className="bg-popover rounded-xl h-full relative overflow-hidden">
       <MapInteractionCSS
         value={mapState}
         onChange={(value) => setMapState(value)}
         minScale={0.1}
         maxScale={3}
+        // className="w-full h-full"
       >
         {renderHoverLines()}
         {renderRoute()}
         {renderBoardPiece()}
       </MapInteractionCSS>
-      <div className="absolute left-4 top-4 flex flex-col gap-2">
+      <div className="absolute left-2 sm:left-4 top-2 sm:top-4 flex flex-col gap-2">
         <Button
           onClick={handleZoomIn}
-          className="relative w-8 h-8 flex items-center justify-center bg-white shadow-md text-destructive rounded-md hover:bg-destructive hover:text-white"
+          className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center bg-white shadow-md text-destructive rounded-md hover:bg-destructive hover:text-white"
         >
           <div>
-            <Plus size={16} />
+            <Plus size={12} className="sm:hidden" />
+            <Plus size={16} className="hidden sm:block" />
           </div>
         </Button>
         <Button
           onClick={handleZoomOut}
-          className="relative w-8 h-8 flex items-center justify-center bg-white shadow-md rounded-md  hover:bg-black hover:text-white"
+          className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center bg-white shadow-md rounded-md hover:bg-black hover:text-white"
         >
           <div>
-            <Minus size={16} />
+            <Minus size={12} className="sm:hidden" />
+            <Minus size={16} className="hidden sm:block" />
           </div>
         </Button>
       </div>

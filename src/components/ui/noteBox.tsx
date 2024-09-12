@@ -5,6 +5,8 @@ import { IoIosArrowForward } from "react-icons/io";
 import { RxDividerHorizontal } from "react-icons/rx";
 import { TbLineDotted } from "react-icons/tb";
 import { useGlobalComponentManager } from "../context/UIContext";
+import { useCargoContext } from "../context/CargoContext";
+import { useRouteContext } from "../context/RouteContext";
 
 const lineTypes = [
   {
@@ -49,6 +51,8 @@ const NoteBox = ({
   children: React.ReactNode;
 }) => {
   const { state, setComponentState } = useGlobalComponentManager();
+  const { maxCapacity } = useCargoContext();
+  const { maxDistance } = useRouteContext();
 
   const handleToggle = () => {
     setComponentState("noteBox", {
@@ -117,8 +121,8 @@ const NoteBox = ({
           {/* constraint */}
           <div className="flex mx-3 mt-4 flex-col">
             <p className="mb-2 font-bold">Constraint: </p>
-            <p>Distance constraint: 20</p>
-            <p>Cargo constraint: 2</p>
+            <p>Distance constraint: {maxDistance}</p>
+            <p>Cargo constraint: {maxCapacity}</p>
           </div>
         </div>
       )}

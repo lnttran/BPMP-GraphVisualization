@@ -143,8 +143,8 @@ body {
 
 .layout__main-content {
   flex-grow: 1;
-  padding-bottom: 2rem;
-  padding-top: 2rem;
+  padding-bottom: 1rem;
+  padding-top: 1.5rem;
   margin-right: 2rem;
 }
 

@@ -1,6 +1,6 @@
 // import fs from "fs";
 
-import { DataItem } from "@/db/data";
+import { DataItem, weightDistant } from "@/db/data";
 
 export function convertWeightDistanceData(fileContent: string) {
   try {
@@ -120,6 +120,66 @@ export function getNodeCoordinate(fileContent: string) {
   }
 }
 
-export function JSONtoText(data: DataItem[]) {
-  return;
+export function JSONtoText(data: {
+  n: Number;
+  p: Number;
+  c: Number;
+  Q: Number;
+  v: Number;
+  DIS: Number;
+  weightDistantData: weightDistant[] | null;
+}) {
+  const n = 5;
+  const p = 1.2;
+  const c = 1;
+  const Q = 1;
+  const v = 0.1;
+  const DIS = 20;
+
+  const weightDistantData = data.weightDistantData!;
+
+  // Initialize matrices
+  const weightMatrix: number[][] = Array.from({ length: n }, () =>
+    Array(n).fill(0)
+  );
+  const distanceMatrix: number[][] = Array.from({ length: n }, () =>
+    Array(n).fill(0)
+  );
+
+  // Populate matrices from data
+  weightDistantData.forEach(({ w, d, x, y }) => {
+    weightMatrix[x - 1][y - 1] = w;
+    distanceMatrix[x - 1][y - 1] = d;
+  });
+
+  // Helper function to format a matrix into the required text format
+  const formatMatrix = (matrix: number[][]): string => {
+    return (
+      matrix
+        .map((row, i) => {
+          return row
+            .map((value, j) => {
+              return `${i + 1}\t${j + 1}\t${value.toFixed(2)}`;
+            })
+            .join("\n");
+        })
+        .join("\n") + "\n;"
+    );
+  };
+
+  // Construct the output text
+  const result = [
+    `param n:=${n};`,
+    `param p:=${p};`,
+    `param c:=${c};`,
+    `param Q:=${Q};`,
+    `param v:=${v};`,
+    `param DIS:=${DIS};`,
+    `param w :=`,
+    formatMatrix(weightMatrix),
+    `param d :=`,
+    formatMatrix(distanceMatrix),
+  ].join("\n");
+
+  return result;
 }
