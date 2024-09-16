@@ -30,12 +30,12 @@ export type Cargo = {
 type CargoContextType = {
   selectedCargo: Cargo[];
   setSelectedCargo: React.Dispatch<React.SetStateAction<Cargo[]>>;
-  setRouteWeightMap: React.Dispatch<React.SetStateAction<Cargo[]>>;
+  // setRouteWeightMap: React.Dispatch<React.SetStateAction<Cargo[]>>;
   calculateTotalWeight: () => number;
   setNewMaxCapacity: (newCapacity: number) => void;
   maxCapacity: number;
   resetCargo: () => void;
-  routeWeightMap: Cargo[];
+  // routeWeightMap: Cargo[];
   addCargo: (selectedRoute: number[], cargo: Cargo) => void;
   removeCargoGivenRemovedNode: (
     removedNode: number,
@@ -56,7 +56,7 @@ type CargoProviderProps = {
 export const CargoProvider: React.FC<CargoProviderProps> = ({ children }) => {
   const [maxCapacity, setMaxCapacity] = useState(1);
   const [selectedCargo, setSelectedCargo] = useState<Cargo[]>([]);
-  const [routeWeightMap, setRouteWeightMap] = useState<Cargo[]>([]);
+  const { routeWeightMap, setRouteWeightMap } = useRouteContext();
   const { selectedRoute } = useRouteContext();
   const { toast } = useToast();
 
@@ -100,7 +100,6 @@ export const CargoProvider: React.FC<CargoProviderProps> = ({ children }) => {
 
     if (Math.abs(pickupIndex - dropoffIndex) === 1) {
       setSelectedCargo((prevSelectedCargo) => [...prevSelectedCargo, cargo]);
-      // setRouteWeightMap((prevRouteWeightMap) => [...prevRouteWeightMap, cargo]);
       setRouteWeightMap((prevRouteWeightMap) => {
         const cargoIndex = prevRouteWeightMap.findIndex(
           (item) =>
@@ -328,12 +327,10 @@ export const CargoProvider: React.FC<CargoProviderProps> = ({ children }) => {
     <CargoContext.Provider
       value={{
         selectedCargo,
-        routeWeightMap,
         maxCapacity,
         setNewMaxCapacity,
         resetCargo,
         removeCargoGivenRemovedNode,
-        setRouteWeightMap,
         removeCargo,
         setSelectedCargo,
         addCargo,

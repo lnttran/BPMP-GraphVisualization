@@ -26,12 +26,14 @@ const Node = ({
   filename: string;
   resetSignal: boolean;
 }) => {
-  const [isClicked, setIsClicked] = useState(true);
+  const [isClicked, setIsClicked] = useState(false);
   const [isAdded, setIsAdded] = useState(onClickedDefault);
 
   const handleClick = () => {
-    setIsClicked(!isClicked);
-    if (onClick(isClicked)) {
+    const newIsClicked = !isClicked;
+    setIsClicked(newIsClicked);
+    console.log("isClicked in the node", newIsClicked);
+    if (onClick(newIsClicked)) {
       setIsAdded(true);
     } else {
       setIsAdded(false);
@@ -41,6 +43,7 @@ const Node = ({
 
   useEffect(() => {
     setIsAdded(onClickedDefault);
+    setIsClicked(false);
   }, [resetSignal, filename]);
 
   return (

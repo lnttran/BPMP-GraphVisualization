@@ -93,11 +93,16 @@ export default function GraphVisualiser({
   isToggled: boolean;
 }) {
   const [hoveredNode, setHoveredNode] = useState<number | null>(null);
-  const { selectedRoute, addNodeToRoute, deleteNodeToRoute, resetRoute } =
-    useRouteContext();
+  const {
+    selectedRoute,
+    addNodeToRoute,
+    deleteNodeToRoute,
+    resetRoute,
+    routeWeightMap,
+  } = useRouteContext();
   const {
     selectedCargo,
-    routeWeightMap,
+
     removeCargoGivenRemovedNode,
     addCargo,
     getCurrentRouteWeight,
@@ -203,10 +208,16 @@ export default function GraphVisualiser({
     if (i == 0) {
       return false;
     }
+    console.log("isSelected");
     if (isSelected) {
       //add the node to selected route
       const lastElement = selectedRoute[selectedRoute.length - 1];
       // Get the previous last element before adding i
+      console.log("last element", lastElement);
+      console.log(
+        "get distant by pickup dropoff called in handle on clicked",
+        selectedRoute
+      );
       const { w, d } = getWeightDistantbyPickupDropoff(
         lastElement,
         i,
@@ -229,6 +240,10 @@ export default function GraphVisualiser({
     } else {
       let indexToRemove: number = selectedRoute.indexOf(i);
       const previousElement = selectedRoute[indexToRemove - 1];
+      console.log(
+        "get distant by pickup dropoff called in handle on clicked else statement",
+        selectedRoute
+      );
       const { w, d } = getWeightDistantbyPickupDropoff(
         previousElement,
         i,
@@ -244,8 +259,8 @@ export default function GraphVisualiser({
   };
 
   const renderRoute = () => {
-    console.log("weightDistantData:", weightDistantData);
-
+    // console.log("weightDistantData:", weightDistantData);
+    // console.log("render route called", selectedRoute);
     let filteredLines: {
       x1: number;
       y1: number;

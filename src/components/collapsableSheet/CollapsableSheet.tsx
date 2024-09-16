@@ -75,14 +75,10 @@ export default function CollapsableSheet({
 }) {
   const [isOpen, setIsOpen] = useState(true);
   const containerControls = useAnimationControls();
-  const { getRoute, totalDistance, selectedRoute } = useRouteContext();
-  const {
-    selectedCargo,
-    routeWeightMap,
-    calculateTotalWeight,
-    removeCargo,
-    addCargo,
-  } = useCargoContext();
+  const { getRoute, totalDistance, selectedRoute, routeWeightMap } =
+    useRouteContext();
+  const { selectedCargo, calculateTotalWeight, removeCargo, addCargo } =
+    useCargoContext();
 
   useEffect(() => {
     if (isOpen) {

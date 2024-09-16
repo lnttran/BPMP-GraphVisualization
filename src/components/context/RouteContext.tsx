@@ -15,11 +15,14 @@ import {
   ToastDescription,
   ToastTitle,
 } from "../ui/toast";
+import { Cargo, useCargoContext } from "./CargoContext";
 
 // Step 1: Define context type
 type RouteContextType = {
   selectedRoute: number[];
   setSelectedRoute: React.Dispatch<React.SetStateAction<number[]>>;
+  setRouteWeightMap: React.Dispatch<React.SetStateAction<Cargo[]>>;
+  routeWeightMap: Cargo[];
   getRoute: () => string;
   resetRoute: () => void;
   addNodeToRoute: (
@@ -45,6 +48,7 @@ export const RouteProvider: React.FC<RouteProviderProps> = ({ children }) => {
   const [selectedRoute, setSelectedRoute] = useState<number[]>([1]);
   const [totalDistance, setTotalDistance] = useState<number>(0);
   const [maxDistance, setMaxDistance] = useState<number>(20);
+  const [routeWeightMap, setRouteWeightMap] = useState<Cargo[]>([]);
   const { toast } = useToast();
 
   const getRoute = () => {
@@ -101,15 +105,15 @@ export const RouteProvider: React.FC<RouteProviderProps> = ({ children }) => {
     }
     setSelectedRoute((prevRoute) => [...prevRoute, node]);
     const updatedRoute = [...selectedRoute, node];
-    // setRouteWeightMap((prevMap) => [
-    //   ...prevMap,
-    //   {
-    //     from: selectedRoute[selectedRoute.length - 1],
-    //     to: node,
-    //     w: weight,
-    //     d: distance,
-    //   },
-    // ]);
+    setRouteWeightMap((prevMap) => [
+      ...prevMap,
+      {
+        pickup: selectedRoute[selectedRoute.length - 1],
+        dropoff: node,
+        w: weight,
+        d: distance,
+      },
+    ]);
     console.log("Route in side adRoute context: ", selectedRoute);
     setTotalDistance((prevTotalDistance) => prevTotalDistance + distance);
     toast({
@@ -159,6 +163,8 @@ export const RouteProvider: React.FC<RouteProviderProps> = ({ children }) => {
         selectedRoute,
         totalDistance,
         maxDistance,
+        routeWeightMap,
+        setRouteWeightMap,
         setNewMaxDistance,
         resetRoute,
         setSelectedRoute,
