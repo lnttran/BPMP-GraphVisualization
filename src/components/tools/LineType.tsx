@@ -63,7 +63,7 @@ export const LineType = ({
     return {
       style: "dashed",
       color: "text-accent-foreground",
-      display: "block",
+      display: "hidden",
     };
   } else {
     //unselected distance with cargo

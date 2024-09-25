@@ -13,7 +13,7 @@ export function convertWeightDistanceData(fileContent: string) {
 
     let index = 0;
     while (lines[index].startsWith("param")) {
-      if (lines[index].includes("d :=") || lines[index].includes("w :=")) {
+      if (lines[index].includes("d") || lines[index].includes("w")) {
         // index++;
         break;
       }
@@ -26,9 +26,14 @@ export function convertWeightDistanceData(fileContent: string) {
     // Extract "w" and "d" data
     const coordinateData = [];
     let wData = false,
-      dData = false;
+      dData = false,
+      wDataMatrix = false,
+      dDataMatrix = false;
     const wMap: { [key: string]: number } = {};
     const dMap: { [key: string]: number } = {};
+
+    const isMatrixFormat = (line: string) => /^param\s+w\s*:\s*\d/.test(line);
+    const isDMatrixFormat = (line: string) => /^param\s+d\s*:\s*\d/.test(line);
 
     for (; index < lines.length; index++) {
       const line = lines[index];
@@ -42,10 +47,42 @@ export function convertWeightDistanceData(fileContent: string) {
         dData = true;
         continue;
       }
+      if (isMatrixFormat(line)) {
+        wDataMatrix = true;
+        continue;
+      }
+      if (isDMatrixFormat(line)) {
+        dDataMatrix = true;
+        wDataMatrix = false;
+        continue;
+      }
       if (line === ";") {
         wData = false;
         dData = false;
+        dDataMatrix = false;
+        wDataMatrix = false;
         continue;
+      }
+
+      // Detect matrix format if line starts with numbers (e.g., "param w:  1 2 3 :=")
+      if (wDataMatrix || dDataMatrix) {
+        for (; index < lines.length; index++) {
+          const dataLine = lines[index];
+          if (dataLine === ";") break;
+
+          const data = dataLine.split(/\s+/).map(Number);
+          const rowIndex = data[0]; // First value is the row index
+          for (let colIndex = 1; colIndex <= data.length - 1; colIndex++) {
+            const key = `${rowIndex},${colIndex}`;
+            const value = data[colIndex];
+
+            if (wDataMatrix) {
+              wMap[key] = value;
+            } else if (dDataMatrix) {
+              dMap[key] = value;
+            }
+          }
+        }
       }
 
       if (wData) {
@@ -84,6 +121,7 @@ export function convertWeightDistanceData(fileContent: string) {
     // console.log("result json: ", jsonData);
 
     // Connect to MongoDB and post data
+    console.log("result json: ", jsonData);
     return jsonData;
   } catch (error) {
     console.error("Error converting data:", error);

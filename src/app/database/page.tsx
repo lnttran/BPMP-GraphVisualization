@@ -18,7 +18,10 @@ import { fetcher } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
 import useSWR from "swr";
 import { DataItem } from "@/db/data";
-import { JSONtoText } from "@/components/tools/dataParser";
+import {
+  convertWeightDistanceData,
+  JSONtoText,
+} from "@/components/tools/dataParser";
 
 export default function DataBase() {
   const [selectedValue, setSelectedValue] = useState("t5_10_data.txt");

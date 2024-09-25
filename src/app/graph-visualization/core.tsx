@@ -18,7 +18,7 @@ import { useCargoContext } from "@/components/context/CargoContext";
 import { useRouteContext } from "@/components/context/RouteContext";
 
 export default function GraphVisualization() {
-  const [selectedValue, setSelectedValue] = useState("");
+  const [selectedValue, setSelectedValue] = useState("t08_01_data.txt");
   const { resetCargo, setNewMaxCapacity, maxCapacity } = useCargoContext();
   const { resetRoute, setNewMaxDistance, maxDistance } = useRouteContext();
   const [resetSignal, setResetSignal] = useState(false);
@@ -50,7 +50,6 @@ export default function GraphVisualization() {
             </SelectTrigger>
             <SelectContent className="text-text__primary bg-background">
               <SelectGroup>
-                <SelectLabel>5 nodes</SelectLabel>
                 {filenames.map((filename) => (
                   <SelectItem key={filename} value={filename}>
                     {filename}

@@ -75,10 +75,20 @@ export default function CollapsableSheet({
 }) {
   const [isOpen, setIsOpen] = useState(true);
   const containerControls = useAnimationControls();
-  const { getRoute, totalDistance, selectedRoute, routeWeightMap } =
-    useRouteContext();
-  const { selectedCargo, calculateTotalWeight, removeCargo, addCargo } =
-    useCargoContext();
+  const {
+    getRoute,
+    totalDistance,
+    selectedRoute,
+    routeWeightMap,
+    maxDistance,
+  } = useRouteContext();
+  const {
+    selectedCargo,
+    calculateTotalWeight,
+    removeCargo,
+    addCargo,
+    maxCapacity,
+  } = useCargoContext();
 
   useEffect(() => {
     if (isOpen) {
@@ -111,6 +121,20 @@ export default function CollapsableSheet({
           </div>
           <div className="bg-background w-[22rem] rounded-xl border-popover mt-2 mr-2 mb-2 p-5">
             <div className="flex flex-col w-full justify-between place-items-start">
+              {/* information */}
+              <div className="flex flex-col">
+                <p className="mb-2 font-bold">Vehicle information: </p>
+                <p>Price charge per cargo: 1.2</p>
+                <p>Travel cost: 1</p>
+                <p>Vehicle weight: 0.1</p>
+              </div>
+
+              {/* constraint */}
+              <div className="flex mb-4 flex-col">
+                <p className="mb-2 font-bold">Constraint: </p>
+                <p>Distance constraint: {maxDistance}</p>
+                <p>Cargo constraint: {maxCapacity}</p>
+              </div>
               <div className="text-black">Route: {getRoute()}</div>
               <div className="text-black">
                 Total Cargo: {calculateTotalWeight()}{" "}
