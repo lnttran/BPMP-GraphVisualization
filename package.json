@@ -37,7 +37,8 @@
     "tailwind-merge": "^2.3.0",
     "tailwind-variants": "^0.2.1",
     "tailwindcss-animate": "^1.0.7",
-    "tsconfig-paths-webpack-plugin": "^4.1.0"
+    "tsconfig-paths-webpack-plugin": "^4.1.0",
+    "vercel": "^37.6.0"
   },
   "devDependencies": {
     "@types/node": "^20",
