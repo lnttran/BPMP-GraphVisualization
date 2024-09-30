@@ -47,6 +47,7 @@ export default function DataBase() {
           setDataError(err.message);
         } else {
           // Handle unexpected error type
+
           setDataError("An unknown error occurred.");
         }
       }
