@@ -54,6 +54,7 @@ export async function GET(
           const allData = await Data.find({}).lean(); // Using `.lean()` for better performance if you don’t need Mongoose documents
 
           // Return the fetched data
+          
           return NextResponse.json(allData, { status: 200 });
       } catch (error) {
           console.error("Error fetching data:", error.message);

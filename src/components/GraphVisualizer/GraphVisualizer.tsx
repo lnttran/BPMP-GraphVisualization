@@ -26,6 +26,7 @@ export function getWeightDistantbyPickupDropoff(
       `No data found for pickup ${pickup} and dropoff ${dropoff}`
     );
   }
+  console.log("getweightdist", foundData.w);
   return { w: foundData.w, d: foundData.d };
 }
 
@@ -152,7 +153,7 @@ export default function GraphVisualiser({
     if (nodeData) {
       return { x: nodeData.x, y: nodeData.y };
     }
-
+    console.log("node item", node);
     throw new Error("Invalid coordinate");
   }
 
@@ -560,7 +561,7 @@ export default function GraphVisualiser({
       <NoteBox isVisible={true} currentLineType={currentLineType}>
         {noteContent}
       </NoteBox>
-      <CollapsableSheet weightDistantArray={weightDistantData} />
+      <CollapsableSheet dataItem={retrievedData!} />
     </div>
   );
 }

@@ -91,6 +91,7 @@ export const CargoProvider: React.FC<CargoProviderProps> = ({ children }) => {
     const cargo = routeWeightMap.find(
       (item) => item.pickup === from && item.dropoff === to
     );
+
     return cargo ? parseFloat(cargo.w.toFixed(2)) : 0;
   };
 

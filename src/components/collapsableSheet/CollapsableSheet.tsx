@@ -1,5 +1,5 @@
 import { distance, motion, useAnimationControls } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { IoReorderThreeOutline } from "react-icons/io5";
 import { useRouteContext } from "../context/RouteContext";
 import { CargoCard } from "./CargoCard";
@@ -8,7 +8,7 @@ import { calculateProfit } from "../tools/Tools";
 import { Cargo } from "../context/CargoContext";
 import { InferRawDocType } from "mongoose";
 import { coordinateSchema } from "@/db/coordinate";
-import { weightDistant, weightDistantSchema } from "@/db/data";
+import { DataItem, weightDistant, weightDistantSchema } from "@/db/data";
 
 const constVariations = {
   close: {
@@ -62,19 +62,18 @@ const returnAvailableCargo = (
       pickup: data.x,
       dropoff: data.y,
       w: data.w,
+
       d: data.d,
     }));
-
+  // console.log("avail", availableCargo);
   return availableCargo;
 };
 
-export default function CollapsableSheet({
-  weightDistantArray,
-}: {
-  weightDistantArray: weightDistant[];
-}) {
+export default function CollapsableSheet({ dataItem }: { dataItem: DataItem }) {
   const [isOpen, setIsOpen] = useState(true);
   const containerControls = useAnimationControls();
+  const weightDistantData = dataItem?.data?.weightDistantData || [];
+  const informationData = dataItem?.data;
   const {
     getRoute,
     totalDistance,
@@ -119,37 +118,55 @@ export default function CollapsableSheet({
               style={{ transform: "rotate(90deg)", fontSize: "2rem" }}
             />
           </div>
-          <div className="bg-background w-[22rem] rounded-xl border-popover mt-2 mr-2 mb-2 p-5">
-            <div className="flex flex-col w-full justify-between place-items-start">
-              {/* information */}
+          <div className="bg-background w-[22rem] rounded-xl border-popover mt-2 mr-2 mb-2 p-5 overflow-y-auto">
+            <div className="flex flex-col w-full gap-3 justify-between place-items-start">
+              <div className="grid grid-cols-2 gap-y-3 justify-between w-full">
+                <div className="flex flex-col">
+                  <p className="font-light text-sm">Total Cargo</p>
+                  <p className="font-extrabold text-3xl">
+                    {calculateTotalWeight()}
+                  </p>
+                </div>
+                <div className="flex flex-col">
+                  <p className="font-light text-sm">Total Distance</p>
+                  <p className="font-extrabold text-3xl">
+                    {totalDistance === 0
+                      ? "0"
+                      : Number(totalDistance).toFixed(4)}
+                  </p>
+                </div>
+                <div className="flex flex-col">
+                  <p className="font-light text-sm">Total Profit</p>
+                  <p className="font-extrabold text-3xl">
+                    {calculateProfit({
+                      selectedRouteWeightMap: routeWeightMap,
+                      selectedCargo: selectedCargo,
+                      distance: totalDistance,
+                    })}
+                  </p>
+                </div>
+                <div className="flex flex-col">
+                  <p className="font-light text-sm">Price per cargo</p>
+                  <p className="font-extrabold text-3xl">
+                    {informationData?.p ? informationData.p.toString() : "N/A"}
+                  </p>
+                </div>
+                <div className="flex flex-col">
+                  <p className="font-light text-sm">Travel cost </p>
+                  <p className="font-extrabold text-3xl">
+                    {informationData?.c ? informationData.c.toString() : "N/A"}
+                  </p>
+                </div>
+                <div className="flex flex-col">
+                  <p className="font-light text-sm">Vehicle weight</p>
+                  <p className="font-extrabold text-3xl">
+                    {informationData?.v ? informationData.v.toString() : "N/A"}
+                  </p>
+                </div>
+              </div>
               <div className="flex flex-col">
-                <p className="mb-2 font-bold">Vehicle information: </p>
-                <p>Price charge per cargo: 1.2</p>
-                <p>Travel cost: 1</p>
-                <p>Vehicle weight: 0.1</p>
-              </div>
-
-              {/* constraint */}
-              <div className="flex mb-4 flex-col">
-                <p className="mb-2 font-bold">Constraint: </p>
-                <p>Distance constraint: {maxDistance}</p>
-                <p>Cargo constraint: {maxCapacity}</p>
-              </div>
-              <div className="text-black">Route: {getRoute()}</div>
-              <div className="text-black">
-                Total Cargo: {calculateTotalWeight()}{" "}
-              </div>
-
-              <div className="text-black">
-                Total Distance: {Number(totalDistance).toFixed(4)}{" "}
-              </div>
-              <div className="text-black">
-                Total Profit:{" "}
-                {calculateProfit({
-                  selectedRouteWeightMap: routeWeightMap,
-                  selectedCargo: selectedCargo,
-                  distance: totalDistance,
-                })}
+                <p className="font-light text-sm">Route</p>
+                <div className="font-extrabold text-2xl"> {getRoute()}</div>
               </div>
             </div>
             <ul>
@@ -171,7 +188,7 @@ export default function CollapsableSheet({
               {returnAvailableCargo(
                 selectedCargo,
                 selectedRoute,
-                weightDistantArray
+                weightDistantData
               ).map((cargo, index) => (
                 <li key={index}>
                   <CargoCard

@@ -18,7 +18,7 @@ import { useCargoContext } from "@/components/context/CargoContext";
 import { useRouteContext } from "@/components/context/RouteContext";
 
 export default function GraphVisualization() {
-  const [selectedValue, setSelectedValue] = useState("t08_01_data.txt");
+  const [selectedValue, setSelectedValue] = useState("demo_data.txt");
   const { resetCargo, setNewMaxCapacity, maxCapacity } = useCargoContext();
   const { resetRoute, setNewMaxDistance, maxDistance } = useRouteContext();
   const [resetSignal, setResetSignal] = useState(false);
