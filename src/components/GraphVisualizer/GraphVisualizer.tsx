@@ -278,28 +278,26 @@ export default function GraphVisualiser({
 
     if (isToggled) {
       filteredLines = lines.map((line) => {
-        for (let i = 0; i < selectedRoute.length - 1; i++) {
-          if (
-            line.from === selectedRoute[i] &&
-            line.to === selectedRoute[i + 1]
-          ) {
-            const lineType = LineType({
-              w: line.w,
-              d: line.d,
-              from: line.from,
-              to: line.to,
-              routeWeightMap: routeWeightMap,
-              selectedRoute: selectedRoute,
-              selectedCargo: selectedCargo,
-            });
+        if (
+          selectedRoute.includes(line.from) &&
+          selectedRoute.includes(line.to)
+        ) {
+          const lineType = LineType({
+            w: line.w,
+            d: line.d,
+            from: line.from,
+            to: line.to,
+            routeWeightMap: routeWeightMap,
+            selectedRoute: selectedRoute,
+            selectedCargo: selectedCargo,
+          });
 
-            return {
-              ...line,
-              color: lineType.color,
-              style: lineType.style,
-              display: lineType.display,
-            };
-          }
+          return {
+            ...line,
+            color: lineType.color,
+            style: lineType.style,
+            display: lineType.display,
+          };
         }
 
         return line;
