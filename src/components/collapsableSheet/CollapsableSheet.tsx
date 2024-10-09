@@ -101,7 +101,7 @@ export default function CollapsableSheet({ dataItem }: { dataItem: DataItem }) {
     } else {
       containerControls.start("close");
     }
-  }, [isOpen]);
+  }, [isOpen, containerControls]);
 
   const handleOpenClose = () => {
     setIsOpen(!isOpen);
@@ -188,6 +188,7 @@ export default function CollapsableSheet({ dataItem }: { dataItem: DataItem }) {
                 <AccordionContent>
                   {selectedCargo.map((cargo, index) => (
                     <CargoCard
+                      key={index}
                       x={cargo.pickup!}
                       y={cargo.dropoff!}
                       w={cargo.w!}
@@ -208,6 +209,7 @@ export default function CollapsableSheet({ dataItem }: { dataItem: DataItem }) {
                     weightDistantData
                   ).map((cargo, index) => (
                     <CargoCard
+                      key={index}
                       x={cargo.pickup!}
                       y={cargo.dropoff!}
                       w={cargo.w!}
