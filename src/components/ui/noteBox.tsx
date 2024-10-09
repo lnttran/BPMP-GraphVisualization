@@ -16,28 +16,22 @@ const lineTypes = [
     id: "dashed text-accent",
   },
   {
-    icon: <TfiLineDashed size={40} className="text-accent-foreground" />,
-    arrow: <IoIosArrowForward size={24} className="text-accent-foreground" />,
-    title: "Unselected route without cargo",
-    id: "dashed text-accent-foreground",
-  },
-  {
-    icon: <TbLineDotted size={40} className="text-accent" />,
-    arrow: <IoIosArrowForward size={24} className="text-accent" />,
-    title: "Selected route with empty truck",
-    id: "dotted text-accent",
-  },
-  {
     icon: <RxDividerHorizontal size={40} className="text-accent" />,
     arrow: <IoIosArrowForward size={24} className="text-accent" />,
-    title: "Selected route with selected cargo",
+    title: "Selected route with empty truck",
     id: "solid text-accent",
   },
   {
-    icon: <TbLineDotted size={40} className="text-accent-foreground" />,
+    icon: <RxDividerHorizontal size={40} className="text-accent-foreground" />,
+    arrow: <IoIosArrowForward size={24} className="text-accent-foreground" />,
+    title: "Selected route with selected cargo",
+    id: "solid text-accent-foreground",
+  },
+  {
+    icon: <TfiLineDashed size={40} className="text-accent-foreground" />,
     arrow: <IoIosArrowForward size={24} className="text-accent-foreground" />,
     title: "Selected cargo",
-    id: "dotted text-accent-foreground",
+    id: "dashed text-accent-foreground",
   },
 ];
 

@@ -9,6 +9,12 @@ import { Cargo } from "../context/CargoContext";
 import { InferRawDocType } from "mongoose";
 import { coordinateSchema } from "@/db/coordinate";
 import { DataItem, weightDistant, weightDistantSchema } from "@/db/data";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "../ui/accordion";
 
 const constVariations = {
   close: {
@@ -123,13 +129,13 @@ export default function CollapsableSheet({ dataItem }: { dataItem: DataItem }) {
               <div className="grid grid-cols-2 gap-y-3 justify-between w-full">
                 <div className="flex flex-col">
                   <p className="font-light text-sm">Total Cargo</p>
-                  <p className="font-extrabold text-3xl">
+                  <p className="font-extrabold text-2xl">
                     {calculateTotalWeight()}
                   </p>
                 </div>
                 <div className="flex flex-col">
                   <p className="font-light text-sm">Total Distance</p>
-                  <p className="font-extrabold text-3xl">
+                  <p className="font-extrabold text-2xl">
                     {totalDistance === 0
                       ? "0"
                       : Number(totalDistance).toFixed(4)}
@@ -137,7 +143,7 @@ export default function CollapsableSheet({ dataItem }: { dataItem: DataItem }) {
                 </div>
                 <div className="flex flex-col">
                   <p className="font-light text-sm">Total Profit</p>
-                  <p className="font-extrabold text-3xl">
+                  <p className="font-extrabold text-2xl">
                     {calculateProfit({
                       selectedRouteWeightMap: routeWeightMap,
                       selectedCargo: selectedCargo,
@@ -147,19 +153,19 @@ export default function CollapsableSheet({ dataItem }: { dataItem: DataItem }) {
                 </div>
                 <div className="flex flex-col">
                   <p className="font-light text-sm">Price per cargo</p>
-                  <p className="font-extrabold text-3xl">
+                  <p className="font-extrabold text-2xl">
                     {informationData?.p ? informationData.p.toString() : "N/A"}
                   </p>
                 </div>
                 <div className="flex flex-col">
                   <p className="font-light text-sm">Travel cost </p>
-                  <p className="font-extrabold text-3xl">
+                  <p className="font-extrabold text-2xl">
                     {informationData?.c ? informationData.c.toString() : "N/A"}
                   </p>
                 </div>
                 <div className="flex flex-col">
                   <p className="font-light text-sm">Vehicle weight</p>
-                  <p className="font-extrabold text-3xl">
+                  <p className="font-extrabold text-2xl">
                     {informationData?.v ? informationData.v.toString() : "N/A"}
                   </p>
                 </div>
@@ -169,38 +175,51 @@ export default function CollapsableSheet({ dataItem }: { dataItem: DataItem }) {
                 <div className="font-extrabold text-2xl"> {getRoute()}</div>
               </div>
             </div>
-            <ul>
-              <p className="mb-2">Selected Cargo:</p>
-              {selectedCargo.map((cargo, index) => (
-                <li key={index}>
-                  <CargoCard
-                    x={cargo.pickup!}
-                    y={cargo.dropoff!}
-                    w={cargo.w!}
-                    isAdd={false}
-                    onClick={() => removeCargo(cargo)}
-                  />
-                </li>
-              ))}
-            </ul>
-            <ul>
-              <p className="mb-2">Available Cargo:</p>
-              {returnAvailableCargo(
-                selectedCargo,
-                selectedRoute,
-                weightDistantData
-              ).map((cargo, index) => (
-                <li key={index}>
-                  <CargoCard
-                    x={cargo.pickup!}
-                    y={cargo.dropoff!}
-                    w={cargo.w!}
-                    isAdd={true}
-                    onClick={() => addCargo(selectedRoute, cargo)}
-                  />
-                </li>
-              ))}
-            </ul>
+
+            <Accordion
+              type="multiple"
+              className="w-full"
+              defaultValue={["selected", "available"]}
+            >
+              <AccordionItem value="selected" className="border-b-neutral-300">
+                <AccordionTrigger className="font-light text-sm">
+                  Selected Cargo
+                </AccordionTrigger>
+                <AccordionContent>
+                  {selectedCargo.map((cargo, index) => (
+                    <CargoCard
+                      x={cargo.pickup!}
+                      y={cargo.dropoff!}
+                      w={cargo.w!}
+                      isAdd={false}
+                      onClick={() => removeCargo(cargo)}
+                    />
+                  ))}
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="available" className="border-b-neutral-300">
+                <AccordionTrigger className="font-light text-sm">
+                  Available Cargo
+                </AccordionTrigger>
+                <AccordionContent>
+                  {returnAvailableCargo(
+                    selectedCargo,
+                    selectedRoute,
+                    weightDistantData
+                  ).map((cargo, index) => (
+                    <CargoCard
+                      x={cargo.pickup!}
+                      y={cargo.dropoff!}
+                      w={cargo.w!}
+                      isAdd={true}
+                      onClick={() => addCargo(selectedRoute, cargo)}
+                    />
+                  ))}
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+
+            {/* <Accordion type="single" collapsible className="w-full"></Accordion> */}
           </div>
         </motion.nav>
       ) : (

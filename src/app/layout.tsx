@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
-import { Roboto_Slab } from "next/font/google";
+import {
+  Inter,
+  Libre_Baskerville,
+  Poppins,
+  Roboto_Slab,
+} from "next/font/google";
 import "./globals.css";
 import { SidebarProvider } from "@/components/Sidebar/SidebarContext";
 import BaseLayout from "@/components/Sidebar/BaseLayout";
@@ -7,6 +12,12 @@ import { ToastProvider, ToastViewport } from "@/components/ui/toast";
 import { Toaster } from "@/components/ui/toaster";
 
 const roboto_slab = Roboto_Slab({ subsets: ["latin"] });
+
+const poppin = Poppins({ subsets: ["latin"], weight: "400" });
+
+const libre = Libre_Baskerville({ subsets: ["latin"], weight: ["400"] });
+
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "BPMP",
@@ -20,7 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={roboto_slab.className}>
+      <body className={inter.className}>
         <div className="relative max-h-screen h-full">
           <div className="relative h-full">
             <SidebarProvider>

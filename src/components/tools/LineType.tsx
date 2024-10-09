@@ -37,7 +37,7 @@ export const LineType = ({
         (cargo) => cargo.pickup === from && cargo.dropoff === to && cargo.w == 0
       )
     ) {
-      return { style: "dotted", color: "text-accent", display: "block" };
+      return { style: "solid", color: "text-accent", display: "block" };
     } else if (
       //selected cargo but not a selected route
       selectedCargo.some(
@@ -47,7 +47,7 @@ export const LineType = ({
     ) {
       //selected cargo through the route = solid red
       return {
-        style: "dotted",
+        style: "dashed",
         color: "text-accent-foreground",
         display: "block",
       };
@@ -56,7 +56,11 @@ export const LineType = ({
         (cargo) => cargo.pickup === from && cargo.dropoff === to && cargo.w > 0
       )
     ) {
-      return { style: "solid", color: "text-accent", display: "block" }; // selected route with cargo
+      return {
+        style: "solid",
+        color: "text-accent-foreground",
+        display: "block",
+      }; // selected route with cargo
     } else return { style: "solid", color: "text-accent", display: "hidden" }; //not yet define
   } else if (w === 0.0) {
     //unselected distance without any cargo = dashed red
@@ -67,7 +71,11 @@ export const LineType = ({
     };
   } else {
     //unselected distance with cargo
-    return { style: "dashed", color: "text-accent", display: "block" };
+    return {
+      style: "dashed",
+      color: "text-accent",
+      display: "block",
+    };
   }
 };
 
