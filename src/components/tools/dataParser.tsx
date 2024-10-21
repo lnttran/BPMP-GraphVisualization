@@ -159,29 +159,29 @@ export function getNodeCoordinate(fileContent: string) {
 }
 
 export function JSONtoText(data: {
-  n: Number;
-  p: Number;
-  c: Number;
-  Q: Number;
-  v: Number;
-  DIS: Number;
+  n: number;
+  p: number;
+  c: number;
+  Q: number;
+  v: number;
+  DIS: number;
   weightDistantData: weightDistant[] | null;
 }) {
-  const n = 5;
-  const p = 1.2;
-  const c = 1;
-  const Q = 1;
-  const v = 0.1;
-  const DIS = 20;
+  // const n = 5;
+  // const p = 1.2;
+  // const c = 1;
+  // const Q = 1;
+  // const v = 0.1;
+  // const DIS = 20;
 
   const weightDistantData = data.weightDistantData!;
 
   // Initialize matrices
-  const weightMatrix: number[][] = Array.from({ length: n }, () =>
-    Array(n).fill(0)
+  const weightMatrix: number[][] = Array.from({ length: data.n }, () =>
+    Array(data.n).fill(0)
   );
-  const distanceMatrix: number[][] = Array.from({ length: n }, () =>
-    Array(n).fill(0)
+  const distanceMatrix: number[][] = Array.from({ length: data.n }, () =>
+    Array(data.n).fill(0)
   );
 
   // Populate matrices from data
@@ -207,12 +207,12 @@ export function JSONtoText(data: {
 
   // Construct the output text
   const result = [
-    `param n:=${n};`,
-    `param p:=${p};`,
-    `param c:=${c};`,
-    `param Q:=${Q};`,
-    `param v:=${v};`,
-    `param DIS:=${DIS};`,
+    `param n:=${data.n};`,
+    `param p:=${data.p};`,
+    `param c:=${data.c};`,
+    `param Q:=${data.Q};`,
+    `param v:=${data.v};`,
+    `param DIS:=${data.DIS};`,
     `param w :=`,
     formatMatrix(weightMatrix),
     `param d :=`,

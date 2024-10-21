@@ -11,12 +11,12 @@ export interface weightDistant {
 export interface DataItem {
     file: string;
     data: {
-      n: Number;
-      p: Number;
-      c: Number;
-      Q: Number;
-      v: Number;
-      DIS: Number;
+      n: number;
+      p: number;
+      c: number;
+      Q: number;
+      v: number;
+      DIS: number;
       weightDistantData: weightDistant[];
     };
     coordinate: coordinate[];
