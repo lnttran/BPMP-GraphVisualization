@@ -18,7 +18,7 @@ import { useCargoContext } from "@/components/context/CargoContext";
 import { useRouteContext } from "@/components/context/RouteContext";
 
 export default function GraphVisualization() {
-  const [selectedValue, setSelectedValue] = useState("demo_data.txt");
+  const [selectedValue, setSelectedValue] = useState("demo_data_2.txt");
   const { resetCargo, setNewMaxCapacity, maxCapacity } = useCargoContext();
   const { resetRoute, setNewMaxDistance, maxDistance } = useRouteContext();
   const [resetSignal, setResetSignal] = useState(false);
@@ -60,7 +60,11 @@ export default function GraphVisualization() {
           </Select>
           <div className="flex flex-row gap-4 items-center">
             <div>Max Capacity</div>
-            <Select
+            <div className="w-[50px] h-[35px] border border-input bg-background text-sm rounded-md flex items-center justify-center">
+              {maxCapacity}
+            </div>
+
+            {/* <Select
               value={maxCapacity.toString()}
               onValueChange={(value) => setNewMaxCapacity(Number(value))}
             >
@@ -74,11 +78,14 @@ export default function GraphVisualization() {
                   </SelectItem>
                 ))}
               </SelectContent>
-            </Select>
+            </Select> */}
           </div>
           <div className="flex flex-row gap-4 items-center">
             <div>Max Distance</div>
-            <Select
+            <div className="w-[50px] h-[35px] border border-input bg-background text-sm rounded-md flex items-center justify-center">
+              {maxDistance}
+            </div>
+            {/* <Select
               value={maxDistance.toString()}
               onValueChange={(value) => setNewMaxDistance(Number(value))}
             >
@@ -92,7 +99,7 @@ export default function GraphVisualization() {
                   </SelectItem>
                 ))}
               </SelectContent>
-            </Select>
+            </Select> */}
           </div>
           <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
             <div className="flex items-center space-x-2">

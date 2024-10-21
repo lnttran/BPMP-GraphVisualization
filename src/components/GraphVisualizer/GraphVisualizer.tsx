@@ -100,19 +100,21 @@ export default function GraphVisualiser({
     deleteNodeToRoute,
     resetRoute,
     routeWeightMap,
+    setNewMaxDistance,
   } = useRouteContext();
   const {
     selectedCargo,
-
     removeCargoGivenRemovedNode,
     addCargo,
     getCurrentRouteWeight,
     resetCargo,
+    setNewMaxCapacity,
   } = useCargoContext();
   const [noteContent, setNoteContent] = useState("");
   const [currentLineType, setCurrentLineType] = useState("");
   const [retrievedData, setRetrievedData] = useState<DataItem | null>(null);
   const [error, setError] = useState("");
+  const [lastNode, setLastNode] = useState<number | null>(null);
   const [mapState, setMapState] = useState({
     scale: 0.5,
     translation: { x: 0, y: 0 },
@@ -131,7 +133,14 @@ export default function GraphVisualiser({
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const result = await response.json();
-        setRetrievedData(result[0]);
+        const data = result[0];
+        setRetrievedData(data);
+        // Set max capacity and max distance
+        if (data && data.data) {
+          setNewMaxCapacity(Number(data.data.c));
+          setLastNode(Number(data.data.n));
+          setNewMaxDistance(Number(data.data.DIS));
+        }
       } catch (err) {
         if (err instanceof Error) {
           setError(err.message);
@@ -498,6 +507,7 @@ export default function GraphVisualiser({
         onMouseEnter={() => setHoveredNode(nodeList.node)}
         onMouseLeave={() => setHoveredNode(null)}
         onClickedDefault={index === 0}
+        isDepot={lastNode !== null && index === lastNode - 1}
         onClick={(isSelected: boolean) =>
           handleOnClickedNode(isSelected, index + 1)
         }

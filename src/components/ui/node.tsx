@@ -14,6 +14,7 @@ const Node = ({
   onClickedDefault = false,
   resetSignal,
   filename,
+  isDepot,
 }: {
   x: number;
   y: number;
@@ -25,6 +26,7 @@ const Node = ({
   onClick: (isSelected: boolean) => boolean;
   filename: string;
   resetSignal: boolean;
+  isDepot: boolean;
 }) => {
   const [isClicked, setIsClicked] = useState(false);
   const [isAdded, setIsAdded] = useState(onClickedDefault);
@@ -53,9 +55,11 @@ const Node = ({
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         className={cn(
-          "absolute rounded-full w-12 h-12 bg-background border-2 hover:bg-accent hover:text-white hover:font-bold -translate-x-1/2 -translate-y-1/2",
+          "absolute rounded-full w-12 h-12 border-2 hover:bg-accent hover:text-white hover:font-bold -translate-x-1/2 -translate-y-1/2",
           {
+            "bg-accent-foreground text-white": isDepot && !isAdded,
             "bg-accent text-white": isAdded,
+            "bg-background": !isDepot && !isAdded,
           },
           classname
         )}

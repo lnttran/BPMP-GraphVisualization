@@ -80,6 +80,10 @@ const NoteBox = ({
               <FaMinus />
             </div>
             <pre className="mx-3 mt-2">{children}</pre>
+            <div className="flex items-center gap-10 mx-3 mt-2">
+              <div className="w-9 h-9 rounded-full bg-accent-foreground border-2"></div>
+              <p className="">Destination Node</p>
+            </div>
             {/* Line Type Node */}
             <div className="flex mx-3 mt-2 flex-col">
               <p className="mb-2 font-bold">Line Types:</p>
