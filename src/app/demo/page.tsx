@@ -27,10 +27,25 @@ export default function DemoPage() {
               </CardHeader>
               <CardContent>
                 <div className="aspect-video bg-black rounded-lg overflow-hidden">
-                  <video className="w-fit h-full object-contain" controls>
+                  {/* <video className="w-fit h-full object-contain" controls>
                     <source src="/BPMP Demo 2.mov" type="video/quicktime" />
-                  </video>
+                  </video> */}
+                  {/* <iframe
+                    className="w-full h-full"
+                    src="https://www.youtube.com/watch?v=1a5iuO0mO5s"
+                    title="YouTube video player"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe> */}
+                  <iframe
+                    className="w-full h-full"
+                    src="https://www.youtube.com/embed/1a5iuO0mO5s"
+                    title="BPMP Demo"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  ></iframe>
                 </div>
+
                 {/* <div className="flex justify-center space-x-4 mt-4">
                   <Button onClick={togglePlay}>
                     {isPlaying ? (
