@@ -32,6 +32,11 @@ const sidebarItems = [
     icon: LayoutGrid,
   },
   {
+    name: "Demo",
+    href: "/demo",
+    icon: LayoutGrid,
+  },
+  {
     name: "Contact",
     href: "/contact",
     icon: CircleUser,
