@@ -30,13 +30,7 @@ export default function DemoPage() {
                   {/* <video className="w-fit h-full object-contain" controls>
                     <source src="/BPMP Demo 2.mov" type="video/quicktime" />
                   </video> */}
-                  {/* <iframe
-                    className="w-full h-full"
-                    src="https://www.youtube.com/watch?v=1a5iuO0mO5s"
-                    title="YouTube video player"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  ></iframe> */}
+
                   <iframe
                     className="w-full h-full"
                     src="https://www.youtube.com/embed/1a5iuO0mO5s"
@@ -68,33 +62,6 @@ export default function DemoPage() {
                 </div> */}
               </CardContent>
             </Card>
-            {showTranscript && (
-              <Card className="w-full max-w-4xl mx-auto border-none">
-                <CardHeader>
-                  <CardTitle>Video Transcript</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div>
-                    Welcome everyone. In this video I will guide you through
-                    using our web application designed to solve backhaul profit
-                    maximization problem. Let's get started.
-                    <br />
-                    <br />
-                    First we'll dive into a visualization type and you can
-                    select a data set that contains a pickup and drop off cargo
-                    request. We have a multiple of data sets that you can play
-                    around with and ranging from five to eight nodes for now. So
-                    you can see here this one is 8 and for this video I'm going
-                    to use the demo data 2. You can also see the maximum
-                    capacity that the vehicle can carry and the maximum distance
-                    that the route can cover. Next to it is the button to view
-                    all of the available requests at once for you to manage all
-                    of the requests easier or you want to stick with the options
-                  </div>
-                  {/* Add more transcript content here */}
-                </CardContent>
-              </Card>
-            )}
           </main>
         </div>
       </div>
