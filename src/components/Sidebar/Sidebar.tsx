@@ -11,6 +11,7 @@ import {
   LayoutGrid,
   CircleUser,
   GanttChart,
+  TvMinimal,
 } from "lucide-react";
 
 import { usePathname } from "next/navigation";
@@ -34,7 +35,7 @@ const sidebarItems = [
   {
     name: "Demo",
     href: "/demo",
-    icon: LayoutGrid,
+    icon: TvMinimal,
   },
   {
     name: "Contact",

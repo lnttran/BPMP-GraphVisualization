@@ -62,7 +62,9 @@ export const LineType = ({
         color: "text-accent-foreground",
         display: "block",
       }; // selected route with cargo
-    } else return { style: "solid", color: "text-accent", display: "hidden" }; //not yet define
+    } else if (w != 0.0) {
+      return { style: "dashed", color: "text-accent", display: "block" };
+    } else return { style: "dashed", color: "text-accent", display: "hidden" };
   } else if (w === 0.0) {
     //unselected distance without any cargo = dashed red
     return {
