@@ -12,6 +12,7 @@ import {
   CircleUser,
   GanttChart,
   TvMinimal,
+  House,
 } from "lucide-react";
 
 import { usePathname } from "next/navigation";
@@ -19,29 +20,34 @@ import { usePathname } from "next/navigation";
 const sidebarItems = [
   {
     name: "Visualization",
-    href: "/",
+    href: "/dashboard",
     icon: GanttChart,
   },
   {
     name: "Data",
-    href: "/database",
+    href: "/dashboard/database",
     icon: Database,
   },
   {
-    name: "About",
-    href: "/about",
-    icon: LayoutGrid,
+    name: "Home Page",
+    href: "/",
+    icon: House,
   },
-  {
-    name: "Demo",
-    href: "/demo",
-    icon: TvMinimal,
-  },
-  {
-    name: "Contact",
-    href: "/contact",
-    icon: CircleUser,
-  },
+  // {
+  //   name: "About",
+  //   href: "/about",
+  //   icon: LayoutGrid,
+  // },
+  // {
+  //   name: "Demo",
+  //   href: "/demo",
+  //   icon: TvMinimal,
+  // },
+  // {
+  //   name: "Contact",
+  //   href: "/contact",
+  //   icon: CircleUser,
+  // },
 ];
 
 const Sidebar = () => {
