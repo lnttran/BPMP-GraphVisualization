@@ -76,7 +76,7 @@ export default function LandingPage() {
               <br />
             </h1>
             <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl">
-              Expert tech to elevate your manufacturing. Let's take your
+              Expert tech to elevate your manufacturing. Let&#39;s take your
               business further.
             </p>
             <div className="flex flex-col gap-2 min-[400px]:flex-row">
