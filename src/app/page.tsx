@@ -39,10 +39,10 @@ export default function LandingPage() {
             <span className="text-xl font-semibold">BPMP</span>
           </div>
           <nav className="hidden md:flex items-center gap-6">
-            <Link className="text-sm font-medium hover:underline" href="#">
+            {/* <Link className="text-sm font-medium hover:underline" href="#">
               Home
-            </Link>
-            <Link className="text-sm font-medium hover:underline" href="#">
+            </Link> */}
+            {/* <Link className="text-sm font-medium hover:underline" href="#">
               About
             </Link>
             <Link
@@ -56,43 +56,53 @@ export default function LandingPage() {
               href="#footer"
             >
               Contact
-            </Link>
+            </Link> */}
           </nav>
-          <Link
+          {/* <Link
             className="rounded-full bg-[#0F1F1C] px-4 py-2 text-sm font-medium text-white hover:bg-[#0F1F1C]/90"
             href="/dashboard"
           >
             Dashboard
-          </Link>
+          </Link> */}
         </div>
       </header>
 
       {/* Hero Section */}
       <section className="w-full py-12 md:py-24 lg:py-32">
         <div className="container px-4 md:px-6">
-          <div className="flex flex-col items-center space-y-4 text-center">
+          <div className="flex flex-col items-center space-y-10 text-center">
             <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
               Backhaul Profit Maximization Problem
               <br />
             </h1>
-            <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl">
-              Expert tech to elevate your manufacturing. Let&#39;s take your
-              business further.
-            </p>
-            <div className="flex flex-col gap-2 min-[400px]:flex-row">
+            <h2 className="mx-auto text-gray-500 md:text-xl">
+              Solving the Backhaul Profit Maximization Problem (BPMP) is one way
+              that third-party logistics (3PL) companies use Operations Research
+              (OR) to gain efficiency and increase profitability. BPMP involves
+              solving two concurrent optimization problems: (1) determining the
+              most efficient route for an empty delivery vehicle to return from
+              its current location to its depot within a scheduled time frame,
+              (2) selecting a subset of available delivery requests along this
+              route to maximize profit, considering the vehicle&apos;s capacity.
+              The video below gives a quick overview of BPMP and shows how 3PL
+              companies can solve it to avoid costly &ldquo;deadhead&rdquo;
+              miles, where vehicles travel empty incurring costs without
+              generating revenue.
+            </h2>
+            {/* <div className="flex flex-col gap-2 min-[400px]:flex-row">
               <Link
                 className="inline-flex h-10 items-center justify-center rounded-md bg-[#0F1F1C] px-8 text-sm font-medium text-white hover:bg-[#0F1F1C]/90"
                 href="#"
               >
                 Dashboard
               </Link>
-              {/* <Link
+              <Link
                 className="inline-flex h-10 items-center justify-center rounded-md border border-gray-200 bg-white px-8 text-sm font-medium shadow-sm transition-colors hover:bg-gray-100"
                 href="#"
               >
                 Try Demo
-              </Link> */}
-            </div>
+              </Link>
+            </div> */}
             {/* <div className="flex items-center gap-1">
               {[1, 2, 3, 4, 5].map((i) => (
                 <Star
@@ -105,8 +115,9 @@ export default function LandingPage() {
             </div> */}
           </div>
 
-          <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            <div className="relative overflow-hidden rounded-lg border bg-white p-6">
+          {/*   <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            
+             <div className="relative overflow-hidden rounded-lg border bg-white p-6">
               <div className="flex h-full flex-col justify-between">
                 <div className="text-3xl font-bold">100+</div>
                 <div className="text-sm text-gray-500">
@@ -137,13 +148,13 @@ export default function LandingPage() {
                   Achieve Optimal Efficiency and Boost Productivity
                 </div>
               </div>
-            </div>
-          </div>
+            </div> 
+          </div>*/}
         </div>
       </section>
 
       {/* Services Section */}
-      <section
+      {/* <section
         id="service"
         className="w-full bg-[#0F1F1C] py-12 md:py-24 lg:py-32"
       >
@@ -217,10 +228,10 @@ export default function LandingPage() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Benefits Section */}
-      <section className="w-full py-12 md:py-24 lg:py-32">
+      {/* <section className="w-full py-12 md:py-24 lg:py-32">
         <div className="container grid items-center gap-6 px-4 md:grid-cols-2 md:px-6">
           <div className="space-y-2">
             <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
@@ -290,7 +301,7 @@ export default function LandingPage() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Integration Section */}
       <section className="w-full py-12 md:py-24 lg:py-32">
@@ -303,18 +314,25 @@ export default function LandingPage() {
               <p className="max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                 Explore our interactive demo to see how our solution enables
                 efficient route optimization, real-time data integration, and
-                insightful analysis. Our graph visualization tool simplifies
-                complex data into actionable insights.
+                insightful analysis. Watch this video for a demonstration of how
+                to use our BPMP visualization app and{" "}
+                <a
+                  href="/dashboard"
+                  className="underline text-[#0F1F1C] pointer font-semibold hover:font-bold"
+                >
+                  click here
+                </a>{" "}
+                to get it try.
               </p>
             </div>
-            <div className="flex flex-col gap-2 min-[400px]:flex-row">
+            {/* <div className="flex flex-col gap-2 min-[400px]:flex-row">
               <Link
                 className="inline-flex h-10 items-center justify-center rounded-md bg-[#DCFCE7] px-8 text-sm font-medium text-black hover:bg-[#DCFCE7]/90"
                 href="#"
               >
                 Learn More
               </Link>
-            </div>
+            </div> */}
           </div>
           <div className="aspect-video bg-black rounded-lg overflow-hidden">
             <iframe
@@ -426,7 +444,7 @@ export default function LandingPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="w-full bg-[#0F1F1C] py-12 md:py-24 lg:py-32">
+      {/* <section className="w-full bg-[#0F1F1C] py-12 md:py-24 lg:py-32">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <h2 className="text-3xl font-bold tracking-tighter text-white sm:text-4xl md:text-5xl">
@@ -442,6 +460,60 @@ export default function LandingPage() {
             >
               Work With Us
             </Link>
+          </div>
+        </div>
+      </section> */}
+      <section className="w-full bg-[#0F1F1C] py-12 md:py-24 lg:py-32">
+        <div className="container px-4 md:px-6">
+          <div className="flex flex-col items-center justify-center space-y-6 text-center">
+            <h2 className="text-3xl font-bold tracking-tighter text-white sm:text-4xl md:text-5xl">
+              References
+            </h2>
+            <p className="mx-auto max-w-[1000px] text-gray-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+              For more technical information on applying OR to the BPMP, see the
+              following references:
+            </p>
+            <div className="space-y-6 w-full">
+              <a
+                href="https://www.sciencedirect.com/science/article/abs/pii/S0925527313002351?via%3Dihub"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block bg-gray-200 p-6 rounded-lg text-left transition-colors"
+              >
+                <div className="flex justify-between items-start">
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                    Maximizing Profit for Vehicle Routing Under Time and Weight
+                    Constraints
+                  </h3>
+                </div>
+                <p className="text-gray-700">Junfang Yu and Yuanyuan Dong</p>
+                <p className="text-gray-600 mt-1">
+                  International Journal of Production Economics, Vol. 145, No.
+                  2, October 2013, pp. 573-583.
+                </p>
+              </a>
+              <a
+                href="https://pubsonline.informs.org/doi/abs/10.1287/ijoo.2022.0071"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block bg-gray-200 p-6 rounded-lg text-left transition-colors hover:bg-gray-200"
+              >
+                <div className="flex justify-between items-start">
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                    The Backhaul Profit Maximization Problem: Optimization
+                    Models and Solution Procedures
+                  </h3>
+                </div>
+                <p className="text-gray-700">
+                  Yuanyuan Dong, Yulan Bai, Eli V. Olinick, and Andrew Junfang
+                  Yu
+                </p>
+                <p className="text-gray-600 mt-1">
+                  INFORMS Journal on Optimization, Vol. 4, No. 4, Fall 2022, pp.
+                  347-445.
+                </p>
+              </a>
+            </div>
           </div>
         </div>
       </section>
