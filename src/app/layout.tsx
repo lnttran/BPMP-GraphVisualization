@@ -10,6 +10,8 @@ import { SidebarProvider } from "@/components/Sidebar/SidebarContext";
 import BaseLayout from "@/components/Sidebar/BaseLayout";
 import { ToastProvider, ToastViewport } from "@/components/ui/toast";
 import { Toaster } from "@/components/ui/toaster";
+import Link from "next/link";
+import { Truck } from "lucide-react";
 
 const roboto_slab = Roboto_Slab({ subsets: ["latin"] });
 
@@ -34,12 +36,45 @@ export default function RootLayout({
       <body className={inter.className}>
         <div className="relative max-h-screen h-full">
           <div className="relative h-full">
-            {/* <SidebarProvider>
-              <BaseLayout> */}
-            {children}
-            {/* <Toaster />
-              </BaseLayout>
-            </SidebarProvider> */}
+            <div className="flex min-h-screen flex-col">
+              {/* Navigation */}
+              <header className="w-full bg-white">
+                <div className="container flex h-16 items-center justify-between px-4">
+                  <div className="flex items-center gap-2">
+                    <Truck />
+                    <span className="text-xl font-semibold">BPMP</span>
+                  </div>
+                  <nav className="flex items-center gap-6">
+                    <Link
+                      className="text-sm font-medium hover:underline"
+                      href="/"
+                    >
+                      Home
+                    </Link>
+                    <Link
+                      className="text-sm font-medium hover:underline"
+                      href="/bpmp"
+                    >
+                      BPMP
+                    </Link>
+                    {/* <Link
+                      className="text-sm font-medium hover:underline"
+                      href="/services"
+                    >
+                      Services
+                    </Link>
+                    <Link
+                      className="text-sm font-medium hover:underline"
+                      href="/contact"
+                    >
+                      Contact
+                    </Link> */}
+                  </nav>
+                </div>
+              </header>
+              {/* Page Content */}
+              <main className="flex-1">{children}</main>
+            </div>
           </div>
         </div>
       </body>

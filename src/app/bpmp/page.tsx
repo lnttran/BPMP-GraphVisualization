@@ -13,7 +13,7 @@ import {
   Truck,
 } from "lucide-react";
 
-export default function LandingPage() {
+export default function BPMPPage() {
   return (
     <div className="flex min-h-screen flex-col">
       {/* Navigation */}
@@ -64,7 +64,7 @@ export default function LandingPage() {
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center space-y-10 text-center">
             <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-              Landing page
+              Backhaul Profit Maximization Problem
               <br />
             </h1>
             <h2 className="mx-auto text-gray-500 md:text-xl">
@@ -296,7 +296,7 @@ export default function LandingPage() {
       </section> */}
 
       {/* Integration Section */}
-      {/* <section className="w-full py-12 md:py-24 lg:py-32">
+      <section className="w-full py-12 md:py-24 lg:py-32">
         <div className="container grid items-center gap-6 px-4 md:grid-cols-2 md:px-10">
           <div className="flex flex-col justify-center space-y-4">
             <div className="space-y-2">
@@ -317,7 +317,14 @@ export default function LandingPage() {
                 to get it try.
               </p>
             </div>
-            
+            {/* <div className="flex flex-col gap-2 min-[400px]:flex-row">
+              <Link
+                className="inline-flex h-10 items-center justify-center rounded-md bg-[#DCFCE7] px-8 text-sm font-medium text-black hover:bg-[#DCFCE7]/90"
+                href="#"
+              >
+                Learn More
+              </Link>
+            </div> */}
           </div>
           <div className="aspect-video bg-black rounded-lg overflow-hidden">
             <iframe
@@ -327,103 +334,6 @@ export default function LandingPage() {
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
             ></iframe>
-          </div>
-        </div>
-      </section> */}
-      {/* Meet Our Team Section */}
-      <section className="w-full py-12 md:py-24 lg:py-32">
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-col items-center justify-center space-y-4 text-center">
-            <div className="space-y-2 max-w-[800px]">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                Meet our team of <span className="italic">creators</span>,{" "}
-                <span className="italic">designers</span>, and world-class{" "}
-                <span className="italic">problem solvers</span>
-              </h2>
-              <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                To be the company our customers want us to be, it takes an{" "}
-                <span className="italic">eclectic group</span> of passionate
-                operators. Get to know the people{" "}
-                <span className="italic">leading the way</span> at Prodmast.
-              </p>
-            </div>
-          </div>
-          <div className="mx-auto max-w-5xl gap-8 pt-12 flex flex-col items-center">
-            <div className="flex justify-center gap-8">
-              {[
-                {
-                  name: "Dr. Eli Olinick",
-                  role: "Founder & CEO",
-                  image: "/placeholder.svg",
-                },
-                {
-                  name: "Yuanyuan Dong",
-                  role: "Head of Engineering",
-                  image: "/placeholder.svg",
-                },
-              ].map((member, i) => (
-                <div
-                  key={i}
-                  className="group relative w-[300px] overflow-hidden rounded-lg bg-white"
-                >
-                  <div className="aspect-[4/5] relative">
-                    <Image
-                      src={member.image}
-                      alt={member.name}
-                      fill
-                      className="object-cover transition-transform group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </div>
-                  <div className="p-4">
-                    <h3 className="font-bold">{member.name}</h3>
-                    <p className="text-sm text-gray-500 italic">
-                      {member.role}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="flex justify-center gap-8">
-              {[
-                {
-                  name: "Daniel Ryan",
-                  role: "Chief Operating Officer",
-                  image: "/placeholder.svg",
-                },
-                {
-                  name: "Tran Lam",
-                  role: "VP of People",
-                  image: "/placeholder.svg",
-                },
-                {
-                  name: "Sreshta Ghosh",
-                  role: "Head of Product",
-                  image: "/placeholder.svg",
-                },
-              ].map((member, i) => (
-                <div
-                  key={i}
-                  className="group relative w-[300px] overflow-hidden rounded-lg bg-white"
-                >
-                  <div className="aspect-[4/5] relative">
-                    <Image
-                      src={member.image}
-                      alt={member.name}
-                      fill
-                      className="object-cover transition-transform group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </div>
-                  <div className="p-4">
-                    <h3 className="font-bold">{member.name}</h3>
-                    <p className="text-sm text-gray-500 italic">
-                      {member.role}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </section>
@@ -448,6 +358,60 @@ export default function LandingPage() {
           </div>
         </div>
       </section> */}
+      <section className="w-full bg-[#0F1F1C] py-12 md:py-24 lg:py-32">
+        <div className="container px-4 md:px-6">
+          <div className="flex flex-col items-center justify-center space-y-6 text-center">
+            <h2 className="text-3xl font-bold tracking-tighter text-white sm:text-4xl md:text-5xl">
+              References
+            </h2>
+            <p className="mx-auto max-w-[1000px] text-gray-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+              For more technical information on applying OR to the BPMP, see the
+              following references:
+            </p>
+            <div className="space-y-6 w-full">
+              <a
+                href="https://www.sciencedirect.com/science/article/abs/pii/S0925527313002351?via%3Dihub"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block bg-gray-200 p-6 rounded-lg text-left transition-colors"
+              >
+                <div className="flex justify-between items-start">
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                    Maximizing Profit for Vehicle Routing Under Time and Weight
+                    Constraints
+                  </h3>
+                </div>
+                <p className="text-gray-700">Junfang Yu and Yuanyuan Dong</p>
+                <p className="text-gray-600 mt-1">
+                  International Journal of Production Economics, Vol. 145, No.
+                  2, October 2013, pp. 573-583.
+                </p>
+              </a>
+              <a
+                href="https://pubsonline.informs.org/doi/abs/10.1287/ijoo.2022.0071"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block bg-gray-200 p-6 rounded-lg text-left transition-colors hover:bg-gray-200"
+              >
+                <div className="flex justify-between items-start">
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                    The Backhaul Profit Maximization Problem: Optimization
+                    Models and Solution Procedures
+                  </h3>
+                </div>
+                <p className="text-gray-700">
+                  Yuanyuan Dong, Yulan Bai, Eli V. Olinick, and Andrew Junfang
+                  Yu
+                </p>
+                <p className="text-gray-600 mt-1">
+                  INFORMS Journal on Optimization, Vol. 4, No. 4, Fall 2022, pp.
+                  347-445.
+                </p>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Footer */}
       <footer
