@@ -37,7 +37,6 @@ export function convertWeightDistanceData(fileContent: string) {
 
     for (; index < lines.length; index++) {
       const line = lines[index];
-      console.log(line);
       if (line === "param w :=") {
         wData = true;
         continue;
@@ -220,4 +219,14 @@ export function JSONtoText(data: {
   ].join("\n");
 
   return result;
+}
+
+export function parseOptimalSolution(fileContent: string) {
+  const lines = fileContent.split("\n").filter((line) => line.trim() !== "");
+
+  const route = JSON.parse(lines[0].trim());
+  const cargo = JSON.parse(lines[1].trim());
+  const profit = parseFloat(lines[2].trim());
+
+  return { route, cargo, profit };
 }

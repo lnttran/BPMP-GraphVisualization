@@ -26,7 +26,6 @@ export function getWeightDistantbyPickupDropoff(
       `No data found for pickup ${pickup} and dropoff ${dropoff}`
     );
   }
-  console.log("getweightdist", foundData.w);
   return { w: foundData.w, d: foundData.d };
 }
 
@@ -162,7 +161,6 @@ export default function GraphVisualiser({
     if (nodeData) {
       return { x: nodeData.x, y: nodeData.y };
     }
-    console.log("node item", node);
     throw new Error("Invalid coordinate");
   }
 
@@ -218,16 +216,10 @@ export default function GraphVisualiser({
     if (i == 0) {
       return false;
     }
-    console.log("isSelected");
     if (isSelected) {
       //add the node to selected route
       const lastElement = selectedRoute[selectedRoute.length - 1];
-      // Get the previous last element before adding i
-      console.log("last element", lastElement);
-      console.log(
-        "get distant by pickup dropoff called in handle on clicked",
-        selectedRoute
-      );
+
       const { w, d } = getWeightDistantbyPickupDropoff(
         lastElement,
         i,

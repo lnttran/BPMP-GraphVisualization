@@ -15,7 +15,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { MdErrorOutline } from "react-icons/md";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { getWeightDistantbyPickupDropoff } from "../GraphVisualizer/GraphVisualizer";
-import { weightDistant } from "@/db/data";
+import { DataItem, weightDistant } from "@/db/data";
 
 // Step 1: Define context type
 export type Cargo = {
@@ -30,6 +30,7 @@ export type Cargo = {
 type CargoContextType = {
   selectedCargo: Cargo[];
   setSelectedCargo: React.Dispatch<React.SetStateAction<Cargo[]>>;
+  setOptimalSolutionCargo: (route: number[], cargo: [number, number][]) => void;
   // setRouteWeightMap: React.Dispatch<React.SetStateAction<Cargo[]>>;
   calculateTotalWeight: () => number;
   setNewMaxCapacity: (newCapacity: number) => void;
@@ -57,8 +58,142 @@ export const CargoProvider: React.FC<CargoProviderProps> = ({ children }) => {
   const [maxCapacity, setMaxCapacity] = useState(1);
   const [selectedCargo, setSelectedCargo] = useState<Cargo[]>([]);
   const { routeWeightMap, setRouteWeightMap } = useRouteContext();
-  const { selectedRoute } = useRouteContext();
+  const { selectedRoute, selectedDataset } = useRouteContext();
   const { toast } = useToast();
+  const [retrievedData, setRetrievedData] = useState<DataItem | null>(null);
+  const weightDistantData = retrievedData?.data?.weightDistantData || [];
+  const coordinateData = retrievedData?.coordinate || [];
+  const dataSize = coordinateData.length;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`/api/data?fileName=${selectedDataset}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const result = await response.json();
+        const data = result[0];
+        setRetrievedData(data);
+        // Set max capacity and max distance
+        if (data && data.data) {
+          setNewMaxCapacity(Number(data.data.c));
+          // setLastNode(Number(data.data.n));
+          // setNewMaxDistance(Number(data.data.DIS));
+        }
+      } catch (err) {
+        console.log("error");
+        // if (err instanceof Error) {
+        //   setError(err.message);
+        // } else {
+        //   // Handle unexpected error type
+        //   setError("An unknown error occurred.");
+        // }
+      }
+    };
+
+    fetchData();
+  }, [selectedDataset]);
+
+  const setOptimalSolutionCargo = (
+    route: number[],
+    cargo: [number, number][]
+  ) => {
+    const updatedCargo: Cargo[] = cargo.map(
+      ([pickup, dropoff]: [number, number]) => {
+        const weightDistance = weightDistantData.find(
+          (item) => item.x === pickup && item.y === dropoff
+        );
+
+        if (weightDistance) {
+          return {
+            pickup,
+            dropoff,
+            w: weightDistance.w,
+            d: weightDistance.d,
+          };
+        } else {
+          console.warn(
+            `No weight or distance data found for pickup ${pickup} and dropoff ${dropoff}`
+          );
+          return {
+            pickup,
+            dropoff,
+            w: 0, // Default or fallback values
+            d: 0, // Default or fallback values
+          };
+        }
+      }
+    );
+
+    setSelectedCargo(updatedCargo);
+
+    const updatedRouteWeightMap: Cargo[] = [];
+
+    for (let i = 0; i < route.length - 1; i++) {
+      const pickup = route[i];
+      const dropoff = route[i + 1];
+
+      const weightDistance = weightDistantData.find(
+        (item) => item.x === pickup && item.y === dropoff
+      );
+
+      updatedRouteWeightMap.push({
+        pickup,
+        dropoff,
+        w: 0, // Default weight
+        d: weightDistance ? weightDistance.d : 0, // Use distance from data or 0 if not found
+      });
+    }
+    console.log("initlaise routeWeightmap", updatedRouteWeightMap);
+
+    updatedCargo.forEach(({ pickup, dropoff, w }) => {
+      // Find existing route segment in routeWeightMap
+      const existingSegment = updatedRouteWeightMap.find(
+        (segment) => segment.pickup === pickup && segment.dropoff === dropoff
+      );
+
+      if (existingSegment) {
+        // Update weight for the existing segment
+        existingSegment.w = w;
+      } else {
+        // Add weight for a new segment by iterating through selectedRoute
+        let currentIndex = route.indexOf(pickup);
+        const dropoffIndex = route.indexOf(dropoff);
+
+        if (
+          currentIndex === -1 ||
+          dropoffIndex === -1 ||
+          currentIndex > dropoffIndex
+        ) {
+          console.warn(
+            `Invalid route configuration: pickup ${pickup} or dropoff ${dropoff} not in selectedRoute`
+          );
+          return;
+        }
+
+        while (currentIndex < dropoffIndex) {
+          const currentPickup = route[currentIndex];
+          const currentDropoff = route[currentIndex + 1];
+
+          // Find or add the current segment in the routeWeightMap
+          let segment = updatedRouteWeightMap.find(
+            (segment) =>
+              segment.pickup === currentPickup &&
+              segment.dropoff === currentDropoff
+          );
+
+          if (segment) {
+            // Add weight to the segment
+            segment.w += w;
+          }
+          // Move to the next segment
+          currentIndex++;
+        }
+      }
+    });
+    setRouteWeightMap(updatedRouteWeightMap);
+  };
 
   const setNewMaxCapacity = (newCapacity: number) => {
     if (newCapacity > 0) {
@@ -202,9 +337,6 @@ export const CargoProvider: React.FC<CargoProviderProps> = ({ children }) => {
     let modifiedRouteWeightMap = [...routeWeightMap];
     let remainingCargo, previousNode, nextNode;
 
-    console.log("before removing", modifiedRouteWeightMap);
-    console.log("before removing cargo", selectedCargo);
-
     let updatedCargo = [...selectedCargo];
 
     updatedCargo = updatedCargo.filter((cargo) => {
@@ -212,9 +344,6 @@ export const CargoProvider: React.FC<CargoProviderProps> = ({ children }) => {
       if (cargo.pickup === removedNode || cargo.dropoff === removedNode) {
         const pickupPosition = selectedRoute.indexOf(cargo.pickup);
         const dropoffPosition = selectedRoute.indexOf(cargo.dropoff);
-
-        console.log("pickup index: ", pickupPosition);
-        console.log("dropoff position: ", dropoffPosition);
 
         for (let i = pickupPosition; i < dropoffPosition; ++i) {
           modifiedRouteWeightMap = modifiedRouteWeightMap.map((item) => {
@@ -237,8 +366,6 @@ export const CargoProvider: React.FC<CargoProviderProps> = ({ children }) => {
     // Update the selectedCargo state with the modified copy
     setSelectedCargo(updatedCargo);
 
-    console.log("removing just the selectedCargo", modifiedRouteWeightMap);
-
     modifiedRouteWeightMap = modifiedRouteWeightMap.filter((cargo) => {
       if (cargo.pickup === removedNode || cargo.dropoff === removedNode) {
         remainingCargo = cargo.w;
@@ -256,8 +383,6 @@ export const CargoProvider: React.FC<CargoProviderProps> = ({ children }) => {
       // Keep this cargo by returning true
       return true;
     });
-
-    console.log("remaing w: ", remainingCargo);
 
     if (
       previousNode !== undefined &&
@@ -278,7 +403,6 @@ export const CargoProvider: React.FC<CargoProviderProps> = ({ children }) => {
       });
     }
     setRouteWeightMap(modifiedRouteWeightMap);
-    console.log("create new relationship pre and next", modifiedRouteWeightMap);
   };
 
   const removeCargo = (cargoToRemove: Cargo) => {
@@ -337,6 +461,7 @@ export const CargoProvider: React.FC<CargoProviderProps> = ({ children }) => {
         addCargo,
         calculateTotalWeight,
         getCurrentRouteWeight,
+        setOptimalSolutionCargo,
       }}
     >
       {children}

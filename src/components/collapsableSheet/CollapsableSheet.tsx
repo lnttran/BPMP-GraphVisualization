@@ -136,9 +136,7 @@ export default function CollapsableSheet({ dataItem }: { dataItem: DataItem }) {
                 <div className="flex flex-col">
                   <p className="font-light text-sm">Total Distance</p>
                   <p className="font-extrabold text-2xl">
-                    {totalDistance === 0
-                      ? "0"
-                      : Number(totalDistance).toFixed(4)}
+                    {totalDistance === 0 ? "0" : totalDistance}
                   </p>
                 </div>
                 <div className="flex flex-col">

@@ -16,11 +16,23 @@ import React, { useState } from "react";
 import useSWR from "swr";
 import { useCargoContext } from "@/components/context/CargoContext";
 import { useRouteContext } from "@/components/context/RouteContext";
+import { DataItem } from "@/db/data";
 
 export default function GraphVisualization() {
-  const [selectedValue, setSelectedValue] = useState("demo_data_2.txt");
-  const { resetCargo, setNewMaxCapacity, maxCapacity } = useCargoContext();
-  const { resetRoute, setNewMaxDistance, maxDistance } = useRouteContext();
+  const {
+    resetCargo,
+    setNewMaxCapacity,
+    maxCapacity,
+    setOptimalSolutionCargo,
+  } = useCargoContext();
+  const {
+    resetRoute,
+    setNewMaxDistance,
+    maxDistance,
+    selectedDataset,
+    setSelectedDataset,
+    setOptimalSolutionRoute,
+  } = useRouteContext();
   const [resetSignal, setResetSignal] = useState(false);
   const [isToggled, setIsToggled] = useState(false); // New state for toggle
 
@@ -37,6 +49,41 @@ export default function GraphVisualization() {
     // Add your toggle logic here
   };
 
+  const handleShowOptimal = async () => {
+    if (!selectedDataset) {
+      alert("Please select a dataset first.");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `/api/data/optimalSolution?filename=${encodeURIComponent(
+          selectedDataset
+        )}`
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Failed to fetch optimal solution:", errorData.message);
+        alert(`Error: ${errorData.message}`);
+        return;
+      }
+
+      const optimalSolution = await response.json();
+      console.log("Optimal Solution:", optimalSolution);
+      setOptimalSolutionRoute(
+        optimalSolution.content.route,
+        optimalSolution.content.cargo
+      );
+      setOptimalSolutionCargo(
+        optimalSolution.content.route,
+        optimalSolution.content.cargo
+      );
+    } catch (error) {
+      console.error("Error while fetching optimal solution:", error);
+    }
+  };
+
   return (
     <div className="relative bg-background w-full h-full">
       <div className="flex flex-col gap-4 h-full">
@@ -44,7 +91,7 @@ export default function GraphVisualization() {
           Graph Visualization
         </h1>
         <div className="bg-popover rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 space-y-3 sm:space-y-0">
-          <Select value={selectedValue} onValueChange={setSelectedValue}>
+          <Select value={selectedDataset} onValueChange={setSelectedDataset}>
             <SelectTrigger className="w-full sm:w-[300px] md:w-[400px] border-black">
               <SelectValue placeholder="Select dataset" />
             </SelectTrigger>
@@ -116,6 +163,15 @@ export default function GraphVisualization() {
             </div>
             <Button
               onClick={() => {
+                handleShowOptimal();
+              }}
+              variant="destructive"
+              className="text-white w-full sm:w-auto"
+            >
+              Show Optimal
+            </Button>
+            <Button
+              onClick={() => {
                 resetCargo();
                 resetRoute();
                 setResetSignal((prev) => !prev);
@@ -129,7 +185,7 @@ export default function GraphVisualization() {
         </div>
         <div className="relative flex-grow">
           <GraphVisualiser
-            filename={selectedValue}
+            filename={selectedDataset}
             resetSignal={resetSignal}
             isToggled={isToggled} // Pass the toggle state to GraphVisualiser
           />
