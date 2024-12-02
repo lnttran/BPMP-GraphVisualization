@@ -44,10 +44,7 @@ const NoteBox = ({
   currentLineType: string;
   children: React.ReactNode;
 }) => {
-  const { state, setComponentState } = useGlobalComponentManager();
   const [isOpen, setIsOpen] = useState(true);
-  const { maxCapacity } = useCargoContext();
-  const { maxDistance } = useRouteContext();
 
   const handleToggle = () => {
     setIsOpen(!isOpen);

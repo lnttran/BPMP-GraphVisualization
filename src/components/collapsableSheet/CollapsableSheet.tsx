@@ -6,9 +6,7 @@ import { CargoCard } from "./CargoCard";
 import { useCargoContext } from "../context/CargoContext";
 import { calculateProfit } from "../tools/Tools";
 import { Cargo } from "../context/CargoContext";
-import { InferRawDocType } from "mongoose";
-import { coordinateSchema } from "@/db/coordinate";
-import { DataItem, weightDistant, weightDistantSchema } from "@/db/data";
+import { DataItem, weightDistant } from "@/db/data";
 import {
   Accordion,
   AccordionContent,
@@ -80,20 +78,10 @@ export default function CollapsableSheet({ dataItem }: { dataItem: DataItem }) {
   const containerControls = useAnimationControls();
   const weightDistantData = dataItem?.data?.weightDistantData || [];
   const informationData = dataItem?.data;
-  const {
-    getRoute,
-    totalDistance,
-    selectedRoute,
-    routeWeightMap,
-    maxDistance,
-  } = useRouteContext();
-  const {
-    selectedCargo,
-    calculateTotalWeight,
-    removeCargo,
-    addCargo,
-    maxCapacity,
-  } = useCargoContext();
+  const { getRoute, totalDistance, selectedRoute, routeWeightMap } =
+    useRouteContext();
+  const { selectedCargo, calculateTotalWeight, removeCargo, addCargo } =
+    useCargoContext();
 
   useEffect(() => {
     if (isOpen) {
