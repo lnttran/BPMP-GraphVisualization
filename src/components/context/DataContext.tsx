@@ -33,18 +33,23 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
   const defaultDataset = "demo_data_2.txt";
 
   const [selectedDataset, setSelectedDataset] = useState(() => {
-    const storedVersion = localStorage.getItem("appVersion");
-    const currentVersion = "1.0.0"; // Change this when you release updates
-    const storedDataset = localStorage.getItem("selectedDataset");
+    if (typeof window !== "undefined") {
+      // Safe to access localStorage in the browser
+      const storedVersion = localStorage.getItem("appVersion");
+      const currentVersion = "1.0.0"; // Change this when you release updates
+      const storedDataset = localStorage.getItem("selectedDataset");
 
-    // Reset localStorage if version has changed or no dataset is stored
-    if (storedVersion !== currentVersion || !storedDataset) {
-      localStorage.setItem("appVersion", currentVersion);
-      localStorage.setItem("selectedDataset", defaultDataset);
-      return defaultDataset;
+      // Reset localStorage if version has changed or no dataset is stored
+      if (storedVersion !== currentVersion || !storedDataset) {
+        localStorage.setItem("appVersion", currentVersion);
+        localStorage.setItem("selectedDataset", defaultDataset);
+        return defaultDataset;
+      }
+
+      return storedDataset;
     }
-
-    return storedDataset;
+    // Default value for SSR
+    return defaultDataset;
   });
 
   useEffect(() => {

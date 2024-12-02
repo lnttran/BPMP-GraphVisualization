@@ -1,7 +1,7 @@
 "use client";
 
 import { RouteProvider } from "@/components/context/RouteContext";
-import DataBase from "./database";
+import DataBase from "./db";
 import { CargoProvider } from "@/components/context/CargoContext";
 import { GlobalComponentManagerProvider } from "@/components/context/UIContext";
 import { DataProvider } from "@/components/context/DataContext";
