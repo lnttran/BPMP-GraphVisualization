@@ -17,22 +17,13 @@ import useSWR from "swr";
 import { useCargoContext } from "@/components/context/CargoContext";
 import { useRouteContext } from "@/components/context/RouteContext";
 import { DataItem } from "@/db/data";
+import { useDataContext } from "../context/DataContext";
 
 export default function GraphVisualization() {
-  const {
-    resetCargo,
-    setNewMaxCapacity,
-    maxCapacity,
-    setOptimalSolutionCargo,
-  } = useCargoContext();
-  const {
-    resetRoute,
-    setNewMaxDistance,
-    maxDistance,
-    selectedDataset,
-    setSelectedDataset,
-    setOptimalSolutionRoute,
-  } = useRouteContext();
+  const { resetCargo, setOptimalSolutionCargo } = useCargoContext();
+  const { resetRoute, setOptimalSolutionRoute } = useRouteContext();
+  const { selectedDataset, setSelectedDataset, maxCapacity, maxDistance } =
+    useDataContext();
   const [resetSignal, setResetSignal] = useState(false);
   const [isToggled, setIsToggled] = useState(false); // New state for toggle
 

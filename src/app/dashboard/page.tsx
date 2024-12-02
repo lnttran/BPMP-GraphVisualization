@@ -11,18 +11,21 @@ import GraphVisualization from "@/components/GraphVisualizer/core";
 import { SidebarProvider } from "@/components/Sidebar/SidebarContext";
 import BaseLayout from "@/components/Sidebar/BaseLayout";
 import { Toaster } from "@/components/ui/toaster";
+import { DataProvider } from "@/components/context/DataContext";
 
 export default function Dashboard() {
   return (
     <div className="relative max-h-screen h-full">
       <div className="h-full">
-        <RouteProvider>
-          <CargoProvider>
-            <GlobalComponentManagerProvider>
-              <GraphVisualization />
-            </GlobalComponentManagerProvider>
-          </CargoProvider>
-        </RouteProvider>
+        <DataProvider>
+          <RouteProvider>
+            <CargoProvider>
+              <GlobalComponentManagerProvider>
+                <GraphVisualization />
+              </GlobalComponentManagerProvider>
+            </CargoProvider>
+          </RouteProvider>
+        </DataProvider>
       </div>
     </div>
   );

@@ -16,6 +16,7 @@ import { MdErrorOutline } from "react-icons/md";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { getWeightDistantbyPickupDropoff } from "../GraphVisualizer/GraphVisualizer";
 import { DataItem, weightDistant } from "@/db/data";
+import { useDataContext } from "./DataContext";
 
 // Step 1: Define context type
 export type Cargo = {
@@ -33,8 +34,7 @@ type CargoContextType = {
   setOptimalSolutionCargo: (route: number[], cargo: [number, number][]) => void;
   // setRouteWeightMap: React.Dispatch<React.SetStateAction<Cargo[]>>;
   calculateTotalWeight: () => number;
-  setNewMaxCapacity: (newCapacity: number) => void;
-  maxCapacity: number;
+
   resetCargo: () => void;
   // routeWeightMap: Cargo[];
   addCargo: (selectedRoute: number[], cargo: Cargo) => void;
@@ -55,45 +55,12 @@ type CargoProviderProps = {
 };
 
 export const CargoProvider: React.FC<CargoProviderProps> = ({ children }) => {
-  const [maxCapacity, setMaxCapacity] = useState(1);
   const [selectedCargo, setSelectedCargo] = useState<Cargo[]>([]);
   const { routeWeightMap, setRouteWeightMap } = useRouteContext();
-  const { selectedRoute, selectedDataset } = useRouteContext();
+  const { selectedRoute } = useRouteContext();
+  const { maxCapacity, retrievedData } = useDataContext();
   const { toast } = useToast();
-  const [retrievedData, setRetrievedData] = useState<DataItem | null>(null);
   const weightDistantData = retrievedData?.data?.weightDistantData || [];
-  const coordinateData = retrievedData?.coordinate || [];
-  const dataSize = coordinateData.length;
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`/api/data?fileName=${selectedDataset}`);
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        const result = await response.json();
-        const data = result[0];
-        setRetrievedData(data);
-        // Set max capacity and max distance
-        if (data && data.data) {
-          setNewMaxCapacity(Number(data.data.c));
-          // setLastNode(Number(data.data.n));
-          // setNewMaxDistance(Number(data.data.DIS));
-        }
-      } catch (err) {
-        console.log("error");
-        // if (err instanceof Error) {
-        //   setError(err.message);
-        // } else {
-        //   // Handle unexpected error type
-        //   setError("An unknown error occurred.");
-        // }
-      }
-    };
-
-    fetchData();
-  }, [selectedDataset]);
 
   const setOptimalSolutionCargo = (
     route: number[],
@@ -193,14 +160,6 @@ export const CargoProvider: React.FC<CargoProviderProps> = ({ children }) => {
       }
     });
     setRouteWeightMap(updatedRouteWeightMap);
-  };
-
-  const setNewMaxCapacity = (newCapacity: number) => {
-    if (newCapacity > 0) {
-      setMaxCapacity(newCapacity);
-    } else {
-      console.error("Max capacity must be greater than 0");
-    }
   };
 
   const calculateTotalWeight = () => {
@@ -452,8 +411,6 @@ export const CargoProvider: React.FC<CargoProviderProps> = ({ children }) => {
     <CargoContext.Provider
       value={{
         selectedCargo,
-        maxCapacity,
-        setNewMaxCapacity,
         resetCargo,
         removeCargoGivenRemovedNode,
         removeCargo,

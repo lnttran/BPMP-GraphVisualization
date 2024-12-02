@@ -17,15 +17,14 @@ import {
 } from "../ui/toast";
 import { Cargo, useCargoContext } from "./CargoContext";
 import { DataItem } from "@/db/data";
+import { useDataContext } from "./DataContext";
 
 // Step 1: Define context type
 type RouteContextType = {
   selectedRoute: number[];
   setSelectedRoute: React.Dispatch<React.SetStateAction<number[]>>;
   setRouteWeightMap: React.Dispatch<React.SetStateAction<Cargo[]>>;
-  setSelectedDataset: React.Dispatch<React.SetStateAction<string>>;
   setOptimalSolutionRoute: (route: number[], cargo: [number, number][]) => void;
-  selectedDataset: string;
   routeWeightMap: Cargo[];
   getRoute: () => string;
   resetRoute: () => void;
@@ -36,8 +35,6 @@ type RouteContextType = {
   ) => { status: boolean; selectedRoute: number[] };
   deleteNodeToRoute: (nodeToRemove: number, distance: number) => void;
   totalDistance: number;
-  maxDistance: number;
-  setNewMaxDistance: (newDistance: number) => void;
 };
 
 // Step 2: Create context
@@ -49,47 +46,14 @@ type RouteProviderProps = {
 };
 
 export const RouteProvider: React.FC<RouteProviderProps> = ({ children }) => {
-  const [selectedDataset, setSelectedDataset] = useState("demo_data_2.txt");
   const [selectedRoute, setSelectedRoute] = useState<number[]>([1]);
   const [totalDistance, setTotalDistance] = useState<number>(0);
   const [maxDistance, setMaxDistance] = useState<number>(20);
   const [routeWeightMap, setRouteWeightMap] = useState<Cargo[]>([]);
-  // const { setSelectedCargo } = useCargoContext();
   const { toast } = useToast();
-  const [retrievedData, setRetrievedData] = useState<DataItem | null>(null);
+  const { retrievedData } = useDataContext();
   const weightDistantData = retrievedData?.data?.weightDistantData || [];
   const coordinateData = retrievedData?.coordinate || [];
-  const dataSize = coordinateData.length;
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`/api/data?fileName=${selectedDataset}`);
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        const result = await response.json();
-        const data = result[0];
-        setRetrievedData(data);
-        // Set max capacity and max distance
-        // if (data && data.data) {
-        //   setNewMaxCapacity(Number(data.data.c));
-        //   setLastNode(Number(data.data.n));
-        //   setNewMaxDistance(Number(data.data.DIS));
-        // }
-      } catch (err) {
-        console.log("error");
-        // if (err instanceof Error) {
-        //   setError(err.message);
-        // } else {
-        //   // Handle unexpected error type
-        //   setError("An unknown error occurred.");
-        // }
-      }
-    };
-
-    fetchData();
-  }, [selectedDataset]);
 
   const calculateTotalDistance = (route: any) => {
     if (!retrievedData || !retrievedData.data || !weightDistantData.length) {
@@ -243,12 +207,8 @@ export const RouteProvider: React.FC<RouteProviderProps> = ({ children }) => {
       value={{
         selectedRoute,
         totalDistance,
-        maxDistance,
         routeWeightMap,
-        selectedDataset,
-        setSelectedDataset,
         setRouteWeightMap,
-        setNewMaxDistance,
         resetRoute,
         setSelectedRoute,
         getRoute,

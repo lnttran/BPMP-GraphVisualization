@@ -12,6 +12,7 @@ import { coordinate } from "@/db/coordinate";
 import { DataItem, weightDistant } from "@/db/data";
 import { Plus, Minus } from "lucide-react"; // Import icons
 import { Button } from "../ui/button";
+import { useDataContext } from "../context/DataContext";
 
 export function getWeightDistantbyPickupDropoff(
   pickup: number,
@@ -99,7 +100,6 @@ export default function GraphVisualiser({
     deleteNodeToRoute,
     resetRoute,
     routeWeightMap,
-    setNewMaxDistance,
   } = useRouteContext();
   const {
     selectedCargo,
@@ -107,13 +107,10 @@ export default function GraphVisualiser({
     addCargo,
     getCurrentRouteWeight,
     resetCargo,
-    setNewMaxCapacity,
   } = useCargoContext();
   const [noteContent, setNoteContent] = useState("");
   const [currentLineType, setCurrentLineType] = useState("");
-  const [retrievedData, setRetrievedData] = useState<DataItem | null>(null);
-  const [error, setError] = useState("");
-  const [lastNode, setLastNode] = useState<number | null>(null);
+  const { retrievedData, lastNode } = useDataContext();
   const [mapState, setMapState] = useState({
     scale: 0.5,
     translation: { x: 0, y: 0 },
@@ -124,34 +121,6 @@ export default function GraphVisualiser({
   const dataSize = coordinateData.length;
 
   useEffect(() => {
-    // Define the async function to fetch data
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`/api/data?fileName=${filename}`);
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        const result = await response.json();
-        const data = result[0];
-        setRetrievedData(data);
-        // Set max capacity and max distance
-        if (data && data.data) {
-          setNewMaxCapacity(Number(data.data.c));
-          setLastNode(Number(data.data.n));
-          setNewMaxDistance(Number(data.data.DIS));
-        }
-      } catch (err) {
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          // Handle unexpected error type
-          setError("An unknown error occurred.");
-        }
-      }
-    };
-
-    // Call the fetchData function
-    fetchData();
     resetRoute();
     resetCargo();
   }, [filename]);

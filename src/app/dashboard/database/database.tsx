@@ -16,15 +16,15 @@ import { Switch } from "@/components/ui/switch";
 import { fetcher } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
 import useSWR from "swr";
-import { useRouteContext } from "@/components/context/RouteContext";
 import { DataItem } from "@/db/data";
 import {
   convertWeightDistanceData,
   JSONtoText,
 } from "@/components/tools/dataParser";
+import { useDataContext } from "@/components/context/DataContext";
 
 export default function DataBase() {
-  const { selectedDataset } = useRouteContext();
+  const { selectedDataset } = useDataContext();
   const [selectedValue, setSelectedValue] = useState(selectedDataset);
   const [showJSON, setShowJSON] = useState(false);
   const [retrievedData, setRetrievedData] = useState<DataItem[] | null>(null);
