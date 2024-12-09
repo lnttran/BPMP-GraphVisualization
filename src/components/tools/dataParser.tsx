@@ -196,7 +196,7 @@ export function JSONtoText(data: {
         .map((row, i) => {
           return row
             .map((value, j) => {
-              return `${i + 1}\t${j + 1}\t${value.toFixed(2)}`;
+              return `${i + 1}\t${j + 1}\t${value}`;
             })
             .join("\n");
         })

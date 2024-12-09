@@ -12,6 +12,8 @@ import {
   Gauge,
   Truck,
 } from "lucide-react";
+import Footer from "@/components/footer/footer";
+import { ExpandableCardDemo } from "@/components/ui/expandableCard";
 
 export default function LandingPage() {
   return (
@@ -64,22 +66,42 @@ export default function LandingPage() {
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center space-y-10 text-center">
             <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-              Landing page
+              Compact Network Flows for Critical Infrastructure Engineering
               <br />
             </h1>
             <h2 className="mx-auto text-gray-500 md:text-xl">
-              Solving the Backhaul Profit Maximization Problem (BPMP) is one way
-              that third-party logistics (3PL) companies use Operations Research
-              (OR) to gain efficiency and increase profitability. BPMP involves
-              solving two concurrent optimization problems: (1) determining the
-              most efficient route for an empty delivery vehicle to return from
-              its current location to its depot within a scheduled time frame,
-              (2) selecting a subset of available delivery requests along this
-              route to maximize profit, considering the vehicle&apos;s capacity.
-              The video below gives a quick overview of BPMP and shows how 3PL
-              companies can solve it to avoid costly &ldquo;deadhead&rdquo;
-              miles, where vehicles travel empty incurring costs without
-              generating revenue.
+              Networks are ubiquitous. Every day our society relies on networks
+              for energy, transportation, and communication. The design and
+              operation of networks is a major concern that cuts across many
+              engineering disciplines. The Compact Network Flows for Critical
+              Infrastructure Engineering project leverages a new paradigm for
+              the mathematical modeling of network flow to enable (1) the
+              development of faster and more scalable algorithms for solving
+              large, complex routing problems in transportation and (2) the
+              design of resilient telecommunication networks that have the
+              ability to continue to provide a high level of service even when
+              critical components are damaged. If successful, this project will
+              significantly improve our ability to design and operate critical
+              infrastructure networks for logistics and communications. The new
+              paradigm significantly reduces the number of variables and
+              constraints in integer programming models for network optimization
+              problems compared to the standard node-arc representation. This in
+              turn can lead to faster solution algorithms. The goals of the
+              project are to use the paradigm to develop (1) exact algorithms
+              for inherently difficult network optimization problems that find
+              provably optimal solutions in less time than existing methods, and
+              (2) heuristics that quickly find solutions that are high-quality,
+              but not necessarily optimal. <br />
+              <br />
+              This site is supported by the National Science Foundation CMMI
+              division under&nbsp;
+              <a
+                href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=2227548&HistoricalAwards=false"
+                className="underline text-[#0F1F1C] pointer font-semibold "
+              >
+                Award No. 2227548
+              </a>
+              .
             </h2>
             {/* <div className="flex flex-col gap-2 min-[400px]:flex-row">
               <Link
@@ -336,95 +358,18 @@ export default function LandingPage() {
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2 max-w-[800px]">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                Meet our team of <span className="italic">creators</span>,{" "}
-                <span className="italic">designers</span>, and world-class{" "}
-                <span className="italic">problem solvers</span>
+                Meet our team
               </h2>
-              <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+              {/* <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                 To be the company our customers want us to be, it takes an{" "}
                 <span className="italic">eclectic group</span> of passionate
                 operators. Get to know the people{" "}
                 <span className="italic">leading the way</span> at Prodmast.
-              </p>
+              </p> */}
             </div>
           </div>
-          <div className="mx-auto max-w-5xl gap-8 pt-12 flex flex-col items-center">
-            <div className="flex justify-center gap-8">
-              {[
-                {
-                  name: "Dr. Eli Olinick",
-                  role: "Founder & CEO",
-                  image: "/placeholder.svg",
-                },
-                {
-                  name: "Yuanyuan Dong",
-                  role: "Head of Engineering",
-                  image: "/placeholder.svg",
-                },
-              ].map((member, i) => (
-                <div
-                  key={i}
-                  className="group relative w-[300px] overflow-hidden rounded-lg bg-white"
-                >
-                  <div className="aspect-[4/5] relative">
-                    <Image
-                      src={member.image}
-                      alt={member.name}
-                      fill
-                      className="object-cover transition-transform group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </div>
-                  <div className="p-4">
-                    <h3 className="font-bold">{member.name}</h3>
-                    <p className="text-sm text-gray-500 italic">
-                      {member.role}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="flex justify-center gap-8">
-              {[
-                {
-                  name: "Daniel Ryan",
-                  role: "Chief Operating Officer",
-                  image: "/placeholder.svg",
-                },
-                {
-                  name: "Tran Lam",
-                  role: "VP of People",
-                  image: "/placeholder.svg",
-                },
-                {
-                  name: "Sreshta Ghosh",
-                  role: "Head of Product",
-                  image: "/placeholder.svg",
-                },
-              ].map((member, i) => (
-                <div
-                  key={i}
-                  className="group relative w-[300px] overflow-hidden rounded-lg bg-white"
-                >
-                  <div className="aspect-[4/5] relative">
-                    <Image
-                      src={member.image}
-                      alt={member.name}
-                      fill
-                      className="object-cover transition-transform group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </div>
-                  <div className="p-4">
-                    <h3 className="font-bold">{member.name}</h3>
-                    <p className="text-sm text-gray-500 italic">
-                      {member.role}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+
+          <ExpandableCardDemo />
         </div>
       </section>
 
@@ -450,96 +395,7 @@ export default function LandingPage() {
       </section> */}
 
       {/* Footer */}
-      <footer
-        id="footer"
-        className="w-full border-t bg-[#0F1F1C] py-12 md:py-24"
-      >
-        <div className="container grid gap-8 px-4 md:grid-cols-2 lg:grid-cols-4 md:px-6">
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2">
-              {/* <Image
-                src="/placeholder.svg"
-                alt="Prodmast Logo"
-                width={32}
-                height={32}
-                className="rounded-full"
-              /> */}
-              <Truck color="white" />
-              <span className="text-xl font-semibold text-white">BPMP</span>
-            </div>
-            <p className="text-sm text-gray-400">
-              Our solutions make production faster and cheaper. Contact us for
-              more information.
-            </p>
-          </div>
-          <div className="grid gap-4">
-            <h3 className="font-semibold text-white">Company</h3>
-            <nav className="grid gap-2">
-              <Link className="text-sm text-gray-400 hover:text-white" href="#">
-                About
-              </Link>
-              <Link className="text-sm text-gray-400 hover:text-white" href="#">
-                Customers
-              </Link>
-              <Link className="text-sm text-gray-400 hover:text-white" href="#">
-                Newsroom
-              </Link>
-              <Link className="text-sm text-gray-400 hover:text-white" href="#">
-                Events
-              </Link>
-            </nav>
-          </div>
-          <div className="grid gap-4">
-            <h3 className="font-semibold text-white">Industries</h3>
-            <nav className="grid gap-2">
-              <Link className="text-sm text-gray-400 hover:text-white" href="#">
-                Precision Manufacturing
-              </Link>
-              <Link className="text-sm text-gray-400 hover:text-white" href="#">
-                Industrial Manufacturing
-              </Link>
-              <Link className="text-sm text-gray-400 hover:text-white" href="#">
-                High Tech & Electronics
-              </Link>
-              <Link className="text-sm text-gray-400 hover:text-white" href="#">
-                Aerospace
-              </Link>
-            </nav>
-          </div>
-          <div className="grid gap-4">
-            <h3 className="font-semibold text-white">Get in Touch</h3>
-            <div className="flex gap-4">
-              <Link className="text-gray-400 hover:text-white" href="#">
-                hello@bpmp.com
-              </Link>
-            </div>
-            <div className="flex gap-4">
-              <Link className="text-gray-400 hover:text-white" href="#">
-                LinkedIn
-              </Link>
-              <Link className="text-gray-400 hover:text-white" href="#">
-                YouTube
-              </Link>
-              <Link className="text-gray-400 hover:text-white" href="#">
-                Facebook
-              </Link>
-            </div>
-          </div>
-        </div>
-        {/* <div className="container flex flex-col gap-4 px-4 py-4 md:flex-row md:items-center md:justify-between md:px-6">
-          <div className="text-sm text-gray-400">
-            © 2024 Prodmast. All rights reserved.
-          </div>
-          <nav className="flex gap-4">
-            <Link className="text-sm text-gray-400 hover:text-white" href="#">
-              Terms & Conditions
-            </Link>
-            <Link className="text-sm text-gray-400 hover:text-white" href="#">
-              Privacy Policy
-            </Link>
-          </nav>
-        </div> */}
-      </footer>
+      <Footer />
     </div>
   );
 }

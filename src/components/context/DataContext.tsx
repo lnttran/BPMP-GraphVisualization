@@ -66,7 +66,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
         setRetrievedData(data);
         // Set max capacity and max distance
         if (data && data.data) {
-          setNewMaxCapacity(Number(data.data.c));
+          setNewMaxCapacity(Number(data.data.Q));
           setLastNode(Number(data.data.n));
           setNewMaxDistance(Number(data.data.DIS));
         }

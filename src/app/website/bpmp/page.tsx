@@ -69,15 +69,28 @@ export default function BPMPPage() {
             </h1>
             <h2 className="mx-auto text-gray-500 md:text-xl">
               Solving the Backhaul Profit Maximization Problem (BPMP) is one way
-              that third-party logistics (3PL) companies use Operations Research
-              (OR) to gain efficiency and increase profitability. BPMP involves
+              that third-party logistics (3PL) companies use&nbsp;
+              <a
+                href="https://www.informs.org/Explore/Operations-Research-Analytics"
+                className="underline text-[#0F1F1C] pointer font-semibold "
+              >
+                Operations Research&nbsp;
+              </a>
+              (OR) (also known as&nbsp;
+              <a
+                href="https://www.smu.edu/lyle/departments/orem/student-learning-outcomes"
+                className="underline text-[#0F1F1C] pointer font-semibold "
+              >
+                Management Science
+              </a>
+              ) to gain efficiency and increase profitability. BPMP involves
               solving two concurrent optimization problems: (1) determining the
               most efficient route for an empty delivery vehicle to return from
               its current location to its depot within a scheduled time frame,
               (2) selecting a subset of available delivery requests along this
               route to maximize profit, considering the vehicle&apos;s capacity.
               The video below gives a quick overview of BPMP and shows how 3PL
-              companies can solve it to avoid costly &ldquo;deadhead&rdquo;
+              companies can solve it to avoid costly &ldquo;deadhead&ldquo;
               miles, where vehicles travel empty incurring costs without
               generating revenue.
             </h2>
