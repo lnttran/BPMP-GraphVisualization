@@ -17,9 +17,10 @@ import { ExpandableCardDemo } from "@/components/ui/expandableCard";
 
 export default function LandingPage() {
   return (
-    <div className="flex min-h-screen flex-col">
-      {/* Navigation */}
-      {/* <header className="w-full bg-white">
+    <div className="relative">
+      <div className="flex flex-col">
+        {/* Navigation */}
+        {/* <header className="w-full bg-white">
         <div className="container flex h-16 items-center justify-between px-4">
           <div className="flex items-center gap-2">
             <Image
@@ -61,49 +62,50 @@ export default function LandingPage() {
         </div>
       </header> */}
 
-      {/* Hero Section */}
-      <section className="w-full py-12 md:py-24 lg:py-32">
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-col items-center space-y-10 text-center">
-            <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-              Compact Network Flows for Critical Infrastructure Engineering
-              <br />
-            </h1>
-            <h2 className="mx-auto text-gray-500 md:text-xl">
-              Networks are ubiquitous. Every day our society relies on networks
-              for energy, transportation, and communication. The design and
-              operation of networks is a major concern that cuts across many
-              engineering disciplines. The Compact Network Flows for Critical
-              Infrastructure Engineering project leverages a new paradigm for
-              the mathematical modeling of network flow to enable (1) the
-              development of faster and more scalable algorithms for solving
-              large, complex routing problems in transportation and (2) the
-              design of resilient telecommunication networks that have the
-              ability to continue to provide a high level of service even when
-              critical components are damaged. If successful, this project will
-              significantly improve our ability to design and operate critical
-              infrastructure networks for logistics and communications. The new
-              paradigm significantly reduces the number of variables and
-              constraints in integer programming models for network optimization
-              problems compared to the standard node-arc representation. This in
-              turn can lead to faster solution algorithms. The goals of the
-              project are to use the paradigm to develop (1) exact algorithms
-              for inherently difficult network optimization problems that find
-              provably optimal solutions in less time than existing methods, and
-              (2) heuristics that quickly find solutions that are high-quality,
-              but not necessarily optimal. <br />
-              <br />
-              This site is supported by the National Science Foundation CMMI
-              division under&nbsp;
-              <a
-                href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=2227548&HistoricalAwards=false"
-                className="underline text-[#0F1F1C] pointer font-semibold "
-              >
-                Award No. 2227548
-              </a>
-              .
-            </h2>
-            {/* <div className="flex flex-col gap-2 min-[400px]:flex-row">
+        {/* Hero Section */}
+        <section className="w-full py-12 md:py-24 lg:py-32">
+          <div className="container px-4 md:px-6">
+            <div className="flex flex-col items-center space-y-10 text-center">
+              <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
+                Compact Network Flows for Critical Infrastructure Engineering
+                <br />
+              </h1>
+              <h2 className="mx-auto text-gray-500 md:text-xl">
+                Networks are ubiquitous. Every day our society relies on
+                networks for energy, transportation, and communication. The
+                design and operation of networks is a major concern that cuts
+                across many engineering disciplines. The Compact Network Flows
+                for Critical Infrastructure Engineering project leverages a new
+                paradigm for the mathematical modeling of network flow to enable
+                (1) the development of faster and more scalable algorithms for
+                solving large, complex routing problems in transportation and
+                (2) the design of resilient telecommunication networks that have
+                the ability to continue to provide a high level of service even
+                when critical components are damaged. If successful, this
+                project will significantly improve our ability to design and
+                operate critical infrastructure networks for logistics and
+                communications. The new paradigm significantly reduces the
+                number of variables and constraints in integer programming
+                models for network optimization problems compared to the
+                standard node-arc representation. This in turn can lead to
+                faster solution algorithms. The goals of the project are to use
+                the paradigm to develop (1) exact algorithms for inherently
+                difficult network optimization problems that find provably
+                optimal solutions in less time than existing methods, and (2)
+                heuristics that quickly find solutions that are high-quality,
+                but not necessarily optimal. <br />
+                <br />
+                This site is supported by the National Science Foundation CMMI
+                division under&nbsp;
+                <a
+                  href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=2227548&HistoricalAwards=false"
+                  className="underline text-[#0F1F1C] pointer font-semibold "
+                >
+                  Award No. 2227548
+                </a>
+                .
+              </h2>
+              {/* <div className="flex flex-col gap-2 min-[400px]:flex-row">
               <Link
                 className="inline-flex h-10 items-center justify-center rounded-md bg-[#0F1F1C] px-8 text-sm font-medium text-white hover:bg-[#0F1F1C]/90"
                 href="#"
@@ -117,7 +119,7 @@ export default function LandingPage() {
                 Try Demo
               </Link>
             </div> */}
-            {/* <div className="flex items-center gap-1">
+              {/* <div className="flex items-center gap-1">
               {[1, 2, 3, 4, 5].map((i) => (
                 <Star
                   key={i}
@@ -127,9 +129,9 @@ export default function LandingPage() {
               <span className="ml-2 text-sm font-medium">5.0</span>
               <span className="text-sm text-gray-500">from 50 reviews</span>
             </div> */}
-          </div>
+            </div>
 
-          {/*   <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {/*   <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             
              <div className="relative overflow-hidden rounded-lg border bg-white p-6">
               <div className="flex h-full flex-col justify-between">
@@ -164,11 +166,11 @@ export default function LandingPage() {
               </div>
             </div> 
           </div>*/}
-        </div>
-      </section>
+          </div>
+        </section>
 
-      {/* Services Section */}
-      {/* <section
+        {/* Services Section */}
+        {/* <section
         id="service"
         className="w-full bg-[#0F1F1C] py-12 md:py-24 lg:py-32"
       >
@@ -244,8 +246,8 @@ export default function LandingPage() {
         </div>
       </section> */}
 
-      {/* Benefits Section */}
-      {/* <section className="w-full py-12 md:py-24 lg:py-32">
+        {/* Benefits Section */}
+        {/* <section className="w-full py-12 md:py-24 lg:py-32">
         <div className="container grid items-center gap-6 px-4 md:grid-cols-2 md:px-6">
           <div className="space-y-2">
             <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
@@ -317,8 +319,8 @@ export default function LandingPage() {
         </div>
       </section> */}
 
-      {/* Integration Section */}
-      {/* <section className="w-full py-12 md:py-24 lg:py-32">
+        {/* Integration Section */}
+        {/* <section className="w-full py-12 md:py-24 lg:py-32">
         <div className="container grid items-center gap-6 px-4 md:grid-cols-2 md:px-10">
           <div className="flex flex-col justify-center space-y-4">
             <div className="space-y-2">
@@ -352,29 +354,29 @@ export default function LandingPage() {
           </div>
         </div>
       </section> */}
-      {/* Meet Our Team Section */}
-      <section className="w-full py-12 md:py-24 lg:py-32">
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-col items-center justify-center space-y-4 text-center">
-            <div className="space-y-2 max-w-[800px]">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                Meet our team
-              </h2>
-              {/* <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+        {/* Meet Our Team Section */}
+        <section className="w-full py-12 md:py-24 lg:py-32">
+          <div className="container px-4 md:px-6">
+            <div className="flex flex-col items-center justify-center space-y-4 text-center">
+              <div className="space-y-2 max-w-[800px]">
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+                  Meet our team
+                </h2>
+                {/* <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                 To be the company our customers want us to be, it takes an{" "}
                 <span className="italic">eclectic group</span> of passionate
                 operators. Get to know the people{" "}
                 <span className="italic">leading the way</span> at Prodmast.
               </p> */}
+              </div>
             </div>
+
+            <ExpandableCardDemo />
           </div>
+        </section>
 
-          <ExpandableCardDemo />
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      {/* <section className="w-full bg-[#0F1F1C] py-12 md:py-24 lg:py-32">
+        {/* CTA Section */}
+        {/* <section className="w-full bg-[#0F1F1C] py-12 md:py-24 lg:py-32">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <h2 className="text-3xl font-bold tracking-tighter text-white sm:text-4xl md:text-5xl">
@@ -394,8 +396,9 @@ export default function LandingPage() {
         </div>
       </section> */}
 
-      {/* Footer */}
-      <Footer />
+        {/* Footer */}
+        <Footer />
+      </div>
     </div>
   );
 }

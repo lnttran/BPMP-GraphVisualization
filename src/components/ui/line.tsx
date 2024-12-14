@@ -1,6 +1,6 @@
 import React, { CSSProperties } from "react";
 import PropTypes from "prop-types";
-import { FaChevronRight } from "react-icons/fa";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { cn } from "../../lib/utils";
 import {
   GlobalComponentManagerContext,
@@ -44,10 +44,10 @@ export default class Line extends React.Component<{
   render() {
     let from = this.props.from;
     let to = this.props.to;
-    if (to.x < from.x) {
-      from = this.props.to;
-      to = this.props.from;
-    }
+    // if (to.x < from.x) {
+    //   from = this.props.to;
+    //   to = this.props.from;
+    // }
 
     const len = Math.sqrt(
       Math.pow(from.x - to.x, 2) + Math.pow(from.y - to.y, 2)
@@ -81,7 +81,7 @@ export default class Line extends React.Component<{
 
     const arrowStyle: CSSProperties = {
       position: "absolute",
-      left: len - 42 * Math.cos(angle),
+      left: Math.cos(angle) + 18,
       top: "50%",
       transform: "translateY(-50%)",
     };
@@ -94,7 +94,6 @@ export default class Line extends React.Component<{
             onMouseEnter={() => {
               this.setState({ isHovered: true });
               this.props.onMouseEnter();
-
               setComponentState("noteBox", {
                 isVisible: true, // Fixed typo from isVisble to isVisible
               });
@@ -106,7 +105,11 @@ export default class Line extends React.Component<{
           >
             <div style={wrapperStyle}>
               <div style={lineStyle} className={cn(this.props.className)}></div>
-              <FaChevronRight style={arrowStyle} />
+              <FaChevronLeft
+                size={25}
+                style={arrowStyle}
+                className={this.props.className}
+              />
             </div>
           </div>
         )}

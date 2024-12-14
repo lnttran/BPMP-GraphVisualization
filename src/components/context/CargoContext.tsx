@@ -61,6 +61,17 @@ export const CargoProvider: React.FC<CargoProviderProps> = ({ children }) => {
   const { maxCapacity, retrievedData } = useDataContext();
   const { toast } = useToast();
   const weightDistantData = retrievedData?.data?.weightDistantData || [];
+  // let copyRouteWeightMap: Cargo[] = [];
+
+  // useEffect(() => {
+  //   // console.log("RouteWeightMap updated in cargo context:", routeWeightMap);
+  //   // Perform actions with the updated routeWeightMap
+  //   copyRouteWeightMap = structuredClone(routeWeightMap);
+  //   // console.log(
+  //   //   "Copy RouteWeightMap updated in cargo context:",
+  //   //   copyRouteWeightMap
+  //   // );
+  // }, [routeWeightMap]);
 
   const setOptimalSolutionCargo = (
     route: number[],
@@ -112,7 +123,7 @@ export const CargoProvider: React.FC<CargoProviderProps> = ({ children }) => {
         d: weightDistance ? weightDistance.d : 0, // Use distance from data or 0 if not found
       });
     }
-    console.log("initlaise routeWeightmap", updatedRouteWeightMap);
+    // console.log("initlaise routeWeightmap", updatedRouteWeightMap);
 
     updatedCargo.forEach(({ pickup, dropoff, w }) => {
       // Find existing route segment in routeWeightMap
@@ -195,6 +206,7 @@ export const CargoProvider: React.FC<CargoProviderProps> = ({ children }) => {
 
     if (Math.abs(pickupIndex - dropoffIndex) === 1) {
       setSelectedCargo((prevSelectedCargo) => [...prevSelectedCargo, cargo]);
+      // updateCopyRouteWeightMap(cargo);
       setRouteWeightMap((prevRouteWeightMap) => {
         const cargoIndex = prevRouteWeightMap.findIndex(
           (item) =>
@@ -204,7 +216,9 @@ export const CargoProvider: React.FC<CargoProviderProps> = ({ children }) => {
         if (cargoIndex !== -1) {
           // Update the existing cargo by replacing w and d
           return prevRouteWeightMap.map((item, index) =>
-            index === cargoIndex ? { ...item, w: cargo.w, d: cargo.d } : item
+            index === cargoIndex
+              ? { ...item, w: (item.w || 0) + (cargo.w || 0), d: cargo.d }
+              : item
           );
         } else {
           // Add the new cargo
@@ -212,9 +226,10 @@ export const CargoProvider: React.FC<CargoProviderProps> = ({ children }) => {
         }
       });
       // console.log("cargo added");
+      // console.log("Updated Copy RouteWeightMap:", copyRouteWeightMap);
+      // setRouteWeightMap(copyRouteWeightMap);
     } else {
       let modifiedRouteWeightMap = [...routeWeightMap];
-
       let exceedCapacity = false;
       for (let i = pickupIndex; i < dropoffIndex; ++i) {
         modifiedRouteWeightMap = modifiedRouteWeightMap.map((item) => {
@@ -266,6 +281,10 @@ export const CargoProvider: React.FC<CargoProviderProps> = ({ children }) => {
 
       if (!exceedCapacity) {
         setRouteWeightMap(modifiedRouteWeightMap);
+        // console.log(
+        //   "RouteWeighMa after adding cargo helo helo  ",
+        //   modifiedRouteWeightMap
+        // );
         setSelectedCargo((prevSelectedCargo) => [...prevSelectedCargo, cargo]);
         toast({
           variant: "destructive",

@@ -15,7 +15,7 @@ import {
 
 export default function BPMPPage() {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex flex-col">
       {/* Navigation */}
       {/* <header className="w-full bg-white">
         <div className="container flex h-16 items-center justify-between px-4">

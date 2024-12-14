@@ -230,8 +230,6 @@ export default function GraphVisualiser({
   };
 
   const renderRoute = () => {
-    // console.log("weightDistantData:", weightDistantData);
-    // console.log("render route called", selectedRoute);
     let filteredLines: {
       x1: number;
       y1: number;

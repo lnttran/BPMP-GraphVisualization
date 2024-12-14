@@ -48,10 +48,9 @@ type RouteProviderProps = {
 export const RouteProvider: React.FC<RouteProviderProps> = ({ children }) => {
   const [selectedRoute, setSelectedRoute] = useState<number[]>([1]);
   const [totalDistance, setTotalDistance] = useState<number>(0);
-  const [maxDistance, setMaxDistance] = useState<number>(20);
   const [routeWeightMap, setRouteWeightMap] = useState<Cargo[]>([]);
   const { toast } = useToast();
-  const { retrievedData } = useDataContext();
+  const { retrievedData, maxDistance } = useDataContext();
   const weightDistantData = retrievedData?.data?.weightDistantData || [];
   const coordinateData = retrievedData?.coordinate || [];
 
@@ -94,14 +93,6 @@ export const RouteProvider: React.FC<RouteProviderProps> = ({ children }) => {
 
   const getRoute = () => {
     return selectedRoute.join(" -> ");
-  };
-
-  const setNewMaxDistance = (newDistance: number) => {
-    if (newDistance > 0) {
-      setMaxDistance(newDistance);
-    } else {
-      console.error("Max distance must be greater than 0");
-    }
   };
 
   const resetRoute = () => {
@@ -151,11 +142,12 @@ export const RouteProvider: React.FC<RouteProviderProps> = ({ children }) => {
       {
         pickup: selectedRoute[selectedRoute.length - 1],
         dropoff: node,
-        w: weight,
+        w: 0,
         d: distance,
       },
     ]);
     console.log("Route in side adRoute context: ", selectedRoute);
+    console.log("RouteWeighMap", routeWeightMap);
     setTotalDistance((prevTotalDistance) =>
       parseFloat((prevTotalDistance + distance).toFixed(2))
     );

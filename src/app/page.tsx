@@ -16,7 +16,7 @@ import LandingPage from "./website/page";
 
 export default function App() {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="relative h-fit">
       <LandingPage />
     </div>
   );
