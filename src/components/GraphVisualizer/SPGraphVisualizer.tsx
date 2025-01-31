@@ -3,100 +3,24 @@ import React, { useState, useEffect } from "react";
 import { MapInteractionCSS } from "react-map-interaction";
 import Node from "../ui/node";
 import Line from "../ui/line";
-import { useRouteContext } from "../context/RouteContext";
 import NoteBox from "../ui/noteBox";
 import CollapsableSheet from "../collapsableSheet/CollapsableSheet";
-import { useCargoContext } from "../context/CargoContext";
 import { LineType } from "../tools/LineType";
-import { coordinate } from "@/db/coordinate";
-import { DataItem, weightDistant } from "@/db/data";
 import { Plus, Minus } from "lucide-react"; // Import icons
 import { Button } from "../ui/button";
-import { useDataContext } from "../context/DataContext";
-import BPMPContent from "../collapsableSheet/BPMPContent";
+import { useDataSPContext } from "../context/DataSPContext";
+import { useRouteSPContext } from "../context/RouteSPContext";
+import {
+  calculateAngle,
+  calculateSnapPoints,
+  findClosestSnapPoint,
+  getCoordinatesByNode,
+  getWeightDistantbyPickupDropoff,
+} from "./GraphVisualizer";
+import { Point } from "framer-motion";
+import SPContent from "../collapsableSheet/SPContent";
 
-export function getWeightDistantbyPickupDropoff(
-  pickup: number,
-  dropoff: number,
-  data: weightDistant[]
-): { w: number; d: number } {
-  const foundData = data.find(
-    (item) => item.x === pickup && item.y === dropoff
-  );
-  if (foundData === undefined) {
-    throw new Error(
-      `No data found for pickup ${pickup} and dropoff ${dropoff}`
-    );
-  }
-  return { w: foundData.w, d: foundData.d };
-}
-
-//returning the cordinates of lines
-
-export interface Point {
-  x: number;
-  y: number;
-}
-
-export function calculateSnapPoints(
-  cx: number,
-  cy: number,
-  r: number,
-  numPoints: number
-): Point[] {
-  const points: Point[] = [];
-  for (let i = 0; i < numPoints; i++) {
-    const angle = ((2 * Math.PI) / numPoints) * i;
-    const x = cx + r * Math.cos(angle);
-    const y = cy + r * Math.sin(angle);
-    points.push({ x, y });
-  }
-  return points;
-}
-
-export function calculateAngle(
-  cx1: number,
-  cy1: number,
-  cx2: number,
-  cy2: number
-): number {
-  return Math.atan2(cy2 - cy1, cx2 - cx1);
-}
-
-export function findClosestSnapPoint(
-  angle: number,
-  snapPoints: Point[],
-  cx: number,
-  cy: number
-): Point {
-  let minDist = Infinity;
-  let closestPoint: Point | null = null;
-  snapPoints.forEach((point) => {
-    const snapAngle = Math.atan2(point.y - cy, point.x - cx);
-    const dist = Math.abs(snapAngle - angle);
-    if (dist < minDist) {
-      minDist = dist;
-      closestPoint = point;
-    }
-  });
-  if (closestPoint === null) {
-    throw new Error("No closest point found");
-  }
-  return closestPoint;
-}
-
-export function getCoordinatesByNode(
-  node: number,
-  thisCoordinateData: coordinate[]
-) {
-  const nodeData = thisCoordinateData.find((item) => item.node === node);
-  if (nodeData) {
-    return { x: nodeData.x, y: nodeData.y };
-  }
-  throw new Error("Invalid coordinate");
-}
-
-export default function GraphVisualiser({
+export default function SPGraphVisualiser({
   filename,
   resetSignal,
   isToggled,
@@ -106,23 +30,11 @@ export default function GraphVisualiser({
   isToggled: boolean;
 }) {
   const [hoveredNode, setHoveredNode] = useState<number | null>(null);
-  const {
-    selectedRoute,
-    addNodeToRoute,
-    deleteNodeToRoute,
-    resetRoute,
-    routeWeightMap,
-  } = useRouteContext();
-  const {
-    selectedCargo,
-    removeCargoGivenRemovedNode,
-    addCargo,
-    getCurrentRouteWeight,
-    resetCargo,
-  } = useCargoContext();
+  const { selectedRoute, addNodeToRoute, deleteNodeToRoute, resetRoute } =
+    useRouteSPContext();
   const [noteContent, setNoteContent] = useState("");
   const [currentLineType, setCurrentLineType] = useState("");
-  const { retrievedData, lastNode } = useDataContext();
+  const { retrievedData, lastNode } = useDataSPContext();
   const [mapState, setMapState] = useState({
     scale: 0.5,
     translation: { x: 0, y: 0 },
@@ -134,7 +46,6 @@ export default function GraphVisualiser({
 
   useEffect(() => {
     resetRoute();
-    resetCargo();
   }, [filename]);
 
   const lines = weightDistantData.reduce<
@@ -199,18 +110,10 @@ export default function GraphVisualiser({
         weightDistantData
       );
 
-      const { status: result, selectedRoute: thisSelectedRoute } =
-        addNodeToRoute(i, w, d);
-      if (w > 0 && result) {
-        //add the node to the selected cargo by default
-        addCargo(thisSelectedRoute, {
-          pickup: lastElement,
-          dropoff: i,
-          w: w,
-          d: d,
-        });
-      }
+      console.log("this is inside handleonclickedNode", d);
 
+      const { status: result, selectedRoute: thisSelectedRoute } =
+        addNodeToRoute(i, d);
       return result;
     } else {
       let indexToRemove: number = selectedRoute.indexOf(i);
@@ -226,8 +129,6 @@ export default function GraphVisualiser({
       );
       if (indexToRemove !== -1) {
         deleteNodeToRoute(i, d);
-
-        removeCargoGivenRemovedNode(i, weightDistantData);
       }
       return false;
     }
@@ -259,9 +160,9 @@ export default function GraphVisualiser({
             d: line.d,
             from: line.from,
             to: line.to,
-            routeWeightMap: routeWeightMap,
+            // routeWeightMap: routeWeightMap,
             selectedRoute: selectedRoute,
-            selectedCargo: selectedCargo,
+            // selectedCargo: selectedCargo,
           });
 
           return {
@@ -293,9 +194,9 @@ export default function GraphVisualiser({
                 d: line.d,
                 from: startNode,
                 to: endNode,
-                routeWeightMap: routeWeightMap,
+                // routeWeightMap: routeWeightMap,
                 selectedRoute: selectedRoute,
-                selectedCargo: selectedCargo,
+                // selectedCargo: selectedCargo,
               });
               return (
                 line.x1 === getCoordinatesByNode(startNode, coordinateData).x &&
@@ -374,15 +275,13 @@ export default function GraphVisualiser({
   const handleLineMouseEnter = (
     from: number,
     to: number,
-    w: number,
     d: number,
     color: string,
     style: string
   ) => {
     setNoteContent(
-      `From: ${from}\nTo: ${to}\nRequested Cargo: ${w}\nDistance: ${d}\nAccepted Cargo: ${getCurrentRouteWeight(
-        { from: from, to: to }
-      )}`
+      `From: ${from}\nTo: ${to}\nDistance: ${d}\n
+     `
     );
     setCurrentLineType(`${style} ${color}`);
   };
@@ -447,7 +346,6 @@ export default function GraphVisualiser({
                 handleLineMouseEnter(
                   line.from,
                   line.to,
-                  line.w,
                   line.d,
                   line.color,
                   line.style
@@ -533,7 +431,7 @@ export default function GraphVisualiser({
         {noteContent}
       </NoteBox>
       <CollapsableSheet
-        content={() => BPMPContent({ dataItem: retrievedData! })}
+        content={() => SPContent({ dataItem: retrievedData! })}
       />
     </div>
   );

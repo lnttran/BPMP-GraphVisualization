@@ -12,20 +12,24 @@ import { SidebarProvider } from "@/components/Sidebar/SidebarContext";
 import BaseLayout from "@/components/Sidebar/BaseLayout";
 import { Toaster } from "@/components/ui/toaster";
 import { DataProvider } from "@/components/context/DataContext";
+import {
+  DataSPProvider,
+  useDataSPContext,
+} from "@/components/context/DataSPContext";
+import SPGraphVisualization from "@/components/GraphVisualizer/SPCore";
+import { RouteSPProvider } from "@/components/context/RouteSPContext";
 
 export default function Dashboard() {
   return (
     <div className="relative max-h-screen h-full">
       <div className="h-full">
-        <DataProvider>
-          <RouteProvider>
-            <CargoProvider>
-              <GlobalComponentManagerProvider>
-                <GraphVisualization />
-              </GlobalComponentManagerProvider>
-            </CargoProvider>
-          </RouteProvider>
-        </DataProvider>
+        <DataSPProvider>
+          <RouteSPProvider>
+            <GlobalComponentManagerProvider>
+              <SPGraphVisualization />
+            </GlobalComponentManagerProvider>
+          </RouteSPProvider>
+        </DataSPProvider>
       </div>
     </div>
   );

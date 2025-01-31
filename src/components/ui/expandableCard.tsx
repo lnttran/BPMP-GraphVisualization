@@ -246,7 +246,7 @@ const cards = [
       "Associate Professor of Operations Research & Engineering Management",
     title: "Eli Olinick, Ph.D",
     src: "/olinickeli.jpeg",
-    ctaText: "Visit",
+    ctaText: "More",
     ctaLink:
       "https://www.smu.edu/lyle/departments/orem/people/faculty/olinick-eli",
     content: () => {
@@ -264,9 +264,9 @@ const cards = [
   },
   {
     description: "Lana Del Rey 2",
-    title: "YuanYuan Done",
+    title: "YuanYuan Dong",
     src: "",
-    ctaText: "Visit",
+    ctaText: "More",
     ctaLink: "https://ui.aceternity.com/templates",
     content: () => {
       return (
@@ -286,23 +286,19 @@ const cards = [
     },
   },
   {
-    description: "Babbu Maan",
+    description: "",
     title: "Daniel Ryan",
-    src: "",
-    ctaText: "Visit",
-    ctaLink: "https://ui.aceternity.com/templates",
+    src: "/Daniel-Ryan.jpg",
+    ctaText: "More",
+    ctaLink: "https://djryn.github.io",
     content: () => {
       return (
         <p>
-          Babu Maan, a legendary Punjabi singer, is renowned for his soulful
-          voice and profound lyrics that resonate deeply with his audience. Born
-          in the village of Khant Maanpur in Punjab, India, he has become a
-          cultural icon in the Punjabi music industry. <br /> <br /> His songs
-          often reflect the struggles and triumphs of everyday life, capturing
-          the essence of Punjabi culture and traditions. With a career spanning
-          over two decades, Babu Maan has released numerous hit albums and
-          singles that have garnered him a massive fan following both in India
-          and abroad.
+          Daniel Ryan began on this project as an undergraduate at SMU as a part
+          of the SURF program with the Lyle School of Engineering. He later
+          completed his B.A. in Mathematics, Computer Science, and Music at SMU
+          and is currently pursuing his Ph.D. in Mathematics at North Carolina
+          State University.
         </p>
       );
     },
@@ -312,7 +308,7 @@ const cards = [
     description: "Metallica",
     title: "Tran Lam",
     src: "/Tran-Lam-Headshot.jpg",
-    ctaText: "Visit",
+    ctaText: "More",
     ctaLink: "https://ui.aceternity.com/templates",
     content: () => {
       return (
@@ -334,7 +330,7 @@ const cards = [
     description: "Lord Himesh",
     title: "Sreshta Ghosh",
     src: "",
-    ctaText: "Visit",
+    ctaText: "More",
     ctaLink: "https://ui.aceternity.com/templates",
     content: () => {
       return (

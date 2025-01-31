@@ -28,7 +28,7 @@ export default function GraphVisualization() {
   const [isToggled, setIsToggled] = useState(false); // New state for toggle
 
   const { data: filenames, error } = useSWR<string[]>(
-    "/api/data/filename",
+    `/api/data/filename`,
     fetcher
   );
 
@@ -96,13 +96,15 @@ export default function GraphVisualization() {
               </SelectGroup>
             </SelectContent>
           </Select>
-          <div className="flex flex-row gap-4 items-center">
-            <div>Max Capacity</div>
-            <div className="w-[50px] h-[35px] border border-input bg-background text-sm rounded-md flex items-center justify-center">
-              {maxCapacity}
-            </div>
 
-            {/* <Select
+          {maxCapacity && (
+            <div className="flex flex-row gap-4 items-center">
+              <div>Max Capacity</div>
+              <div className="w-[50px] h-[35px] border border-input bg-background text-sm rounded-md flex items-center justify-center">
+                {maxCapacity}
+              </div>
+
+              {/* <Select
               value={maxCapacity.toString()}
               onValueChange={(value) => setNewMaxCapacity(Number(value))}
             >
@@ -117,13 +119,16 @@ export default function GraphVisualization() {
                 ))}
               </SelectContent>
             </Select> */}
-          </div>
-          <div className="flex flex-row gap-4 items-center">
-            <div>Max Distance</div>
-            <div className="w-[50px] h-[35px] border border-input bg-background text-sm rounded-md flex items-center justify-center">
-              {maxDistance}
             </div>
-            {/* <Select
+          )}
+
+          {maxDistance && (
+            <div className="flex flex-row gap-4 items-center">
+              <div>Max Distance</div>
+              <div className="w-[50px] h-[35px] border border-input bg-background text-sm rounded-md flex items-center justify-center">
+                {maxDistance}
+              </div>
+              {/* <Select
               value={maxDistance.toString()}
               onValueChange={(value) => setNewMaxDistance(Number(value))}
             >
@@ -138,7 +143,9 @@ export default function GraphVisualization() {
                 ))}
               </SelectContent>
             </Select> */}
-          </div>
+            </div>
+          )}
+
           <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
             <div className="flex items-center space-x-2">
               <Switch

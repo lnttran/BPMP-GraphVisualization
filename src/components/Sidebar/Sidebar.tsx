@@ -50,7 +50,13 @@ const sidebarItems = [
   // },
 ];
 
-const Sidebar = () => {
+const Sidebar = ({
+  sidebarItems,
+  title,
+}: {
+  sidebarItems: any[];
+  title: string;
+}) => {
   const pathname = usePathname();
   const { isCollapsed, toggleSidebarcollapse } = useContext(SidebarContext);
 
@@ -68,10 +74,10 @@ const Sidebar = () => {
       >
         <div className="flex w-auto min-w-20 gap-4 items-center pb-10 pt-5">
           <Truck className="sidebar__logo" />
-          {!isCollapsed && <p className="text-[24px] font-bold">BPMP</p>}
+          {!isCollapsed && <p className="text-[24px] font-bold">{title}</p>}
         </div>
         <ul className="list-none pt-8">
-          {sidebarItems.map(({ name, href, icon: Icon }) => {
+          {sidebarItems.map(({ name, href, icon }) => {
             return (
               <li key={name}>
                 <Link
@@ -80,9 +86,7 @@ const Sidebar = () => {
                   }`}
                   href={href}
                 >
-                  <span className="sidebar__icon">
-                    <Icon />
-                  </span>
+                  <span className="sidebar__icon">{icon}</span>
                   <span className="sidebar__name">{name}</span>
                 </Link>
               </li>

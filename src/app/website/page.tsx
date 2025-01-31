@@ -65,6 +65,52 @@ export default function LandingPage() {
         {/* Hero Section */}
         <section className="w-full py-12 md:py-24 lg:py-32">
           <div className="container px-4 md:px-6">
+            <div className="flex flex-col items-center space-y-10">
+              <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none text-center">
+                Compact Network Flows for Critical Infrastructure Engineering
+                <br />
+              </h1>
+              <h2 className="mx-auto text-gray-500 md:text-xl text-left">
+                Networks are ubiquitous. Every day our society relies on
+                networks for energy, transportation, and communication. The
+                design and operation of networks is a major concern that cuts
+                across many engineering disciplines. The Compact Network Flows
+                for Critical Infrastructure Engineering project leverages a new
+                paradigm for the mathematical modeling of network flow to enable
+                (1) the development of faster and more scalable algorithms for
+                solving large, complex routing problems in transportation and
+                (2) the design of resilient telecommunication networks that have
+                the ability to continue to provide a high level of service even
+                when critical components are damaged. If successful, this
+                project will significantly improve our ability to design and
+                operate critical infrastructure networks for logistics and
+                communications. The new paradigm significantly reduces the
+                number of variables and constraints in integer programming
+                models for network optimization problems compared to the
+                standard node-arc representation. This in turn can lead to
+                faster solution algorithms. The goals of the project are to use
+                the paradigm to develop (1) exact algorithms for inherently
+                difficult network optimization problems that find provably
+                optimal solutions in less time than existing methods, and (2)
+                heuristics that quickly find solutions that are high-quality,
+                but not necessarily optimal. <br />
+                <br />
+                This site is supported by the National Science Foundation CMMI
+                division under&nbsp;
+                <a
+                  href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=2227548&HistoricalAwards=false"
+                  className="underline text-[#0F1F1C] pointer font-semibold"
+                >
+                  Award No. 2227548
+                </a>
+                .
+              </h2>
+            </div>
+          </div>
+        </section>
+
+        {/* <section className="w-full py-12 md:py-24 lg:py-32">
+          <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center space-y-10 text-center">
               <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
                 Compact Network Flows for Critical Infrastructure Engineering
@@ -104,8 +150,8 @@ export default function LandingPage() {
                   Award No. 2227548
                 </a>
                 .
-              </h2>
-              {/* <div className="flex flex-col gap-2 min-[400px]:flex-row">
+              </h2> */}
+        {/* <div className="flex flex-col gap-2 min-[400px]:flex-row">
               <Link
                 className="inline-flex h-10 items-center justify-center rounded-md bg-[#0F1F1C] px-8 text-sm font-medium text-white hover:bg-[#0F1F1C]/90"
                 href="#"
@@ -119,7 +165,7 @@ export default function LandingPage() {
                 Try Demo
               </Link>
             </div> */}
-              {/* <div className="flex items-center gap-1">
+        {/* <div className="flex items-center gap-1">
               {[1, 2, 3, 4, 5].map((i) => (
                 <Star
                   key={i}
@@ -129,9 +175,9 @@ export default function LandingPage() {
               <span className="ml-2 text-sm font-medium">5.0</span>
               <span className="text-sm text-gray-500">from 50 reviews</span>
             </div> */}
-            </div>
+        {/* </div> */}
 
-            {/*   <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {/*   <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             
              <div className="relative overflow-hidden rounded-lg border bg-white p-6">
               <div className="flex h-full flex-col justify-between">
@@ -166,8 +212,8 @@ export default function LandingPage() {
               </div>
             </div> 
           </div>*/}
-          </div>
-        </section>
+        {/* </div>
+        </section> */}
 
         {/* Services Section */}
         {/* <section

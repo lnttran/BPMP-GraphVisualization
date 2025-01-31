@@ -53,6 +53,12 @@ export default function RootLayout({
                       >
                         BPMP
                       </Link>
+                      <Link
+                        className="text-sm font-medium hover:underline"
+                        href="/website/shortestpath"
+                      >
+                        Shortest Path
+                      </Link>
                     </nav>
                   </div>
                 </header>

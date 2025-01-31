@@ -3,10 +3,6 @@ import { FaMinus, FaStickyNote } from "react-icons/fa";
 import { TfiLineDashed } from "react-icons/tfi";
 import { IoIosArrowForward } from "react-icons/io";
 import { RxDividerHorizontal } from "react-icons/rx";
-import { TbLineDotted } from "react-icons/tb";
-import { useGlobalComponentManager } from "../context/UIContext";
-import { useCargoContext } from "../context/CargoContext";
-import { useRouteContext } from "../context/RouteContext";
 
 const lineTypes = [
   {

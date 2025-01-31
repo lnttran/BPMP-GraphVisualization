@@ -12,8 +12,9 @@ import {
   Gauge,
   Truck,
 } from "lucide-react";
+import Footer from "@/components/footer/footer";
 
-export default function BPMPPage() {
+export default function ShortestPathPage() {
   return (
     <div className="flex flex-col">
       {/* Navigation */}
@@ -64,10 +65,10 @@ export default function BPMPPage() {
         <div className="container px-4 md:px-6">
           <div className="flex flex-col space-y-10 text-center">
             <h1 className="text-3xl font-bold items-center tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-              Backhaul Profit Maximization Problem
+              Shortest Path using Dijkstra
               <br />
             </h1>
-            <h2 className="mx-auto text-gray-500 md:text-xl">
+            <h2 className="mx-auto text-gray-500 items- md:text-xl">
               Solving the Backhaul Profit Maximization Problem (BPMP) is one way
               that third-party logistics (3PL) companies use&nbsp;
               <a
@@ -308,17 +309,6 @@ export default function BPMPPage() {
         </div>
       </section> */}
 
-      <section className="w-full px-72 py-12  bg-[#0F1F1C]">
-        <div className="aspect-video rounded-lg overflow-hidden ">
-          <iframe
-            className="w-full h-full"
-            src="https://www.youtube.com/embed/_vWiEp-XjVU"
-            title="BPMP Demo"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-          ></iframe>
-        </div>
-      </section>
       {/* Integration Section */}
       <section className="w-full py-12 md:py-24 lg:py-32">
         <div className="container grid items-center gap-6 px-4 md:grid-cols-2 md:px-10">
@@ -333,7 +323,7 @@ export default function BPMPPage() {
                 insightful analysis. Watch this video for a demonstration of how
                 to use our BPMP visualization app and{" "}
                 <a
-                  href="/website/bpmp/dashboard"
+                  href="/dashboard/shortestpath"
                   className="underline text-[#0F1F1C] pointer font-semibold hover:font-bold"
                 >
                   click here
@@ -341,24 +331,16 @@ export default function BPMPPage() {
                 to get it try.
               </p>
             </div>
-            {/* <div className="flex flex-col gap-2 min-[400px]:flex-row">
-              <Link
-                className="inline-flex h-10 items-center justify-center rounded-md bg-[#DCFCE7] px-8 text-sm font-medium text-black hover:bg-[#DCFCE7]/90"
-                href="#"
-              >
-                Learn More
-              </Link>
-            </div> */}
           </div>
-          <div className="aspect-video bg-black rounded-lg overflow-hidden">
+          {/* <div className="aspect-video bg-black rounded-lg overflow-hidden">
             <iframe
               className="w-full h-full"
-              src="https://www.youtube.com/embed/gsJjlhx4pkQ"
+              src="https://www.youtube.com/embed/1a5iuO0mO5s"
               title="BPMP Demo"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
             ></iframe>
-          </div>
+          </div> */}
         </div>
       </section>
 
@@ -382,7 +364,7 @@ export default function BPMPPage() {
           </div>
         </div>
       </section> */}
-      <section className="w-full bg-[#0F1F1C] py-12 md:py-24 lg:py-32">
+      {/* <section className="w-full bg-[#0F1F1C] py-12 md:py-24 lg:py-32">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-6 text-center">
             <h2 className="text-3xl font-bold tracking-tighter text-white sm:text-4xl md:text-5xl">
@@ -435,23 +417,17 @@ export default function BPMPPage() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Footer */}
-      <footer
+      {/* <footer
         id="footer"
         className="w-full border-t bg-[#0F1F1C] py-12 md:py-24"
       >
         <div className="container grid gap-8 px-4 md:grid-cols-2 lg:grid-cols-4 md:px-6">
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2">
-              {/* <Image
-                src="/placeholder.svg"
-                alt="Prodmast Logo"
-                width={32}
-                height={32}
-                className="rounded-full"
-              /> */}
+              
               <Truck color="white" />
               <span className="text-xl font-semibold text-white">BPMP</span>
             </div>
@@ -513,8 +489,8 @@ export default function BPMPPage() {
               </Link>
             </div>
           </div>
-        </div>
-        {/* <div className="container flex flex-col gap-4 px-4 py-4 md:flex-row md:items-center md:justify-between md:px-6">
+        </div> */}
+      {/* <div className="container flex flex-col gap-4 px-4 py-4 md:flex-row md:items-center md:justify-between md:px-6">
           <div className="text-sm text-gray-400">
             © 2024 Prodmast. All rights reserved.
           </div>
@@ -527,7 +503,8 @@ export default function BPMPPage() {
             </Link>
           </nav>
         </div> */}
-      </footer>
+      {/* </footer> */}
+      <Footer />
     </div>
   );
 }
