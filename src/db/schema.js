@@ -1,7 +1,10 @@
 import mongoose from "mongoose";
 import { dataSchema } from "./data.ts";
 import { coordinateSchema } from "./coordinate";
-import { optimalSolutionSchema } from "./optimalSolution";
+import {
+  optimalSolutionSchema,
+  optimalSolutionSPSchema,
+} from "./optimalSolution";
 
 //change the bellow for corresponding collection
 const shortestpathDb = mongoose.connection.useDb("shortestpath");
@@ -12,8 +15,8 @@ const coordinateSPModel =
   shortestpathDb.models.Coordinate ||
   shortestpathDb.model("Coordinate", coordinateSchema);
 const optimalSolutionSPModel =
-  shortestpathDb.models.OptimalSolution ||
-  shortestpathDb.model("OptimalSolution", optimalSolutionSchema);
+  shortestpathDb.models.OptimalSolutionSP ||
+  shortestpathDb.model("OptimalSolutionSP", optimalSolutionSPSchema);
 
 const dataModel = mongoose.models.Data || mongoose.model("Data", dataSchema);
 const coordinateModel =

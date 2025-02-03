@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
-import { OptimalSolution } from "@/db/schema"; // Adjust the path as necessary
-import { parseOptimalSolution } from "@/components/tools/dataParser"; // Replace with your parser logic if needed
+import { OptimalSolutionSP } from "@/db/schema"; // Adjust the path as necessary
+import { parseOptimalSolutionSP } from "@/components/tools/dataParser"; // Replace with your parser logic if needed
 
 export async function POST(request) {
   const formData = await request.formData();
@@ -21,7 +21,7 @@ export async function POST(request) {
       const fileContent = buffer.toString("utf8");
 
       // Parse the content into a valid object (implement this in your parser)
-      const data = parseOptimalSolution(fileContent);
+      const data = parseOptimalSolutionSP(fileContent);
 
       const filename = file.name.replace(/\s+/g, "_");
 
@@ -31,7 +31,7 @@ export async function POST(request) {
       };
 
       // Save to the database
-      const savedDocument = await OptimalSolution.create(fileJSON);
+      const savedDocument = await OptimalSolutionSP.create(fileJSON);
       fileJSONArray.push(savedDocument);
     } catch (error) {
       console.error("Error occurred: ", error);
@@ -59,7 +59,7 @@ export async function GET(request) {
 
     await connectDB();
 
-    const solution = await OptimalSolution.findOne({ file: filename });
+    const solution = await OptimalSolutionSP.findOne({ file: filename });
 
     if (!solution) {
       return NextResponse.json(

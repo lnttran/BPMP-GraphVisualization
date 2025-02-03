@@ -94,3 +94,31 @@ function areNodesAdjacentInRoute(
   }
   return false;
 }
+
+export const LineTypeSP = ({
+  d,
+  from,
+  to,
+  selectedRoute,
+}: {
+  d: number;
+  from?: number;
+  to?: number;
+  selectedRoute?: number[];
+}) => {
+  //selected distance has cargo = solid text-accent
+
+  if (selectedRoute && from !== undefined && to !== undefined) {
+    if (areNodesAdjacentInRoute(from, to, selectedRoute)) {
+      return { style: "solid", color: "text-accent", display: "block" };
+    }
+    return { style: "solid", color: "text-accent", display: "hidden" };
+  } else {
+    //unselected distance with cargo
+    return {
+      style: "dashed",
+      color: "text-accent",
+      display: "block",
+    };
+  }
+};

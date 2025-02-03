@@ -5,7 +5,7 @@ import Node from "../ui/node";
 import Line from "../ui/line";
 import NoteBox from "../ui/noteBox";
 import CollapsableSheet from "../collapsableSheet/CollapsableSheet";
-import { LineType } from "../tools/LineType";
+import { LineTypeSP } from "../tools/LineType";
 import { Plus, Minus } from "lucide-react"; // Import icons
 import { Button } from "../ui/button";
 import { useDataSPContext } from "../context/DataSPContext";
@@ -72,7 +72,7 @@ export default function SPGraphVisualiser({
       style: style,
       color: color,
       display: display,
-    } = LineType({ w: w, d: d });
+    } = LineTypeSP({ d: d });
 
     if (node1Coordinates && node2Coordinates) {
       const { x: x1, y: y1 } = node1Coordinates;
@@ -155,8 +155,8 @@ export default function SPGraphVisualiser({
           selectedRoute.includes(line.from) &&
           selectedRoute.includes(line.to)
         ) {
-          const lineType = LineType({
-            w: line.w,
+          const lineType = LineTypeSP({
+            // w: line.w,
             d: line.d,
             from: line.from,
             to: line.to,
@@ -177,6 +177,9 @@ export default function SPGraphVisualiser({
       });
     } else {
       for (let i = 0; i < selectedRoute.length; i++) {
+        if (selectedRoute[i] == lastNode) {
+          continue;
+        }
         if (i < selectedRoute.length - 1) {
           for (let j = i + 1; j < selectedRoute.length; j++) {
             const startNode = selectedRoute[i];
@@ -189,8 +192,7 @@ export default function SPGraphVisualiser({
 
             // Find lines connecting current node to the next node
             const matchingLines = lines.filter((line) => {
-              lineType = LineType({
-                w: line.w,
+              lineType = LineTypeSP({
                 d: line.d,
                 from: startNode,
                 to: endNode,

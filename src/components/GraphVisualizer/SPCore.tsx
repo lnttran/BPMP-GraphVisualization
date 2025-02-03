@@ -14,17 +14,13 @@ import { Switch } from "@/components/ui/switch"; // Import the Switch component
 import { fetcher } from "@/lib/utils";
 import React, { useState } from "react";
 import useSWR from "swr";
-import { useCargoContext } from "@/components/context/CargoContext";
-import { useRouteContext } from "@/components/context/RouteContext";
-import { DataItem } from "@/db/data";
-import { useDataContext } from "../context/DataContext";
 import { useDataSPContext } from "../context/DataSPContext";
 import SPGraphVisualiser from "./SPGraphVisualizer";
 import { useRouteSPContext } from "../context/RouteSPContext";
 
 export default function SPGraphVisualization() {
   const { selectedDataset, setSelectedDataset } = useDataSPContext();
-  const { resetRoute } = useRouteSPContext();
+  const { resetRoute, setOptimalSolutionRoute } = useRouteSPContext();
   const [resetSignal, setResetSignal] = useState(false);
   const [isToggled, setIsToggled] = useState(false); // New state for toggle
 
@@ -41,40 +37,33 @@ export default function SPGraphVisualization() {
     // Add your toggle logic here
   };
 
-  //   const handleShowOptimal = async () => {
-  //     if (!selectedDataset) {
-  //       alert("Please select a dataset first.");
-  //       return;
-  //     }
+  const handleShowOptimal = async () => {
+    if (!selectedDataset) {
+      alert("Please select a dataset first.");
+      return;
+    }
 
-  //     try {
-  //       const response = await fetch(
-  //         `/api/shortestpath/data/optimalSolution?filename=${encodeURIComponent(
-  //           selectedDataset
-  //         )}`
-  //       );
+    try {
+      const response = await fetch(
+        `/api/shortestpath/data/optimalSolution?filename=${encodeURIComponent(
+          selectedDataset
+        )}`
+      );
 
-  //       if (!response.ok) {
-  //         const errorData = await response.json();
-  //         console.error("Failed to fetch optimal solution:", errorData.message);
-  //         alert(`Error: ${errorData.message}`);
-  //         return;
-  //       }
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Failed to fetch optimal solution:", errorData.message);
+        alert(`Error: ${errorData.message}`);
+        return;
+      }
 
-  //       const optimalSolution = await response.json();
-  //       console.log("Optimal Solution:", optimalSolution);
-  //       setOptimalSolutionRoute(
-  //         optimalSolution.content.route,
-  //         optimalSolution.content.cargo
-  //       );
-  //       setOptimalSolutionCargo(
-  //         optimalSolution.content.route,
-  //         optimalSolution.content.cargo
-  //       );
-  //     } catch (error) {
-  //       console.error("Error while fetching optimal solution:", error);
-  //     }
-  //   };
+      const optimalSolution = await response.json();
+      console.log("Optimal Solution:", optimalSolution);
+      setOptimalSolutionRoute(optimalSolution.content.route);
+    } catch (error) {
+      console.error("Error while fetching optimal solution:", error);
+    }
+  };
 
   return (
     <div className="relative bg-background w-full h-full">
@@ -101,7 +90,7 @@ export default function SPGraphVisualization() {
           <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
             <Button
               onClick={() => {
-                // handleShowOptimal();
+                handleShowOptimal();
               }}
               variant="destructive"
               className="text-white w-full sm:w-auto"

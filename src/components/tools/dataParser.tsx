@@ -230,3 +230,11 @@ export function parseOptimalSolution(fileContent: string) {
 
   return { route, cargo, profit };
 }
+export function parseOptimalSolutionSP(fileContent: string) {
+  const lines = fileContent.split("\n").filter((line) => line.trim() !== "");
+
+  const route = JSON.parse(lines[0].trim());
+  const totalDist = parseFloat(lines[1].trim());
+
+  return { route, totalDist };
+}

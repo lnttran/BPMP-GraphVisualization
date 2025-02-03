@@ -22,7 +22,7 @@ import { useDataSPContext } from "./DataSPContext";
 type RouteSPContextType = {
   selectedRoute: number[];
   setSelectedRoute: React.Dispatch<React.SetStateAction<number[]>>;
-  setOptimalSolutionRoute: (route: number[], cargo: [number, number][]) => void;
+  setOptimalSolutionRoute: (route: number[]) => void;
   getRoute: () => string;
   resetRoute: () => void;
   addNodeToRoute: (
@@ -80,10 +80,7 @@ export const RouteSPProvider: React.FC<RouteSPProviderProps> = ({
     setTotalDistance(parseFloat(totalDistance.toFixed(2)));
   };
 
-  const setOptimalSolutionRoute = (
-    route: number[],
-    cargo: [number, number][]
-  ) => {
+  const setOptimalSolutionRoute = (route: number[]) => {
     setSelectedRoute(route);
     calculateTotalDistance(route);
   };
