@@ -23,6 +23,8 @@ export async function POST(request) {
       // Parse the content into a valid object (implement this in your parser)
       const data = parseOptimalSolutionSP(fileContent);
 
+      console.log("data", data);
+
       const filename = file.name.replace(/\s+/g, "_");
 
       const fileJSON = {

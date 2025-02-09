@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch"; // Import the Switch component
 import { fetcher } from "@/lib/utils";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useSWR from "swr";
 import { useDataSPContext } from "../context/DataSPContext";
 import SPGraphVisualiser from "./SPGraphVisualizer";
@@ -20,7 +20,9 @@ import { useRouteSPContext } from "../context/RouteSPContext";
 
 export default function SPGraphVisualization() {
   const { selectedDataset, setSelectedDataset } = useDataSPContext();
-  const { resetRoute, setOptimalSolutionRoute } = useRouteSPContext();
+  const { resetRoute, setOptimalSolutionRoute, setReachableNodes } =
+    useRouteSPContext();
+
   const [resetSignal, setResetSignal] = useState(false);
   const [isToggled, setIsToggled] = useState(false); // New state for toggle
 
@@ -28,6 +30,10 @@ export default function SPGraphVisualization() {
     `/api/shortestpath/data/filename`,
     fetcher
   );
+
+  useEffect(() => {
+    setReachableNodes([]); // Clears reachable nodes
+  }, [selectedDataset]);
 
   if (error) return <div>Failed to load</div>;
   if (!filenames) return <div>Loading...</div>;
@@ -59,7 +65,16 @@ export default function SPGraphVisualization() {
 
       const optimalSolution = await response.json();
       console.log("Optimal Solution:", optimalSolution);
-      setOptimalSolutionRoute(optimalSolution.content.route);
+      if (optimalSolution.content.routes.length > 0) {
+        setOptimalSolutionRoute(
+          optimalSolution.content.routes[
+            optimalSolution.content.routes.length - 1
+          ]
+        );
+      } else {
+        setOptimalSolutionRoute([]); // Handle empty case
+      }
+      setReachableNodes(optimalSolution.content.routes);
     } catch (error) {
       console.error("Error while fetching optimal solution:", error);
     }

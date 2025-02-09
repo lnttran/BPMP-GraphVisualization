@@ -233,8 +233,8 @@ export function parseOptimalSolution(fileContent: string) {
 export function parseOptimalSolutionSP(fileContent: string) {
   const lines = fileContent.split("\n").filter((line) => line.trim() !== "");
 
-  const route = JSON.parse(lines[0].trim());
-  const totalDist = parseFloat(lines[1].trim());
+  const totalDist = parseFloat(lines[0].trim());
+  const routes = lines.slice(1).map((line) => JSON.parse(line.trim()));
 
-  return { route, totalDist };
+  return { routes, totalDist };
 }

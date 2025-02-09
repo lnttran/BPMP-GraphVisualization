@@ -107,8 +107,9 @@ export const LineTypeSP = ({
   selectedRoute?: number[];
 }) => {
   //selected distance has cargo = solid text-accent
-
-  if (selectedRoute && from !== undefined && to !== undefined) {
+  if (d >= 100) {
+    return { style: "solid", color: "text-accent", display: "hidden" };
+  } else if (selectedRoute && from !== undefined && to !== undefined) {
     if (areNodesAdjacentInRoute(from, to, selectedRoute)) {
       return { style: "solid", color: "text-accent", display: "block" };
     }

@@ -25,8 +25,8 @@ export const optimalSolutionSchema = new mongoose.Schema({
 export const optimalSolutionSPSchema = new mongoose.Schema({
     file: String, 
     content: {
-        route: [Number], 
         totalDist: Number,
+        routes: [[Number]], 
     }
 }, {
     collection: "optimalSolutionSP",

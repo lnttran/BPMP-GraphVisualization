@@ -10,11 +10,13 @@ import {
 import { calculateProfit } from "../tools/Tools";
 import { CargoCard } from "./CargoCard";
 import { useRouteSPContext } from "../context/RouteSPContext";
+import { getWeightDistantbyPickupDropoff } from "../GraphVisualizer/GraphVisualizer";
 
 export default function SPContent({ dataItem }: { dataItem: DataItem }) {
   const weightDistantData = dataItem?.data?.weightDistantData || [];
   const informationData = dataItem?.data;
-  const { getRoute, totalDistance, selectedRoute } = useRouteSPContext();
+  const { getRoute, totalDistance, selectedRoute, reachableNodes } =
+    useRouteSPContext();
 
   return (
     <div className="">
@@ -31,6 +33,53 @@ export default function SPContent({ dataItem }: { dataItem: DataItem }) {
           <p className="font-light text-sm">Route</p>
           <div className="font-extrabold text-2xl"> {getRoute()}</div>
         </div>
+        <div className="flex flex-col">
+          <p className="font-light text-sm">Distances</p>
+          <div className="font-extrabold text-2xl">
+            {selectedRoute.length > 1 ? (
+              selectedRoute.map((node, index) => {
+                if (index < selectedRoute.length - 1) {
+                  const from = node;
+                  const to = selectedRoute[index + 1];
+                  const { d } = getWeightDistantbyPickupDropoff(
+                    from,
+                    to,
+                    weightDistantData
+                  );
+                  return (
+                    <div>
+                      {from} -&gt; {to} : {d}
+                    </div>
+                  );
+                }
+                return null;
+              })
+            ) : (
+              <div></div>
+            )}
+          </div>
+        </div>
+        {reachableNodes && reachableNodes.length > 1 && (
+          <div className="flex flex-col">
+            <p className="font-light text-sm">All Reachable Routes</p>
+            <div className="font-bold text-2xl">
+              {reachableNodes.slice(0, -1).map((route, index) => {
+                const lastNode = route[route.length - 1]; // Last node in the route
+                const routeWithoutLast = route.slice(0, -1); // All nodes except last
+
+                return (
+                  <div key={index} className="mb-2 flex items-center gap-1">
+                    <p>{routeWithoutLast.join(" -> ")}</p>
+                    {routeWithoutLast.length > 0 && " -> "}
+                    <div className="px-3 py-1 rounded-sm bg-popover">
+                      {lastNode}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* <Accordion

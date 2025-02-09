@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
-import { Coordinate } from "@/db/schema";
+import { CoordinateSP } from "@/db/schema";
 import { getNodeCoordinate } from "@/components/tools/dataParser";
 
 export async function POST(request) {
@@ -32,7 +32,7 @@ export async function POST(request) {
         content: data,
       };
 
-      await Coordinate.create(fileJSON);
+      await CoordinateSP.create(fileJSON);
       fileJSONArray.push(fileJSON);
     } catch (error) {
       console.log("Error occurred ", error);

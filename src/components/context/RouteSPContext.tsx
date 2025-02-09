@@ -25,6 +25,8 @@ type RouteSPContextType = {
   setOptimalSolutionRoute: (route: number[]) => void;
   getRoute: () => string;
   resetRoute: () => void;
+  reachableNodes: number[][];
+  setReachableNodes: React.Dispatch<React.SetStateAction<number[][]>>;
   addNodeToRoute: (
     node: number,
     distance: number
@@ -46,6 +48,7 @@ export const RouteSPProvider: React.FC<RouteSPProviderProps> = ({
 }) => {
   const [selectedRoute, setSelectedRoute] = useState<number[]>([1]);
   const [totalDistance, setTotalDistance] = useState<number>(0);
+  const [reachableNodes, setReachableNodes] = useState<number[][]>([]);
   const { toast } = useToast();
   const { retrievedData } = useDataSPContext();
   const weightDistantData = retrievedData?.data?.weightDistantData || [];
@@ -91,6 +94,7 @@ export const RouteSPProvider: React.FC<RouteSPProviderProps> = ({
 
   const resetRoute = () => {
     setSelectedRoute([1]);
+    setReachableNodes([]);
     setTotalDistance(0);
   };
 
@@ -155,6 +159,8 @@ export const RouteSPProvider: React.FC<RouteSPProviderProps> = ({
       value={{
         selectedRoute,
         totalDistance,
+        setReachableNodes,
+        reachableNodes,
         resetRoute,
         setSelectedRoute,
         getRoute,
