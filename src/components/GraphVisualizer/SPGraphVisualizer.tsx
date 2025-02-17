@@ -46,7 +46,7 @@ export default function SPGraphVisualiser({
 
   useEffect(() => {
     resetRoute();
-  }, [filename]);
+  }, [filename, resetRoute]);
 
   const lines = weightDistantData.reduce<
     {

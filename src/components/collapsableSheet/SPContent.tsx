@@ -47,7 +47,7 @@ export default function SPContent({ dataItem }: { dataItem: DataItem }) {
                     weightDistantData
                   );
                   return (
-                    <div>
+                    <div key={`${from}-${to}-${index}`}>
                       {from} -&gt; {to} : {d}
                     </div>
                   );

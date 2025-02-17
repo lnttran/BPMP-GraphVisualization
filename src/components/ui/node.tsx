@@ -46,7 +46,7 @@ const Node = ({
   useEffect(() => {
     setIsAdded(onClickedDefault);
     setIsClicked(false);
-  }, [resetSignal, filename]);
+  }, [resetSignal, filename, onClickedDefault]);
 
   return (
     <div>

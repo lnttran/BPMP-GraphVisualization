@@ -33,7 +33,7 @@ export default function SPGraphVisualization() {
 
   useEffect(() => {
     setReachableNodes([]); // Clears reachable nodes
-  }, [selectedDataset]);
+  }, [selectedDataset, setReachableNodes]);
 
   if (error) return <div>Failed to load</div>;
   if (!filenames) return <div>Loading...</div>;

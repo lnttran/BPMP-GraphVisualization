@@ -135,7 +135,7 @@ export default function GraphVisualiser({
   useEffect(() => {
     resetRoute();
     resetCargo();
-  }, [filename]);
+  }, [filename, resetCargo, resetRoute]);
 
   const lines = weightDistantData.reduce<
     {
