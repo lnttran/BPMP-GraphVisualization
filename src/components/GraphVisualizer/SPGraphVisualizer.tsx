@@ -156,13 +156,10 @@ export default function SPGraphVisualiser({
           selectedRoute.includes(line.to)
         ) {
           const lineType = LineTypeSP({
-            // w: line.w,
             d: line.d,
             from: line.from,
             to: line.to,
-            // routeWeightMap: routeWeightMap,
             selectedRoute: selectedRoute,
-            // selectedCargo: selectedCargo,
           });
 
           return {
@@ -196,9 +193,7 @@ export default function SPGraphVisualiser({
                 d: line.d,
                 from: startNode,
                 to: endNode,
-                // routeWeightMap: routeWeightMap,
                 selectedRoute: selectedRoute,
-                // selectedCargo: selectedCargo,
               });
               return (
                 line.x1 === getCoordinatesByNode(startNode, coordinateData).x &&

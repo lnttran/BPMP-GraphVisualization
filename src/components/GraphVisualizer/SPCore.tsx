@@ -103,6 +103,18 @@ export default function SPGraphVisualization() {
           </Select>
 
           <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
+            <div className="flex items-center space-x-2">
+              <Switch
+                checked={isToggled}
+                onCheckedChange={handleToggle}
+                id="toggle-mode"
+                thumbClassName="data-[state=checked]:bg-background data-[state=unchecked]:bg-destructive"
+                className="data-[state=checked]:bg-destructive data-[state=unchecked]:bg-background border-destructive border-[1.5px]"
+              />
+              <label htmlFor="toggle-mode" className="text-sm">
+                View All Requests
+              </label>
+            </div>
             <Button
               onClick={() => {
                 handleShowOptimal();
@@ -110,7 +122,7 @@ export default function SPGraphVisualization() {
               variant="destructive"
               className="text-white w-full sm:w-auto"
             >
-              Show Optimal
+              Show Solution
             </Button>
             <Button
               onClick={() => {

@@ -437,8 +437,6 @@ export default function BPMPPage() {
           </div>
         </div>
       </section>
-
-      {/* Footer */}
       <Footer />
     </div>
   );
