@@ -26,7 +26,7 @@
     "lucide-react": "^0.439.0",
     "lucide-svelte": "^0.396.0",
     "mongodb": "^6.8.0",
-    "mongoose": "^8.5.2",
+    "mongoose": "^8.9.5",
     "next": "14.2.10",
     "next-themes": "^0.3.0",
     "prop-types": "^15.8.1",
