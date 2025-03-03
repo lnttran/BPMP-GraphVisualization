@@ -46,7 +46,7 @@ export default function SPGraphVisualiser({
 
   useEffect(() => {
     resetRoute();
-  }, [filename, resetRoute]);
+  }, [filename]);
 
   const lines = weightDistantData.reduce<
     {
@@ -150,6 +150,8 @@ export default function SPGraphVisualiser({
     }[] = [];
 
     if (isToggled) {
+      const seenPairs = new Set<string>();
+
       filteredLines = lines.map((line) => {
         if (
           selectedRoute.includes(line.from) &&
@@ -160,6 +162,7 @@ export default function SPGraphVisualiser({
             from: line.from,
             to: line.to,
             selectedRoute: selectedRoute,
+            isToggle: isToggled,
           });
 
           return {
@@ -170,6 +173,24 @@ export default function SPGraphVisualiser({
           };
         }
 
+        let pair = `${Math.min(line.from, line.to)}-${Math.max(
+          line.from,
+          line.to
+        )}`;
+
+        let reversePair = `${Math.max(line.from, line.to)}-${Math.min(
+          line.from,
+          line.to
+        )}`;
+
+        if (seenPairs.has(pair) || seenPairs.has(reversePair)) {
+          return {
+            ...line,
+            display: "hidden",
+          };
+        }
+
+        seenPairs.add(pair);
         return line;
       });
     } else {
@@ -194,6 +215,7 @@ export default function SPGraphVisualiser({
                 from: startNode,
                 to: endNode,
                 selectedRoute: selectedRoute,
+                isToggle: isToggled,
               });
               return (
                 line.x1 === getCoordinatesByNode(startNode, coordinateData).x &&
@@ -339,6 +361,7 @@ export default function SPGraphVisualiser({
               style={`${line.style}`}
               className={line.color}
               display={line.display}
+              showArrow={false}
               onMouseEnter={() =>
                 handleLineMouseEnter(
                   line.from,
@@ -400,7 +423,7 @@ export default function SPGraphVisualiser({
         maxScale={3}
         // className="w-full h-full"
       >
-        {renderHoverLines()}
+        {!isToggled && renderHoverLines()}
         {renderRoute()}
         {renderBoardPiece()}
       </MapInteractionCSS>

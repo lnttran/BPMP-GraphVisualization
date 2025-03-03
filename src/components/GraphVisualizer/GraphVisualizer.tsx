@@ -135,7 +135,7 @@ export default function GraphVisualiser({
   useEffect(() => {
     resetRoute();
     resetCargo();
-  }, [filename, resetCargo, resetRoute]);
+  }, [filename]);
 
   const lines = weightDistantData.reduce<
     {
@@ -443,6 +443,7 @@ export default function GraphVisualiser({
               style={`${line.style}`}
               className={line.color}
               display={line.display}
+              showArrow={true}
               onMouseEnter={() =>
                 handleLineMouseEnter(
                   line.from,

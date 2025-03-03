@@ -22,15 +22,22 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"],
-    }
+      "@/*": [
+        "./src/*"
+      ]
+    },
+    "target": "ES2017"
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
-, "src/components/ui/line.jsx", "src/components/ui/arrow.jsx", "src/app/api/data/[...fileName].js", "src/db/data.js"  ],
+    ".next/types/**/*.ts",
+    "src/components/ui/line.jsx",
+    "src/components/ui/arrow.jsx",
+    "src/app/api/data/[...fileName].js",
+    "src/db/data.js"
+  ],
   "exclude": [
     "node_modules"
   ]

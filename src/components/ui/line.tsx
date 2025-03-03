@@ -15,6 +15,7 @@ export default class Line extends React.Component<{
   display: string;
   onMouseEnter: () => void;
   onMouseLeave: () => void;
+  showArrow: boolean;
 }> {
   static propTypes = {
     from: PropTypes.shape({
@@ -105,11 +106,13 @@ export default class Line extends React.Component<{
           >
             <div style={wrapperStyle}>
               <div style={lineStyle} className={cn(this.props.className)}></div>
-              <FaChevronLeft
-                size={25}
-                style={arrowStyle}
-                className={this.props.className}
-              />
+              {this.props.showArrow && (
+                <FaChevronLeft
+                  size={25}
+                  style={arrowStyle}
+                  className={this.props.className}
+                />
+              )}
             </div>
           </div>
         )}

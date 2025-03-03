@@ -95,16 +95,31 @@ function areNodesAdjacentInRoute(
   return false;
 }
 
+function isNodesAdjacentNotInOrderInRoute(
+  from: number,
+  to: number,
+  route: number[]
+): boolean {
+  const fromIndex = route.indexOf(from);
+  const toIndex = route.indexOf(to);
+
+  if (fromIndex === -1 || toIndex === -1) return false; // If not found, return false
+
+  return fromIndex - 1 === toIndex; // Check if from is exactly before to
+}
+
 export const LineTypeSP = ({
   d,
   from,
   to,
   selectedRoute,
+  isToggle = false,
 }: {
   d: number;
   from?: number;
   to?: number;
   selectedRoute?: number[];
+  isToggle?: boolean;
 }) => {
   //selected distance has cargo = solid text-accent
   if (d >= 100) {
@@ -112,6 +127,12 @@ export const LineTypeSP = ({
   } else if (selectedRoute && from !== undefined && to !== undefined) {
     if (areNodesAdjacentInRoute(from, to, selectedRoute)) {
       return { style: "solid", color: "text-accent", display: "block" };
+    }
+    if (isNodesAdjacentNotInOrderInRoute(from, to, selectedRoute)) {
+      return { style: "solid", color: "text-accent", display: "hidden" };
+    }
+    if (from > to && isToggle) {
+      return { style: "dashed", color: "text-accent", display: "block" };
     }
     return { style: "solid", color: "text-accent", display: "hidden" };
   } else {
