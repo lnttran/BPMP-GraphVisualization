@@ -112,7 +112,7 @@ export default function SPGraphVisualization() {
                 className="data-[state=checked]:bg-destructive data-[state=unchecked]:bg-background border-destructive border-[1.5px]"
               />
               <label htmlFor="toggle-mode" className="text-sm">
-                View All Requests
+                View All Arcs
               </label>
             </div>
             <Button
