@@ -186,10 +186,13 @@ export default function GraphVisualiser({
   }, []);
 
   const handleOnClickedNode = (isSelected: boolean, i: number): boolean => {
-    if (i == 0) {
+    if (i == 1) {
       return false;
     }
     if (isSelected) {
+      if (selectedRoute.includes(i)) {
+        return false;
+      }
       //add the node to selected route
       const lastElement = selectedRoute[selectedRoute.length - 1];
 
@@ -214,18 +217,9 @@ export default function GraphVisualiser({
       return result;
     } else {
       let indexToRemove: number = selectedRoute.indexOf(i);
-      const previousElement = selectedRoute[indexToRemove - 1];
-      console.log(
-        "get distant by pickup dropoff called in handle on clicked else statement",
-        selectedRoute
-      );
-      const { w, d } = getWeightDistantbyPickupDropoff(
-        previousElement,
-        i,
-        weightDistantData
-      );
+
       if (indexToRemove !== -1) {
-        deleteNodeToRoute(i, d);
+        deleteNodeToRoute(i);
 
         removeCargoGivenRemovedNode(i, weightDistantData);
       }
@@ -470,7 +464,10 @@ export default function GraphVisualiser({
         y={nodeList.y}
         onMouseEnter={() => setHoveredNode(nodeList.node)}
         onMouseLeave={() => setHoveredNode(null)}
-        onClickedDefault={index === 0}
+        onClickedDefault={
+          selectedRoute.includes(nodeList.node) && nodeList.node != lastNode
+        }
+        isDeparts={index == 0}
         isDepot={lastNode !== null && index === lastNode - 1}
         onClick={(isSelected: boolean) =>
           handleOnClickedNode(isSelected, index + 1)
@@ -478,7 +475,7 @@ export default function GraphVisualiser({
         filename={filename}
         resetSignal={resetSignal}
       >
-        {nodeList.node}{" "}
+        {nodeList.node}
       </Node>
     ));
   };

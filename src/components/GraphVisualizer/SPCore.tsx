@@ -1,5 +1,4 @@
 "use client";
-import GraphVisualiser from "@/components/GraphVisualizer/GraphVisualizer";
 import {
   Select,
   SelectContent,

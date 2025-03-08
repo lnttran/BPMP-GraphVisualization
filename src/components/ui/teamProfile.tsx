@@ -3,8 +3,9 @@ import React, { useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 import Image from "next/image";
+import { Linkedin } from "lucide-react";
 
-export function ExpandableCardDemo() {
+export function TeamProfile() {
   const [active, setActive] = useState<(typeof cards)[number] | boolean | null>(
     null
   );
@@ -68,17 +69,17 @@ export function ExpandableCardDemo() {
             <motion.div
               layoutId={`card-${active.title}-${id}`}
               ref={ref}
-              className="w-full max-w-[500px]  h-full md:h-fit md:max-h-[90%]  flex flex-col bg-white dark:bg-neutral-900 sm:rounded-3xl overflow-hidden"
+              className="w-full max-w-[500px] h-full md:h-fit md:max-h-[90%] flex flex-col bg-white dark:bg-neutral-900 sm:rounded-3xl overflow-hidden"
             >
               <motion.div layoutId={`image-${active.title}-${id}`}>
-                {/* <Image
+                <Image
                   priority
                   width={200}
                   height={200}
                   src={active.src}
                   alt={active.title}
-                  className="w-full h-80 lg:h-80 sm:rounded-tr-lg sm:rounded-tl-lg object-contain object-top"
-                /> */}
+                  className="w-full h-80 sm:rounded-tr-lg sm:rounded-tl-lg object-cover"
+                />
               </motion.div>
 
               <div>
@@ -92,10 +93,25 @@ export function ExpandableCardDemo() {
                     </motion.h3>
                     <motion.p
                       layoutId={`description-${active.description}-${id}`}
-                      className="text-neutral-600 dark:text-neutral-400 text-base "
+                      className="text-neutral-600 dark:text-neutral-400 text-base"
                     >
                       {active.description}
                     </motion.p>
+                    <a
+                      href={
+                        typeof active.linkedin === "string"
+                          ? active.linkedin
+                          : "https://www.linkedin.com"
+                      }
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Linkedin
+                        size={20}
+                        color="white"
+                        className="bg-[#0077B5] p-1 w-auto h-auto rounded-sm mt-5"
+                      />
+                    </a>
                   </div>
 
                   <motion.a
@@ -105,7 +121,7 @@ export function ExpandableCardDemo() {
                     exit={{ opacity: 0 }}
                     href={active.ctaLink}
                     target="_blank"
-                    className="px-4 py-3 text-sm rounded-full font-bold bg-green-500 text-white"
+                    className="px-4 py-3 text-sm rounded-full font-bold bg-[#0F1F1C] text-white"
                   >
                     {active.ctaText}
                   </motion.a>
@@ -140,8 +156,8 @@ export function ExpandableCardDemo() {
               <div className="flex gap-4 flex-col w-full ">
                 <motion.div layoutId={`image-${card.title}-${id}`}>
                   <Image
-                    width={100}
-                    height={100}
+                    width={200}
+                    height={200}
                     src={card.src}
                     alt={card.title}
                     className="h-72 w-full rounded-lg object-cover object-top"
@@ -150,13 +166,13 @@ export function ExpandableCardDemo() {
                 <div className="flex justify-center items-center flex-col ">
                   <motion.h3
                     layoutId={`title-${card.title}-${id}`}
-                    className="font-medium text-neutral-800 dark:text-neutral-200 mb-3 text-center md:text-left text-base"
+                    className="font-medium text-neutral-800 dark:text-neutral-200 mb-3 text-center text-base"
                   >
                     {card.title}
                   </motion.h3>
                   <motion.p
                     layoutId={`description-${card.description}-${id}`}
-                    className="text-neutral-600 dark:text-neutral-400 text-center md:text-left text-base"
+                    className="text-neutral-600 dark:text-neutral-400 text-center text-base"
                   >
                     {card.description}
                   </motion.p>
@@ -177,7 +193,7 @@ export function ExpandableCardDemo() {
               <div className="flex gap-4 flex-col w-full">
                 <motion.div layoutId={`image-${card.title}-${id}`}>
                   <Image
-                    width={100}
+                    width={200}
                     height={200}
                     src={card.src}
                     alt={card.title}
@@ -187,13 +203,13 @@ export function ExpandableCardDemo() {
                 <div className="flex justify-center items-center flex-col">
                   <motion.h3
                     layoutId={`title-${card.title}-${id}`}
-                    className="font-medium text-neutral-800 dark:text-neutral-200 text-center md:text-left text-base"
+                    className="font-medium text-neutral-800 dark:text-neutral-200 text-center text-base"
                   >
                     {card.title}
                   </motion.h3>
                   <motion.p
                     layoutId={`description-${card.description}-${id}`}
-                    className="text-neutral-600 dark:text-neutral-400 text-center md:text-left text-base"
+                    className="text-neutral-600 dark:text-neutral-400 text-center text-base"
                   >
                     {card.description}
                   </motion.p>
@@ -249,6 +265,7 @@ const cards = [
     ctaText: "More",
     ctaLink:
       "https://www.smu.edu/lyle/departments/orem/people/faculty/olinick-eli",
+    linkedin: "https://www.linkedin.com/in/eli-olinick-6ab0541/",
     content: () => {
       return (
         <p>
@@ -265,9 +282,10 @@ const cards = [
   {
     description: "Lana Del Rey 2",
     title: "YuanYuan Dong",
-    src: "",
+    src: "/unknown.png",
     ctaText: "More",
     ctaLink: "https://ui.aceternity.com/templates",
+    linkedin: "https://www.linkedin.com/in/yuanyuan-dong-profile/",
     content: () => {
       return (
         <p>
@@ -286,11 +304,12 @@ const cards = [
     },
   },
   {
-    description: "",
+    description: "Ph.D in Mathematics",
     title: "Daniel Ryan",
     src: "/Daniel-Ryan.jpg",
     ctaText: "More",
     ctaLink: "https://djryn.github.io",
+    linkedin: "https://www.linkedin.com/in/danieljosephryan/",
     content: () => {
       return (
         <p>
@@ -305,45 +324,45 @@ const cards = [
   },
 
   {
-    description: "Metallica",
+    description: "B.S. Computer Science and Data Science",
     title: "Tran Lam",
     src: "/Tran-Lam-Headshot.jpg",
     ctaText: "More",
-    ctaLink: "https://ui.aceternity.com/templates",
+    ctaLink:
+      "https://blog.smu.edu/saes/2025/01/29/undergraduate-research-student-spotlight-tran-lam/",
+    linkedin: "https://www.linkedin.com/in/tranlam06/",
     content: () => {
       return (
         <p>
-          Metallica, an iconic American heavy metal band, is renowned for their
-          powerful sound and intense performances that resonate deeply with
-          their audience. Formed in Los Angeles, California, they have become a
-          cultural icon in the heavy metal music industry. <br /> <br /> Their
-          songs often reflect themes of aggression, social issues, and personal
-          struggles, capturing the essence of the heavy metal genre. With a
-          career spanning over four decades, Metallica has released numerous hit
-          albums and singles that have garnered them a massive fan following
-          both in the United States and abroad.
+          Tran Lam is pursuing a B.S. in Computer Science and Data Science at
+          Southern Methodist University. Through the URI program under Engage
+          Learning, Tran became involved in the research on the Backhaul Profit
+          Maximization Problem (BPMP), focusing on optimizing algorithms to
+          enhance efficiency. In addition to developing faster problem-solving
+          techniques, Tran is also working on a web-based visualization platform
+          to make the research more accessible and engaging for a broader
+          audience.
         </p>
       );
     },
   },
   {
-    description: "Lord Himesh",
+    description: "B.S. Management Science and Data Science",
     title: "Sreshta Ghosh",
-    src: "",
+    src: "/Sreshta-Ghosh.jpeg",
     ctaText: "More",
-    ctaLink: "https://ui.aceternity.com/templates",
+    ctaLink: "https://www.linkedin.com/in/sreshtaghosh/",
+    linkedin: "https://www.linkedin.com/in/sreshtaghosh/",
     content: () => {
       return (
         <p>
-          Himesh Reshammiya, a renowned Indian music composer, singer, and
-          actor, is celebrated for his distinctive voice and innovative
-          compositions. Born in Mumbai, India, he has become a prominent figure
-          in the Bollywood music industry. <br /> <br /> His songs often feature
-          a blend of contemporary and traditional Indian music, capturing the
-          essence of modern Bollywood soundtracks. With a career spanning over
-          two decades, Himesh Reshammiya has released numerous hit albums and
-          singles that have garnered him a massive fan following both in India
-          and abroad.
+          Sreshta Ghosh is an honors student at Southern Methodist University,
+          pursuing a B.S. in Management Science and Data Science with a minor in
+          Business. She is actively involved in research on the Backhaul Profit
+          Maximization Problem (BPMP), focusing on expanding the algorithm to
+          multiple vehicles. Beyond her research, Sreshta is a member of the
+          Society of Women Engineers, the SMU Belletones, and the SMU Crafts
+          Club.
         </p>
       );
     },

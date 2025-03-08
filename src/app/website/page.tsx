@@ -13,7 +13,7 @@ import {
   Truck,
 } from "lucide-react";
 import Footer from "@/components/footer/footer";
-import { ExpandableCardDemo } from "@/components/ui/expandableCard";
+import { TeamProfile } from "@/components/ui/teamProfile";
 
 export default function LandingPage() {
   return (
@@ -417,7 +417,7 @@ export default function LandingPage() {
               </div>
             </div>
 
-            <ExpandableCardDemo />
+            <TeamProfile />
           </div>
         </section>
 

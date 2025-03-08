@@ -2,6 +2,7 @@ import { cn } from "../../lib/utils";
 import React, { useContext, useEffect, useState } from "react";
 import { Button } from "./button";
 import { useRouteContext } from "../context/RouteContext";
+import { useRouteSPContext } from "../context/RouteSPContext";
 
 const Node = ({
   x,
@@ -14,6 +15,7 @@ const Node = ({
   onClickedDefault = false,
   resetSignal,
   filename,
+  isDeparts = false,
   isDepot,
 }: {
   x: number;
@@ -23,6 +25,7 @@ const Node = ({
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
   onClickedDefault?: boolean;
+  isDeparts?: boolean;
   onClick: (isSelected: boolean) => boolean;
   filename: string;
   resetSignal: boolean;
@@ -32,6 +35,9 @@ const Node = ({
   const [isAdded, setIsAdded] = useState(onClickedDefault);
 
   const handleClick = () => {
+    if (isDeparts) {
+      return;
+    }
     const newIsClicked = !isClicked;
     setIsClicked(newIsClicked);
     console.log("isClicked in the node", newIsClicked);
@@ -45,8 +51,8 @@ const Node = ({
 
   useEffect(() => {
     setIsAdded(onClickedDefault);
-    setIsClicked(false);
-  }, [resetSignal, filename]);
+    setIsClicked(onClickedDefault);
+  }, [resetSignal, filename, onClickedDefault]);
 
   return (
     <div>

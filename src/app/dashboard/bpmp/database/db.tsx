@@ -1,15 +1,6 @@
 "use client";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-  SelectLabel,
-  SelectGroup,
-} from "@/components/ui/select";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
@@ -17,10 +8,7 @@ import { fetcher } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
 import useSWR from "swr";
 import { DataItem } from "@/db/data";
-import {
-  convertWeightDistanceData,
-  JSONtoText,
-} from "@/components/tools/dataParser";
+import { JSONtoText } from "@/components/tools/dataParser";
 import { useDataContext } from "@/components/context/DataContext";
 
 export default function DataBase() {

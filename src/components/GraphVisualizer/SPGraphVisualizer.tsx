@@ -97,12 +97,19 @@ export default function SPGraphVisualiser({
   }, []);
 
   const handleOnClickedNode = (isSelected: boolean, i: number): boolean => {
-    if (i == 0) {
+    if (i == 1) {
       return false;
     }
+
     if (isSelected) {
+      if (selectedRoute.includes(i)) {
+        return false;
+      }
       //add the node to selected route
       const lastElement = selectedRoute[selectedRoute.length - 1];
+      if (lastElement == lastNode) {
+        return false;
+      }
 
       const { w, d } = getWeightDistantbyPickupDropoff(
         lastElement,
@@ -110,25 +117,14 @@ export default function SPGraphVisualiser({
         weightDistantData
       );
 
-      console.log("this is inside handleonclickedNode", d);
-
       const { status: result, selectedRoute: thisSelectedRoute } =
         addNodeToRoute(i, d);
       return result;
     } else {
       let indexToRemove: number = selectedRoute.indexOf(i);
-      const previousElement = selectedRoute[indexToRemove - 1];
-      console.log(
-        "get distant by pickup dropoff called in handle on clicked else statement",
-        selectedRoute
-      );
-      const { w, d } = getWeightDistantbyPickupDropoff(
-        previousElement,
-        i,
-        weightDistantData
-      );
+
       if (indexToRemove !== -1) {
-        deleteNodeToRoute(i, d);
+        deleteNodeToRoute(i);
       }
       return false;
     }
@@ -380,24 +376,29 @@ export default function SPGraphVisualiser({
   };
 
   const renderBoardPiece = () => {
-    return coordinateData.map((nodeList, index) => (
-      <Node
-        key={`node-${index}`}
-        x={nodeList.x}
-        y={nodeList.y}
-        onMouseEnter={() => setHoveredNode(nodeList.node)}
-        onMouseLeave={() => setHoveredNode(null)}
-        onClickedDefault={index === 0}
-        isDepot={lastNode !== null && index === lastNode - 1}
-        onClick={(isSelected: boolean) =>
-          handleOnClickedNode(isSelected, index + 1)
-        }
-        filename={filename}
-        resetSignal={resetSignal}
-      >
-        {nodeList.node}{" "}
-      </Node>
-    ));
+    return coordinateData.map((nodeList, index) => {
+      return (
+        <Node
+          key={`node-${index}`}
+          x={nodeList.x}
+          y={nodeList.y}
+          onMouseEnter={() => setHoveredNode(nodeList.node)}
+          onMouseLeave={() => setHoveredNode(null)}
+          onClickedDefault={
+            selectedRoute.includes(nodeList.node) && nodeList.node != lastNode
+          }
+          isDeparts={index == 0}
+          isDepot={lastNode !== null && index === lastNode - 1}
+          onClick={(isSelected: boolean) =>
+            handleOnClickedNode(isSelected, index + 1)
+          }
+          filename={filename}
+          resetSignal={resetSignal}
+        >
+          {nodeList.node}
+        </Node>
+      );
+    });
   };
 
   const handleZoomIn = () => {
@@ -447,7 +448,11 @@ export default function SPGraphVisualiser({
           </div>
         </Button>
       </div>
-      <NoteBox isVisible={true} currentLineType={currentLineType}>
+      <NoteBox
+        isVisible={true}
+        currentLineType={currentLineType}
+        numberOfLine={2}
+      >
         {noteContent}
       </NoteBox>
       <CollapsableSheet

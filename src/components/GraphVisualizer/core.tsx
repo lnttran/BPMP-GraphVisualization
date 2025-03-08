@@ -18,12 +18,17 @@ import { useCargoContext } from "@/components/context/CargoContext";
 import { useRouteContext } from "@/components/context/RouteContext";
 import { DataItem } from "@/db/data";
 import { useDataContext } from "../context/DataContext";
+import { toast } from "sonner";
+import { useToast } from "../ui/use-toast";
+import { ToastDescription, ToastTitle } from "@radix-ui/react-toast";
+import { MdErrorOutline } from "react-icons/md";
 
 export default function GraphVisualization() {
   const { resetCargo, setOptimalSolutionCargo } = useCargoContext();
   const { resetRoute, setOptimalSolutionRoute } = useRouteContext();
   const { selectedDataset, setSelectedDataset, maxCapacity, maxDistance } =
     useDataContext();
+  const { toast } = useToast();
   const [resetSignal, setResetSignal] = useState(false);
   const [isToggled, setIsToggled] = useState(false); // New state for toggle
 
@@ -55,8 +60,23 @@ export default function GraphVisualization() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.error("Failed to fetch optimal solution:", errorData.message);
-        alert(`Error: ${errorData.message}`);
+        // console.error("Failed to fetch optimal solution:", errorData.message);
+
+        toast({
+          variant: "destructive",
+          style: { height: "auto", borderRadius: "15px" },
+          description: (
+            <div className="flex flex-row items-center gap-10">
+              <MdErrorOutline className="text-white" size={"50px"} />
+              <div>
+                <ToastTitle className="text-xl font-bold text-white">
+                  {`Solution is not yet available! `}
+                </ToastTitle>
+                <ToastDescription className="text-lg text-white">{`${errorData.message}`}</ToastDescription>
+              </div>
+            </div>
+          ),
+        });
         return;
       }
 

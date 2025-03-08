@@ -33,7 +33,7 @@ type RouteContextType = {
     weight: number,
     distance: number
   ) => { status: boolean; selectedRoute: number[] };
-  deleteNodeToRoute: (nodeToRemove: number, distance: number) => void;
+  deleteNodeToRoute: (nodeToRemove: number) => void;
   totalDistance: number;
 };
 
@@ -170,13 +170,17 @@ export const RouteProvider: React.FC<RouteProviderProps> = ({ children }) => {
     return { status: true, selectedRoute: updatedRoute };
   };
 
-  const deleteNodeToRoute = (nodeToRemove: number, distance: number) => {
-    setSelectedRoute((prevRoute) =>
-      prevRoute.filter((n) => n !== nodeToRemove)
-    );
-    setTotalDistance((prevTotalDistance) =>
-      parseFloat((prevTotalDistance - distance).toFixed(2))
-    );
+  const deleteNodeToRoute = (nodeToRemove: number) => {
+    setSelectedRoute((prevRoute) => {
+      // Filter out the node to remove and get the new route
+      const updatedRoute = prevRoute.filter((n) => n !== nodeToRemove);
+
+      // Use the updated route immediately for calculation
+      calculateTotalDistance(updatedRoute);
+
+      // Return the updated route to update the state
+      return updatedRoute;
+    });
     toast({
       variant: "destructive",
       style: { height: "auto", borderRadius: "15px" },

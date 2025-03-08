@@ -3,6 +3,7 @@ import { FaMinus, FaStickyNote } from "react-icons/fa";
 import { TfiLineDashed } from "react-icons/tfi";
 import { IoIosArrowForward } from "react-icons/io";
 import { RxDividerHorizontal } from "react-icons/rx";
+import { number } from "prop-types";
 
 const lineTypes = [
   {
@@ -35,10 +36,12 @@ const NoteBox = ({
   isVisible,
   currentLineType,
   children,
+  numberOfLine = 4,
 }: {
   isVisible: boolean;
   currentLineType: string;
   children: React.ReactNode;
+  numberOfLine?: number;
 }) => {
   const [isOpen, setIsOpen] = useState(true);
 
@@ -80,7 +83,7 @@ const NoteBox = ({
             {/* Line Type Node */}
             <div className="flex mx-3 mt-2 flex-col">
               <p className="mb-2 font-bold">Line Types:</p>
-              {lineTypes.map((lineType, index) => (
+              {lineTypes.slice(0, numberOfLine).map((lineType, index) => (
                 <div
                   key={index}
                   className={`px-2 rounded-md ${
