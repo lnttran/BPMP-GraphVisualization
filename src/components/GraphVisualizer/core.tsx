@@ -101,30 +101,32 @@ export default function GraphVisualization() {
         <h1 className="font-extrabold text-[32px] sm:text-3xl md:text-[32px]">
           Graph Visualization
         </h1>
-        <div className="bg-popover rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 space-y-3 sm:space-y-0">
-          <Select value={selectedDataset} onValueChange={setSelectedDataset}>
-            <SelectTrigger className="w-full sm:w-[300px] md:w-[400px] border-black">
-              <SelectValue placeholder="Select dataset" />
-            </SelectTrigger>
-            <SelectContent className="text-text__primary bg-background">
-              <SelectGroup>
-                {filenames.map((filename) => (
-                  <SelectItem key={filename} value={filename}>
-                    {filename}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+        <div className="bg-popover rounded-xl flex flex-col xl:flex-row items-start justify-between p-3 gap-3">
+          <div className="flex lg:flex-row md:flex-col flex-col justify-between gap-3 w-full">
+            <Select value={selectedDataset} onValueChange={setSelectedDataset}>
+              <SelectTrigger className="w-full  lg:w-[500px] xl:w-[400px] border-black">
+                <SelectValue placeholder="Select dataset" />
+              </SelectTrigger>
+              <SelectContent className="text-text__primary bg-background">
+                <SelectGroup>
+                  {filenames.map((filename) => (
+                    <SelectItem key={filename} value={filename}>
+                      {filename}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
 
-          {maxCapacity && (
-            <div className="flex flex-row gap-4 items-center">
-              <div>Max Capacity</div>
-              <div className="w-[50px] h-[35px] border border-input bg-background text-sm rounded-md flex items-center justify-center">
-                {maxCapacity}
-              </div>
+            <div className="flex flex-row gap-3">
+              {maxCapacity && (
+                <div className="flex flex-row gap-4 items-center">
+                  <div>Max Capacity</div>
+                  <div className="w-[50px] h-[35px] border border-input bg-background text-sm rounded-md flex items-center justify-center">
+                    {maxCapacity}
+                  </div>
 
-              {/* <Select
+                  {/* <Select
               value={maxCapacity.toString()}
               onValueChange={(value) => setNewMaxCapacity(Number(value))}
             >
@@ -139,16 +141,16 @@ export default function GraphVisualization() {
                 ))}
               </SelectContent>
             </Select> */}
-            </div>
-          )}
+                </div>
+              )}
 
-          {maxDistance && (
-            <div className="flex flex-row gap-4 items-center">
-              <div>Max Distance</div>
-              <div className="w-[50px] h-[35px] border border-input bg-background text-sm rounded-md flex items-center justify-center">
-                {maxDistance}
-              </div>
-              {/* <Select
+              {maxDistance && (
+                <div className="flex flex-row gap-4 items-center">
+                  <div>Max Distance</div>
+                  <div className="w-[50px] h-[35px] border border-input bg-background text-sm rounded-md flex items-center justify-center">
+                    {maxDistance}
+                  </div>
+                  {/* <Select
               value={maxDistance.toString()}
               onValueChange={(value) => setNewMaxDistance(Number(value))}
             >
@@ -163,9 +165,10 @@ export default function GraphVisualization() {
                 ))}
               </SelectContent>
             </Select> */}
+                </div>
+              )}
             </div>
-          )}
-
+          </div>
           <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
             <div className="flex items-center space-x-2">
               <Switch

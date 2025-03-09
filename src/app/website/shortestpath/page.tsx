@@ -68,32 +68,20 @@ export default function ShortestPathPage() {
               Shortest Path using Dijkstra
               <br />
             </h1>
-            <h2 className="mx-auto text-gray-500 items- md:text-xl">
-              Solving the Backhaul Profit Maximization Problem (BPMP) is one way
-              that third-party logistics (3PL) companies use&nbsp;
-              <a
-                href="https://bit.ly/49DEsSf"
-                className="underline text-[#0F1F1C] pointer font-semibold "
-              >
-                Operations Research&nbsp;
-              </a>
-              (OR) (also known as&nbsp;
-              <a
-                href="https://bit.ly/3BcW8aJ"
-                className="underline text-[#0F1F1C] pointer font-semibold "
-              >
-                Management Science
-              </a>
-              ) to gain efficiency and increase profitability. BPMP involves
-              solving two concurrent optimization problems: (1) determining the
-              most efficient route for an empty delivery vehicle to return from
-              its current location to its depot within a scheduled time frame,
-              (2) selecting a subset of available delivery requests along this
-              route to maximize profit, considering the vehicle&apos;s capacity.
-              The video below gives a quick overview of BPMP and shows how 3PL
-              companies can solve it to avoid costly &ldquo;deadhead&ldquo;
-              miles, where vehicles travel empty incurring costs without
-              generating revenue.
+            <h2 className="mx-auto text-gray-500 md:text-xl text-left">
+              Dijkstra&apos;s algorithm is a fundamental approach in Operations
+              Research and Computer Science for finding the shortest path
+              between nodes in a graph. It is widely used in transportation,
+              network routing, and logistics to optimize travel efficiency and
+              reduce costs. The algorithm works by iteratively selecting the
+              node with the smallest known distance, updating its neighbors, and
+              expanding the search until the shortest path to all reachable
+              nodes is determined. This method is particularly valuable for
+              third-party logistics (3PL) companies, enabling them to optimize
+              delivery routes, minimize fuel consumption, and improve overall
+              efficiency. The video below provides an overview of
+              Dijkstra&apos;s algorithm and demonstrates its applications in
+              real-world scenarios.
             </h2>
             {/* <div className="flex flex-col gap-2 min-[400px]:flex-row">
               <Link
@@ -318,15 +306,15 @@ export default function ShortestPathPage() {
                 Discover Powerful Graph Visualizations
               </h2>
               <p className="max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Explore our interactive demo to see how our solution enables
-                efficient route optimization, real-time data integration, and
-                insightful analysis. Watch this video for a demonstration of how
-                to use our BPMP visualization app and{" "}
+                Explore our interactive demo to see how Dijkstra’s algorithm
+                efficiently finds the shortest path in complex networks. Our
+                solution enables real-time route optimization, dynamic data
+                integration, and insightful analysis.{" "}
                 <a
                   href="/dashboard/shortestpath"
                   className="underline text-[#0F1F1C] pointer font-semibold hover:font-bold"
                 >
-                  click here
+                  Click here
                 </a>{" "}
                 to get it try.
               </p>

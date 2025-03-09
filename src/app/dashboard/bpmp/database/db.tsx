@@ -7,6 +7,15 @@ import { Switch } from "@/components/ui/switch";
 import { fetcher } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
 import useSWR from "swr";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  SelectLabel,
+  SelectGroup,
+} from "@/components/ui/select";
 import { DataItem } from "@/db/data";
 import { JSONtoText } from "@/components/tools/dataParser";
 import { useDataContext } from "@/components/context/DataContext";
@@ -53,9 +62,9 @@ export default function DataBase() {
     <div className="relative bg-background h-full">
       <div className="relative flex flex-col gap-4 h-full">
         <div className="font-extrabold text-[32px]">Data</div>
-        <div className="relative w-full bg-popover rounded-xl flex flex-row gap-4 h-full p-5">
-          <div className="relative bg-background rounded-xl h-full p-5 w-2/6 flex flex-col gap-2">
-            <div className="flex items-center space-x-2 mb-2">
+        <div className="relative w-full bg-popover rounded-xl flex lg:flex-row md:flex-col flex-col gap-4 h-full p-5 ">
+          <div className="bg-background rounded-xl lg:h-full p-5 lg:w-2/6 flex lg:flex-col md:flex-row md:justify-between flex-col gap-4 align-middle">
+            <div className="flex items-center space-x-2">
               <Switch
                 checked={showJSON}
                 onCheckedChange={setShowJSON}
@@ -65,7 +74,7 @@ export default function DataBase() {
               <div>Show JSON format</div>
             </div>
 
-            <ScrollArea className="h-full border-[1.5px] rounded-lg border-destructive">
+            <ScrollArea className="h-full border-[1.5px] rounded-lg border-destructive hidden md:hidden lg:block">
               {filenames.map((filename) => (
                 <Button
                   key={filename}
@@ -79,6 +88,20 @@ export default function DataBase() {
                 </Button>
               ))}
             </ScrollArea>
+            <Select value={selectedValue} onValueChange={setSelectedValue}>
+              <SelectTrigger className="w-full md:w-[400px] border-black flex lg:hidden">
+                <SelectValue placeholder="Select dataset" />
+              </SelectTrigger>
+              <SelectContent className="text-text__primary bg-background">
+                <SelectGroup>
+                  {filenames.map((filename) => (
+                    <SelectItem key={filename} value={filename}>
+                      {filename}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           </div>
           <div className="relative w-full bg-background rounded-xl h-full">
             <Tabs defaultValue="request" className="relative w-full h-full">

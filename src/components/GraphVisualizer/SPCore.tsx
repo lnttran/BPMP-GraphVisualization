@@ -85,9 +85,9 @@ export default function SPGraphVisualization() {
         <h1 className="font-extrabold text-[32px] sm:text-3xl md:text-[32px]">
           Graph Visualization
         </h1>
-        <div className="bg-popover rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 space-y-3 sm:space-y-0">
+        <div className="bg-popover rounded-xl flex flex-col md:flex-row items-start md:items-center justify-between p-3 gap-2">
           <Select value={selectedDataset} onValueChange={setSelectedDataset}>
-            <SelectTrigger className="w-full sm:w-[300px] md:w-[400px] border-black">
+            <SelectTrigger className="sm:w-[500px] md:w-[300px] lg:w-[400px] border-black">
               <SelectValue placeholder="Select dataset" />
             </SelectTrigger>
             <SelectContent className="text-text__primary bg-background">

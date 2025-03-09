@@ -68,7 +68,7 @@ export default function BPMPPage() {
               Backhaul Profit Maximization Problem
               <br />
             </h1>
-            <h2 className="mx-auto text-gray-500 md:text-xl">
+            <h2 className="mx-auto text-gray-500 md:text-xl text-left">
               Solving the Backhaul Profit Maximization Problem (BPMP) is one way
               that third-party logistics (3PL) companies use&nbsp;
               <a
@@ -309,8 +309,8 @@ export default function BPMPPage() {
         </div>
       </section> */}
 
-      <section className="w-full px-72 py-12  bg-[#0F1F1C]">
-        <div className="aspect-video rounded-lg overflow-hidden ">
+      <section className="w-full px-4 sm:px-10 md:px-16 lg:px-72 py-12 bg-[#0F1F1C]">
+        <div className="aspect-video rounded-lg overflow-hidden">
           <iframe
             className="w-full h-full"
             src="https://www.youtube.com/embed/_vWiEp-XjVU"
@@ -324,11 +324,11 @@ export default function BPMPPage() {
       <section className="w-full py-12 md:py-24 lg:py-32">
         <div className="container grid items-center gap-6 px-4 md:grid-cols-2 md:px-10">
           <div className="flex flex-col justify-center space-y-4">
-            <div className="space-y-2">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+            <div className="space-y-2 ">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl sm:text-center md:text-left">
                 Discover Powerful Graph Visualizations
               </h2>
-              <p className="max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+              <p className="max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed sm:text-center  md:text-left">
                 Explore our interactive demo to see how our solution enables
                 efficient route optimization, real-time data integration, and
                 insightful analysis. Watch this video for a demonstration of how

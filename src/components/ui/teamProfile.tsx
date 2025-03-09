@@ -280,7 +280,7 @@ const cards = [
     },
   },
   {
-    description: "Lana Del Rey 2",
+    description: "",
     title: "YuanYuan Dong",
     src: "/unknown.png",
     ctaText: "More",
