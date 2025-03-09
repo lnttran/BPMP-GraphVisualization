@@ -1,21 +1,18 @@
 "use client";
 
-import { RouteProvider } from "@/components/context/RouteContext";
-import { CargoProvider } from "@/components/context/CargoContext";
 import { GlobalComponentManagerProvider } from "@/components/context/UIContext";
-import { DataProvider } from "@/components/context/DataContext";
 import SPDataBase from "./db";
+import { DataSPProvider } from "@/components/context/DataSPContext";
+import { RouteSPProvider } from "@/components/context/RouteSPContext";
 
 export default function DataBaseWrapper() {
   return (
-    <DataProvider>
-      <RouteProvider>
-        <CargoProvider>
-          <GlobalComponentManagerProvider>
-            <SPDataBase />
-          </GlobalComponentManagerProvider>
-        </CargoProvider>
-      </RouteProvider>
-    </DataProvider>
+    <DataSPProvider>
+      <RouteSPProvider>
+        <GlobalComponentManagerProvider>
+          <SPDataBase />
+        </GlobalComponentManagerProvider>
+      </RouteSPProvider>
+    </DataSPProvider>
   );
 }

@@ -132,7 +132,7 @@ export function TeamProfile() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="text-neutral-600 text-xs md:text-sm lg:text-base h-40 md:h-fit pb-10 flex flex-col items-start gap-4 overflow-auto dark:text-neutral-400 [mask:linear-gradient(to_bottom,white,white,transparent)] [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch]"
+                    className="text-neutral-600 text-xs md:text-sm lg:text-base h-40 md:h-fit pb-10 flex flex-col items-start gap-4 overflow-auto dark:text-neutral-400  [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch]"
                   >
                     {typeof active.content === "function"
                       ? active.content()
@@ -188,9 +188,9 @@ export function TeamProfile() {
               layoutId={`card-${card.title}-${id}`}
               key={card.title}
               onClick={() => setActive(card)}
-              className="p-4 group relative w-[300px] overflow-hidden  hover:bg-neutral-50 dark:hover:bg-neutral-800 rounded-xl cursor-pointer"
+              className="p-4 group relative w-[300px] overflow-hidden hover:bg-neutral-50 dark:hover:bg-neutral-800 rounded-xl cursor-pointer"
             >
-              <div className="flex gap-4 flex-col w-full">
+              <div className="flex gap-4 flex-col w-full ">
                 <motion.div layoutId={`image-${card.title}-${id}`}>
                   <Image
                     width={200}
@@ -200,10 +200,10 @@ export function TeamProfile() {
                     className="h-72 w-full rounded-lg object-cover object-top"
                   />
                 </motion.div>
-                <div className="flex justify-center items-center flex-col">
+                <div className="flex justify-center items-center flex-col ">
                   <motion.h3
                     layoutId={`title-${card.title}-${id}`}
-                    className="font-medium text-neutral-800 dark:text-neutral-200 text-center text-base"
+                    className="font-medium text-neutral-800 dark:text-neutral-200 mb-3 text-center text-base"
                   >
                     {card.title}
                   </motion.h3>
@@ -280,31 +280,32 @@ const cards = [
     },
   },
   {
-    description: "",
+    description: "M.S. in Management Science and Ph.D. in Operations Research",
     title: "YuanYuan Dong",
-    src: "/unknown.png",
+    src: "/Yuanyuan (Angela).JPG",
     ctaText: "More",
-    ctaLink: "https://ui.aceternity.com/templates",
+    ctaLink: "https://www.linkedin.com/in/yuanyuan-dong-profile/",
     linkedin: "https://www.linkedin.com/in/yuanyuan-dong-profile/",
     content: () => {
       return (
         <p>
-          Lana Del Rey, an iconic American singer-songwriter, is celebrated for
-          her melancholic and cinematic music style. Born Elizabeth Woolridge
-          Grant in New York City, she has captivated audiences worldwide with
-          her haunting voice and introspective lyrics. <br /> <br /> Her songs
-          often explore themes of tragic romance, glamour, and melancholia,
-          drawing inspiration from both contemporary and vintage pop culture.
-          With a career that has seen numerous critically acclaimed albums, Lana
-          Del Rey has established herself as a unique and influential figure in
-          the music industry, earning a dedicated fan base and numerous
-          accolades.
+          Yuanyuan (Angela) Dong received B.S. (2003) in Civil Aviation
+          Transportation Management from Nanjing University of Aeronautics and
+          Astronautics, M.S. (2006) in Management Science from Nanjing
+          University, and Ph.D. (2015) in Operations Research from Southern
+          Methodist University (SMU). She worked on ground transportation as an
+          operations research scientist at Amazon from 2016 to 2018. After being
+          an independent researcher from 2019 to 2022, she became the
+          postdoctoral researcher at SMU from 2023 to 2025. Her research
+          interest includes applied optimization, heuristics, logistics and
+          supply chain management, vehicle routing problem, and network
+          problems.
         </p>
       );
     },
   },
   {
-    description: "Ph.D in Mathematics",
+    description: "Ph.D candidate in Mathematics",
     title: "Daniel Ryan",
     src: "/Daniel-Ryan.jpg",
     ctaText: "More",
@@ -324,7 +325,7 @@ const cards = [
   },
 
   {
-    description: "B.S. Computer Science and Data Science",
+    description: "B.S. in Computer Science and Data Science",
     title: "Tran Lam",
     src: "/Tran-Lam-Headshot.jpg",
     ctaText: "More",
@@ -347,7 +348,7 @@ const cards = [
     },
   },
   {
-    description: "B.S. Management Science and Data Science",
+    description: "B.S. in Management Science and Data Science",
     title: "Sreshta Ghosh",
     src: "/Sreshta-Ghosh.jpeg",
     ctaText: "More",

@@ -97,9 +97,7 @@ export const DataSPProvider: React.FC<DataSPProviderProps> = ({ children }) => {
       value={{
         setSelectedDataset,
         retrievedData,
-        // maxCapacity,
         lastNode,
-        // maxDistance,
         selectedDataset,
       }}
     >

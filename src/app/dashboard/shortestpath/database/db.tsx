@@ -21,10 +21,10 @@ import {
   convertWeightDistanceData,
   JSONtoText,
 } from "@/components/tools/dataParser";
-import { useDataContext } from "@/components/context/DataContext";
+import { useDataSPContext } from "@/components/context/DataSPContext";
 
 export default function SPDataBase() {
-  const { selectedDataset } = useDataContext();
+  const { selectedDataset } = useDataSPContext();
   const [selectedValue, setSelectedValue] = useState(selectedDataset);
   const [showJSON, setShowJSON] = useState(false);
   const [retrievedData, setRetrievedData] = useState<DataItem[] | null>(null);
@@ -33,6 +33,10 @@ export default function SPDataBase() {
     "/api/shortestpath/data/filename",
     fetcher
   );
+
+  useEffect(() => {
+    console.log(selectedDataset, "selected date set");
+  });
 
   useEffect(() => {
     const fetchData = async () => {

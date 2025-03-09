@@ -96,7 +96,7 @@ export function convertWeightDistanceData(fileContent: string) {
     }
 
     // Combine "w" and "d" into coordinate data
-    for (const key in wMap) {
+    for (const key in dMap) {
       const [x, y] = key.split(",").map(Number);
       coordinateData.push({
         w: wMap[key],
@@ -166,13 +166,6 @@ export function JSONtoText(data: {
   DIS: number;
   weightDistantData: weightDistant[] | null;
 }) {
-  // const n = 5;
-  // const p = 1.2;
-  // const c = 1;
-  // const Q = 1;
-  // const v = 0.1;
-  // const DIS = 20;
-
   const weightDistantData = data.weightDistantData!;
 
   // Initialize matrices
@@ -204,6 +197,10 @@ export function JSONtoText(data: {
     );
   };
 
+  const hasWeightValues = weightMatrix.some((row) =>
+    row.some((value) => value !== undefined)
+  );
+
   // Construct the output text
   const result = [
     `param n:=${data.n};`,
@@ -212,13 +209,15 @@ export function JSONtoText(data: {
     `param Q:=${data.Q};`,
     `param v:=${data.v};`,
     `param DIS:=${data.DIS};`,
-    `param w :=`,
-    formatMatrix(weightMatrix),
-    `param d :=`,
-    formatMatrix(distanceMatrix),
-  ].join("\n");
+  ];
 
-  return result;
+  if (hasWeightValues) {
+    result.push(`param w :=`, formatMatrix(weightMatrix));
+  }
+
+  result.push(`param d :=`, formatMatrix(distanceMatrix));
+
+  return result.join("\n");
 }
 
 export function parseOptimalSolution(fileContent: string) {
