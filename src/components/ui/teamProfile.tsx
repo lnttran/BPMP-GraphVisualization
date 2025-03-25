@@ -145,7 +145,7 @@ export function TeamProfile() {
         ) : null}
       </AnimatePresence>
       <ul className="mx-auto max-w-5xl gap-8 pt-12 flex flex-col items-center">
-        <div className="flex justify-center gap-8">
+        <div className="flex justify-center gap-8 lg:flex-row flex-col">
           {cards.slice(0, 2).map((card, index) => (
             <motion.div
               layoutId={`card-${card.title}-${id}`}
@@ -182,7 +182,7 @@ export function TeamProfile() {
           ))}
         </div>
 
-        <div className="flex justify-center gap-8">
+        <div className="flex justify-center gap-8 lg:flex-row flex-col">
           {cards.slice(2).map((card, index) => (
             <motion.div
               layoutId={`card-${card.title}-${id}`}

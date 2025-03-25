@@ -8,7 +8,7 @@ import {
 } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
-import { Truck } from "lucide-react";
+import { Truck, Network, Route, Home } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 const roboto_slab = Roboto_Slab({ subsets: ["latin"] });
@@ -32,32 +32,51 @@ export default function RootLayout({
         <div className="relative max-h-screen h-full">
           <div className="relative h-full">
             <div className="flex min-h-screen flex-col">
-              {/* Render Navigation only for website pages */}
+              {/* Modern Navigation for website pages */}
               {isWebsitePage && (
-                <header className="w-full bg-white">
+                <header className="w-full bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50">
                   <div className="container flex h-16 items-center justify-between px-4">
-                    <div className="flex items-center gap-2">
-                      <Truck />
-                      <span className="text-xl font-semibold">BPMP</span>
-                    </div>
-                    <nav className="flex items-center gap-6">
+                    <Link href="/website" className="flex items-center gap-3 group">
+                      <div className="flex items-center gap-2">
+                        <Truck className="w-7 h-7 text-emerald-600" />
+                        <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-emerald-600 to-teal-600 text-transparent bg-clip-text">
+                          BPMP
+                        </span>
+                      </div>
+                    </Link>
+                    <nav className="flex items-center gap-8">
                       <Link
-                        className="text-sm font-medium hover:underline"
                         href="/website"
+                        className={`flex items-center gap-2 text-sm font-medium transition-colors duration-200 ${
+                          pathname === "/website"
+                            ? "text-emerald-600"
+                            : "text-gray-600 hover:text-emerald-600"
+                        }`}
                       >
-                        Home
+                        {/* <Home className="w-4 h-4" /> */}
+                        <span>Home</span>
                       </Link>
                       <Link
-                        className="text-sm font-medium hover:underline"
                         href="/website/bpmp"
+                        className={`flex items-center gap-2 text-sm font-medium transition-colors duration-200 ${
+                          pathname === "/website/bpmp"
+                            ? "text-emerald-600"
+                            : "text-gray-600 hover:text-emerald-600"
+                        }`}
                       >
-                        BPMP
+                        {/* <Network className="w-4 h-4" /> */}
+                        <span>BPMP</span>
                       </Link>
                       <Link
-                        className="text-sm font-medium hover:underline"
                         href="/website/shortestpath"
+                        className={`flex items-center gap-2 text-sm font-medium transition-colors duration-200 ${
+                          pathname === "/website/shortestpath"
+                            ? "text-emerald-600"
+                            : "text-gray-600 hover:text-emerald-600"
+                        }`}
                       >
-                        Shortest Path
+                        {/* <Route className="w-4 h-4" /> */}
+                        <span>Shortest Path</span>
                       </Link>
                     </nav>
                   </div>

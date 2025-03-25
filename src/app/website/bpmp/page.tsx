@@ -11,76 +11,66 @@ import {
   Settings,
   Gauge,
   Truck,
+  Play,
+  ChevronRight,
+  ArrowUpRight,
 } from "lucide-react";
 import Footer from "@/components/footer/footer";
 
 export default function BPMPPage() {
   return (
     <div className="flex flex-col">
-      {/* Navigation */}
-      {/* <header className="w-full bg-white">
-        <div className="container flex h-16 items-center justify-between px-4">
-          <div className="flex items-center gap-2">
-            <Image
-              src="/placeholder.svg"
-              alt="Prodmast Logo"
-              width={32}
-              height={32}
-              className="rounded-full"
-            />
-            <Truck />
-            <span className="text-xl font-semibold">BPMP</span>
-          </div>
-          <nav className="hidden md:flex items-center gap-6">
-            <Link className="text-sm font-medium hover:underline" href="#">
-              Home
-            </Link>
-            <Link className="text-sm font-medium hover:underline" href="#">
-              About
-            </Link>
-            <Link
-              className="text-sm font-medium hover:underline"
-              href="#service"
-            >
-              Services
-            </Link>
-            <Link
-              className="text-sm font-medium hover:underline"
-              href="#footer"
-            >
-              Contact
-            </Link>
-          </nav>
-          <Link
-            className="rounded-full bg-[#0F1F1C] px-4 py-2 text-sm font-medium text-white hover:bg-[#0F1F1C]/90"
-            href="/dashboard"
-          >
-            Dashboard
-          </Link>
+      {/* Hero Section with animated background */}
+      <section className="w-full min-h-screen relative overflow-hidden bg-gradient-to-br from-[#0F1F1C] via-[#1a2f2a] to-[#0F1F1C]">
+        {/* Animated dots background */}
+        <div className="absolute inset-0 opacity-10">
+          <div
+            className="absolute w-2 h-2 bg-white rounded-full animate-float"
+            style={{ top: "10%", left: "20%" }}
+          />
+          <div
+            className="absolute w-2 h-2 bg-white rounded-full animate-float-delay"
+            style={{ top: "30%", left: "70%" }}
+          />
+          <div
+            className="absolute w-2 h-2 bg-white rounded-full animate-float"
+            style={{ top: "70%", left: "30%" }}
+          />
+          <div
+            className="absolute w-2 h-2 bg-white rounded-full animate-float-delay"
+            style={{ top: "50%", left: "80%" }}
+          />
         </div>
-      </header> */}
 
-      {/* Hero Section */}
-      <section className="w-full py-12 md:py-24 lg:py-32">
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-col space-y-10 text-center">
-            <h1 className="text-3xl font-bold items-center tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-              Backhaul Profit Maximization Problem
-              <br />
+        <div className="container px-4 md:px-6 mx-auto relative z-10">
+          <div className="flex flex-col items-center justify-center min-h-screen py-20 text-center">
+            <div className="inline-flex items-center space-x-2 bg-white/10 px-3 py-1 rounded-full text-sm text-white/80 backdrop-blur-sm mb-8">
+              <Truck className="w-4 h-4" />
+              <span>Logistics Optimization</span>
+            </div>
+
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tight">
+              Backhaul Profit
+              <span className="bg-gradient-to-r from-emerald-400 to-teal-500 text-transparent bg-clip-text">
+                {" "}
+                Maximization{" "}
+              </span>
+              Problem
             </h1>
-            <h2 className="mx-auto text-gray-500 md:text-xl text-left">
-              Solving the Backhaul Profit Maximization Problem (BPMP) is one way
+
+            <p className="mx-auto text-gray-200 sm:text-md md:text-lg text-left mb-12">
+            Solving the Backhaul Profit Maximization Problem (BPMP) is one way
               that third-party logistics (3PL) companies use&nbsp;
               <a
                 href="https://bit.ly/49DEsSf"
-                className="underline text-[#0F1F1C] pointer font-semibold "
+                className="underline text-white pointer font-semibold "
               >
                 Operations Research&nbsp;
               </a>
               (OR) (also known as&nbsp;
               <a
                 href="https://bit.ly/3BcW8aJ"
-                className="underline text-[#0F1F1C] pointer font-semibold "
+                className="underline text-white pointer font-semibold "
               >
                 Management Science
               </a>
@@ -94,349 +84,255 @@ export default function BPMPPage() {
               companies can solve it to avoid costly &ldquo;deadhead&ldquo;
               miles, where vehicles travel empty incurring costs without
               generating revenue.
-            </h2>
-            {/* <div className="flex flex-col gap-2 min-[400px]:flex-row">
-              <Link
-                className="inline-flex h-10 items-center justify-center rounded-md bg-[#0F1F1C] px-8 text-sm font-medium text-white hover:bg-[#0F1F1C]/90"
-                href="#"
-              >
-                Dashboard
-              </Link>
-              <Link
-                className="inline-flex h-10 items-center justify-center rounded-md border border-gray-200 bg-white px-8 text-sm font-medium shadow-sm transition-colors hover:bg-gray-100"
-                href="#"
-              >
-                Try Demo
-              </Link>
-            </div> */}
-            {/* <div className="flex items-center gap-1">
-              {[1, 2, 3, 4, 5].map((i) => (
-                <Star
-                  key={i}
-                  className="h-5 w-5 fill-yellow-400 text-yellow-400"
-                />
-              ))}
-              <span className="ml-2 text-sm font-medium">5.0</span>
-              <span className="text-sm text-gray-500">from 50 reviews</span>
-            </div> */}
-          </div>
-
-          {/*   <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            
-             <div className="relative overflow-hidden rounded-lg border bg-white p-6">
-              <div className="flex h-full flex-col justify-between">
-                <div className="text-3xl font-bold">100+</div>
-                <div className="text-sm text-gray-500">
-                  Our Trusted Clients and Partners
-                </div>
-              </div>
-            </div>
-            <div className="relative overflow-hidden rounded-lg border bg-white p-6">
-              <div className="flex h-full flex-col justify-between">
-                <div className="text-3xl font-bold">1951+</div>
-                <div className="text-sm text-gray-500">Total Projects</div>
-                <div className="text-xs text-green-500">
-                  Increase of 15% this month
-                </div>
-              </div>
-            </div>
-            <div className="relative overflow-hidden rounded-lg border bg-white p-6">
-              <div className="flex h-full flex-col justify-between">
-                <div className="text-3xl font-bold">6+</div>
-                <div className="text-sm text-gray-500">
-                  Years of Dedicated Service
-                </div>
-              </div>
-            </div>
-            <div className="relative overflow-hidden rounded-lg border bg-white p-6">
-              <div className="flex h-full flex-col justify-between">
-                <div className="text-sm font-medium">
-                  Achieve Optimal Efficiency and Boost Productivity
-                </div>
-              </div>
-            </div> 
-          </div>*/}
-        </div>
-      </section>
-
-      {/* Services Section */}
-      {/* <section
-        id="service"
-        className="w-full bg-[#0F1F1C] py-12 md:py-24 lg:py-32"
-      >
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-col items-center justify-center space-y-4 text-center">
-            <h2 className="text-3xl font-bold tracking-tighter text-white sm:text-4xl md:text-5xl">
-              Efficient and Integrated Manufacturing Services
-            </h2>
-            <p className="mx-auto max-w-[700px] text-gray-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-              Simplify operations with our efficient, quality-focused services.
             </p>
-          </div>
-          <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 py-12 md:grid-cols-2 lg:grid-cols-3">
-            {[
-              {
-                title: "Production and Assembly",
-                description:
-                  "Details on production processes, assembly, capacity and product types",
-                icon: Settings,
-              },
-              {
-                title: "Custom Manufacturing",
-                description:
-                  "Custom product creation with design and customization options",
-                icon: Sparkles,
-              },
-              {
-                title: "Quality Control",
-                description:
-                  "Procedures and systems in place to ensure high product quality",
-                icon: Shield,
-              },
-              {
-                title: "Technology and Innovation",
-                description:
-                  "Details on the latest manufacturing technologies and ongoing innovations",
-                icon: Gauge,
-              },
-              {
-                title: "Packaging and Logistics",
-                description:
-                  "Packaging and logistics for shipping to customers and distributors",
-                icon: Box,
-              },
-              {
-                title: "Consulting Market Research",
-                description:
-                  "Services to help companies understand market needs and provide strategic advice",
-                icon: BarChart3,
-              },
-            ].map((service, i) => (
-              <div
-                key={i}
-                className="group relative overflow-hidden rounded-lg border border-gray-800 bg-[#0F1F1C] p-6 hover:bg-[#1A2A27]"
-              >
-                <div className="flex h-full flex-col justify-between">
-                  <service.icon className="h-12 w-12 text-white" />
-                  <div className="mt-4">
-                    <h3 className="text-lg font-bold text-white">
-                      {service.title}
-                    </h3>
-                    <p className="mt-2 text-sm text-gray-400">
-                      {service.description}
-                    </p>
-                  </div>
-                  <div className="mt-4">
-                    <ArrowRight className="h-6 w-6 text-white opacity-0 transition-opacity group-hover:opacity-100" />
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section> */}
 
-      {/* Benefits Section */}
-      {/* <section className="w-full py-12 md:py-24 lg:py-32">
-        <div className="container grid items-center gap-6 px-4 md:grid-cols-2 md:px-6">
-          <div className="space-y-2">
-            <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
-              Key Benefits of Our System for Your Business Efficiency
-            </h2>
-            <p className="max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-              Our systems boost productivity, cut costs, and drive business
-              growth.
-            </p>
-            <div className="space-y-4 pt-4">
-              {[
-                {
-                  title: "Boosting Quality with Tech",
-                  description:
-                    "With advanced technology, we help you achieve top product quality. Discover how we can enhance your standards.",
-                },
-                {
-                  title: "Optimization Production Process",
-                  description:
-                    "Boost factory efficiency and productivity with our innovative solutions. See how the latest technology can maximize your output.",
-                },
-                {
-                  title: "AI-Driven Production",
-                  description:
-                    "Leverage the power of AI to transform your manufacturing processes, achieving faster and more effective results.",
-                },
-              ].map((benefit, i) => (
-                <div key={i} className="flex gap-4">
-                  <div className="flex-shrink-0">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#0F1F1C]">
-                      <Sparkles className="h-4 w-4 text-white" />
-                    </div>
-                  </div>
-                  <div className="space-y-1">
-                    <h3 className="font-medium">{benefit.title}</h3>
-                    <p className="text-sm text-gray-500">
-                      {benefit.description}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="flex justify-center">
-            <div className="relative w-full max-w-sm">
-              <div className="rounded-lg border bg-white p-6 shadow-lg">
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <div className="text-sm font-medium text-gray-500">
-                      Total Projects
-                    </div>
-                    <div className="text-3xl font-bold">1475</div>
-                    <div className="text-sm text-green-500">↑ 45%</div>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="h-2 w-full rounded-full bg-gray-100">
-                      <div className="h-2 w-3/4 rounded-full bg-[#0F1F1C]" />
-                    </div>
-                    <div className="grid grid-cols-3 text-sm">
-                      <div>Finished</div>
-                      <div className="text-center">In Progress</div>
-                      <div className="text-right">Rejected</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section> */}
-
-      <section className="w-full px-4 sm:px-10 md:px-16 lg:px-72 py-12 bg-[#0F1F1C]">
-        <div className="aspect-video rounded-lg overflow-hidden">
-          <iframe
-            className="w-full h-full"
-            src="https://www.youtube.com/embed/_vWiEp-XjVU"
-            title="BPMP Demo"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-          ></iframe>
-        </div>
-      </section>
-      {/* Integration Section */}
-      <section className="w-full py-12 md:py-24 lg:py-32">
-        <div className="container grid items-center gap-6 px-4 md:grid-cols-2 md:px-10">
-          <div className="flex flex-col justify-center space-y-4">
-            <div className="space-y-2 ">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl sm:text-center md:text-left">
-                Discover Powerful Graph Visualizations
-              </h2>
-              <p className="max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed sm:text-center  md:text-left">
-                Explore our interactive demo to see how our solution enables
-                efficient route optimization, real-time data integration, and
-                insightful analysis. Watch this video for a demonstration of how
-                to use our BPMP visualization app and{" "}
-                <a
-                  href="/dashboard/bpmp"
-                  className="underline text-[#0F1F1C] pointer font-semibold hover:font-bold"
-                >
-                  click here
-                </a>{" "}
-                to get it try.
-              </p>
-            </div>
-            {/* <div className="flex flex-col gap-2 min-[400px]:flex-row">
+            <div className="flex flex-col sm:flex-row gap-4 mb-12">
               <Link
-                className="inline-flex h-10 items-center justify-center rounded-md bg-[#DCFCE7] px-8 text-sm font-medium text-black hover:bg-[#DCFCE7]/90"
-                href="#"
+                href="/dashboard/bpmp"
+                className="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-[#0F1F1C] bg-white rounded-full hover:bg-gray-100 transition-all duration-300 transform hover:scale-105"
+              >
+                Try Interactive Demo
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
+              <a
+                href="#learn-more"
+                className="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white border-2 border-white/20 rounded-full hover:bg-white/10 transition-all duration-300"
               >
                 Learn More
-              </Link>
-            </div> */}
-          </div>
-          <div className="aspect-video bg-black rounded-lg overflow-hidden">
-            <iframe
-              className="w-full h-full"
-              src="https://www.youtube.com/embed/gsJjlhx4pkQ"
-              title="BPMP Demo"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-            ></iframe>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      {/* <section className="w-full bg-[#0F1F1C] py-12 md:py-24 lg:py-32">
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-col items-center justify-center space-y-4 text-center">
-            <h2 className="text-3xl font-bold tracking-tighter text-white sm:text-4xl md:text-5xl">
-              From Idea to Production in Days
-            </h2>
-            <p className="mx-auto max-w-[700px] text-gray-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-              Accelerate your production with our technology. Reduce downtime
-              and optimize costs. Get a special offer now!
-            </p>
-            <Link
-              className="inline-flex h-10 items-center justify-center rounded-md bg-[#DCFCE7] px-8 text-sm font-medium text-black hover:bg-[#DCFCE7]/90"
-              href="#"
-            >
-              Work With Us
-            </Link>
-          </div>
-        </div>
-      </section> */}
-      <section className="w-full bg-[#0F1F1C] py-12 md:py-24 lg:py-32">
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-col items-center justify-center space-y-6 text-center">
-            <h2 className="text-3xl font-bold tracking-tighter text-white sm:text-4xl md:text-5xl">
-              References
-            </h2>
-            <p className="mx-auto max-w-[1000px] text-gray-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-              For more technical information on applying OR to the BPMP, see the
-              following references:
-            </p>
-            <div className="space-y-6 w-full">
-              <a
-                href="https://www.sciencedirect.com/science/article/abs/pii/S0925527313002351?via%3Dihub"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block bg-gray-200 p-6 rounded-lg text-left transition-colors"
-              >
-                <div className="flex justify-between items-start">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                    Maximizing Profit for Vehicle Routing Under Time and Weight
-                    Constraints
-                  </h3>
-                </div>
-                <p className="text-gray-700">Junfang Yu and Yuanyuan Dong</p>
-                <p className="text-gray-600 mt-1">
-                  International Journal of Production Economics, Vol. 145, No.
-                  2, October 2013, pp. 573-583.
-                </p>
-              </a>
-              <a
-                href="https://pubsonline.informs.org/doi/abs/10.1287/ijoo.2022.0071"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block bg-gray-200 p-6 rounded-lg text-left transition-colors hover:bg-gray-200"
-              >
-                <div className="flex justify-between items-start">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                    The Backhaul Profit Maximization Problem: Optimization
-                    Models and Solution Procedures
-                  </h3>
-                </div>
-                <p className="text-gray-700">
-                  Yuanyuan Dong, Yulan Bai, Eli V. Olinick, and Andrew Junfang
-                  Yu
-                </p>
-                <p className="text-gray-600 mt-1">
-                  INFORMS Journal on Optimization, Vol. 4, No. 4, Fall 2022, pp.
-                  347-445.
-                </p>
+                <ChevronRight className="ml-2 h-5 w-5" />
               </a>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Overview Section with floating cards */}
+      <section
+        className="w-full py-24 bg-white relative overflow-hidden"
+        id="learn-more"
+      >
+        <div className="container px-4 md:px-6 mx-auto">
+          <div className="flex flex-col md:flex-row items-center gap-16">
+            <div className="flex-1 space-y-8">
+              <div className="inline-flex items-center space-x-2 bg-emerald-50 px-3 py-1 rounded-full text-sm text-emerald-700">
+                <Sparkles className="w-4 h-4" />
+                <span>Overview</span>
+              </div>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0F1F1C]">
+                Understanding the Challenge
+              </h2>
+              <p className="text-lg text-gray-600">
+                This view gives a quick overview of BPMP and shows how 3PL
+                companies can solve it to avoid costly “deadhead“ miles, where
+                vehicles travel empty incurring costs without generating
+                revenue.
+              </p>
+            </div>
+            <div className="flex-1">
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-teal-500 rounded-2xl transform rotate-2 opacity-30 blur-lg"></div>
+                <div className="relative aspect-video rounded-xl overflow-hidden shadow-2xl">
+                  <iframe
+                    className="w-full h-full"
+                    src="https://www.youtube.com/embed/_vWiEp-XjVU"
+                    title="BPMP Overview"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section with hover effects */}
+      <section className="w-full py-24 bg-gray-50">
+        <div className="container px-4 md:px-6 mx-auto">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center space-x-2 bg-emerald-50 px-3 py-1 rounded-full text-sm text-emerald-700 mb-4">
+              <Box className="w-4 h-4" />
+              <span>Key Features</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0F1F1C] mb-4">
+              Comprehensive Solution
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Our approach combines advanced algorithms with practical logistics
+              constraints to deliver optimal results.
+            </p>
+          </div>
+
+          <div className="flex flex-col md:flex-row gap-8">
+            <div className="flex-1 bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+              <div className="w-12 h-12 bg-emerald-50 rounded-lg flex items-center justify-center mb-6">
+                <Box className="w-6 h-6 text-emerald-600" />
+              </div>
+              <h3 className="text-xl font-semibold mb-4">Route Optimization</h3>
+              <p className="text-gray-600">
+                Determine the most efficient return route for empty delivery
+                vehicles using advanced algorithms.
+              </p>
+            </div>
+
+            <div className="flex-1 bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+              <div className="w-12 h-12 bg-emerald-50 rounded-lg flex items-center justify-center mb-6">
+                <BarChart3 className="w-6 h-6 text-emerald-600" />
+              </div>
+              <h3 className="text-xl font-semibold mb-4">
+                Profit Maximization
+              </h3>
+              <p className="text-gray-600">
+                Select optimal delivery requests to maximize revenue along the
+                route while minimizing costs.
+              </p>
+            </div>
+
+            <div className="flex-1 bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+              <div className="w-12 h-12 bg-emerald-50 rounded-lg flex items-center justify-center mb-6">
+                <Gauge className="w-6 h-6 text-emerald-600" />
+              </div>
+              <h3 className="text-xl font-semibold mb-4">
+                Capacity Management
+              </h3>
+              <p className="text-gray-600">
+                Balance vehicle capacity constraints with delivery schedules for
+                optimal resource utilization.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Demo Section with gradient overlay */}
+      <section className="w-full py-24 bg-[#0F1F1C] relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/20 to-teal-600/20"></div>
+        <div className="container px-4 md:px-6 mx-auto relative z-10">
+          <div className="flex flex-col md:flex-row items-center gap-16">
+            <div className="flex-1">
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-teal-500 rounded-2xl transform -rotate-2 opacity-30 blur-lg"></div>
+                <div className="relative aspect-video rounded-xl overflow-hidden shadow-2xl">
+                  <iframe
+                    className="w-full h-full"
+                    src="https://www.youtube.com/embed/gsJjlhx4pkQ"
+                    title="BPMP Demo"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+              </div>
+            </div>
+            <div className="flex-1">
+              <div className="inline-flex items-center space-x-2 bg-white/10 px-3 py-1 rounded-full text-sm text-white/80 backdrop-blur-sm mb-8">
+                <Play className="w-4 h-4" />
+                <span>Interactive Demo</span>
+              </div>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
+                See It In Action
+              </h2>
+              <p className="text-lg text-gray-300 mb-8">
+                Experience our powerful visualization tools firsthand. Watch
+                this video for a demonstration of how to use our BPMP
+                visualization app.
+              </p>
+              <Link
+                href="/dashboard/bpmp"
+                className="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-[#0F1F1C] bg-white rounded-full hover:bg-gray-100 transition-all duration-300 transform hover:scale-105"
+              >
+                Launch Interactive Demo
+                <ArrowUpRight className="ml-2 h-5 w-5" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* References Section with cards */}
+      <section className="w-full py-24 bg-gray-50">
+        <div className="container px-4 md:px-6 mx-auto">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center space-x-2 bg-emerald-50 px-3 py-1 rounded-full text-sm text-emerald-700 mb-4">
+              <Star className="w-4 h-4" />
+              <span>Research</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0F1F1C] mb-4">
+              Academic Foundation
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Explore the research that powers our solution
+            </p>
+          </div>
+
+          <div className="flex flex-col md:flex-row gap-8">
+            <a
+              href="https://www.sciencedirect.com/science/article/abs/pii/S0925527313002351?via%3Dihub"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+            >
+              <h3 className="text-xl font-semibold text-[#0F1F1C] mb-4">
+                Maximizing Profit for Vehicle Routing Under Time and Weight
+                Constraints
+              </h3>
+              <p className="text-emerald-600 font-medium mb-2">
+                Junfang Yu and Yuanyuan Dong
+              </p>
+              <p className="text-gray-600">
+                International Journal of Production Economics, Vol. 145, No. 2,
+                October 2013
+              </p>
+            </a>
+
+            <a
+              href="https://pubsonline.informs.org/doi/abs/10.1287/ijoo.2022.0071"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+            >
+              <h3 className="text-xl font-semibold text-[#0F1F1C] mb-4">
+                The Backhaul Profit Maximization Problem: Optimization Models
+                and Solution Procedures
+              </h3>
+              <p className="text-emerald-600 font-medium mb-2">
+                Yuanyuan Dong, Yulan Bai, Eli V. Olinick, and Andrew Junfang Yu
+              </p>
+              <p className="text-gray-600">
+                INFORMS Journal on Optimization, Vol. 4, No. 4, Fall 2022
+              </p>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <style jsx global>{`
+        @keyframes float {
+          0%,
+          100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-20px);
+          }
+        }
+        @keyframes float-delay {
+          0%,
+          100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-20px);
+          }
+        }
+        .animate-float {
+          animation: float 6s ease-in-out infinite;
+        }
+        .animate-float-delay {
+          animation: float 6s ease-in-out infinite;
+          animation-delay: 3s;
+        }
+      `}</style>
+
       <Footer />
     </div>
   );

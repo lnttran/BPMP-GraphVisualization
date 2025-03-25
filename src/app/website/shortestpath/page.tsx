@@ -11,64 +11,54 @@ import {
   Settings,
   Gauge,
   Truck,
+  Network,
+  Award,
+  Users,
+  Route,
+  Play,
 } from "lucide-react";
 import Footer from "@/components/footer/footer";
 
 export default function ShortestPathPage() {
   return (
     <div className="flex flex-col">
-      {/* Navigation */}
-      {/* <header className="w-full bg-white">
-        <div className="container flex h-16 items-center justify-between px-4">
-          <div className="flex items-center gap-2">
-            <Image
-              src="/placeholder.svg"
-              alt="Prodmast Logo"
-              width={32}
-              height={32}
-              className="rounded-full"
-            />
-            <Truck />
-            <span className="text-xl font-semibold">BPMP</span>
-          </div>
-          <nav className="hidden md:flex items-center gap-6">
-            <Link className="text-sm font-medium hover:underline" href="#">
-              Home
-            </Link>
-            <Link className="text-sm font-medium hover:underline" href="#">
-              About
-            </Link>
-            <Link
-              className="text-sm font-medium hover:underline"
-              href="#service"
-            >
-              Services
-            </Link>
-            <Link
-              className="text-sm font-medium hover:underline"
-              href="#footer"
-            >
-              Contact
-            </Link>
-          </nav>
-          <Link
-            className="rounded-full bg-[#0F1F1C] px-4 py-2 text-sm font-medium text-white hover:bg-[#0F1F1C]/90"
-            href="/dashboard"
-          >
-            Dashboard
-          </Link>
+      {/* Hero Section with animated background */}
+      <section className="w-full min-h-screen relative overflow-hidden bg-gradient-to-br from-[#0F1F1C] via-[#1a2f2a] to-[#0F1F1C]">
+        {/* Animated dots background */}
+        <div className="absolute inset-0 opacity-10">
+          <div
+            className="absolute w-2 h-2 bg-white rounded-full animate-float"
+            style={{ top: "10%", left: "20%" }}
+          />
+          <div
+            className="absolute w-2 h-2 bg-white rounded-full animate-float-delay"
+            style={{ top: "30%", left: "70%" }}
+          />
+          <div
+            className="absolute w-2 h-2 bg-white rounded-full animate-float"
+            style={{ top: "70%", left: "30%" }}
+          />
+          <div
+            className="absolute w-2 h-2 bg-white rounded-full animate-float-delay"
+            style={{ top: "50%", left: "80%" }}
+          />
         </div>
-      </header> */}
 
-      {/* Hero Section */}
-      <section className="w-full py-12 md:py-24 lg:py-32">
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-col space-y-10 text-center">
-            <h1 className="text-3xl font-bold items-center tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-              Shortest Path using Dijkstra
-              <br />
+        <div className="container px-4 md:px-6 mx-auto relative z-10">
+          <div className="flex flex-col items-center justify-center min-h-screen py-20 text-center">
+            <div className="inline-flex items-center space-x-2 bg-white/10 px-3 py-1 rounded-full text-sm text-white/80 backdrop-blur-sm mb-8">
+              <Route className="w-4 h-4" />
+              <span>Path Optimization</span>
+            </div>
+
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tight">
+              Shortest Path using{" "}
+              <span className="bg-gradient-to-r from-emerald-400 to-teal-500 text-transparent bg-clip-text">
+                Dijkstra
+              </span>
             </h1>
-            <h2 className="mx-auto text-gray-500 md:text-xl text-left">
+
+            <p className="mx-auto text-gray-200 sm:text-md md:text-lg text-left mb-12">
               Dijkstra&apos;s algorithm is a fundamental approach in Operations
               Research and Computer Science for finding the shortest path
               between nodes in a graph. It is widely used in transportation,
@@ -79,71 +69,26 @@ export default function ShortestPathPage() {
               nodes is determined. This method is particularly valuable for
               third-party logistics (3PL) companies, enabling them to optimize
               delivery routes, minimize fuel consumption, and improve overall
-              efficiency. The video below provides an overview of
-              Dijkstra&apos;s algorithm and demonstrates its applications in
-              real-world scenarios.
-            </h2>
-            {/* <div className="flex flex-col gap-2 min-[400px]:flex-row">
-              <Link
-                className="inline-flex h-10 items-center justify-center rounded-md bg-[#0F1F1C] px-8 text-sm font-medium text-white hover:bg-[#0F1F1C]/90"
-                href="#"
-              >
-                Dashboard
-              </Link>
-              <Link
-                className="inline-flex h-10 items-center justify-center rounded-md border border-gray-200 bg-white px-8 text-sm font-medium shadow-sm transition-colors hover:bg-gray-100"
-                href="#"
-              >
-                Try Demo
-              </Link>
-            </div> */}
-            {/* <div className="flex items-center gap-1">
-              {[1, 2, 3, 4, 5].map((i) => (
-                <Star
-                  key={i}
-                  className="h-5 w-5 fill-yellow-400 text-yellow-400"
-                />
-              ))}
-              <span className="ml-2 text-sm font-medium">5.0</span>
-              <span className="text-sm text-gray-500">from 50 reviews</span>
-            </div> */}
-          </div>
+              efficiency.
+            </p>
 
-          {/*   <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            
-             <div className="relative overflow-hidden rounded-lg border bg-white p-6">
-              <div className="flex h-full flex-col justify-between">
-                <div className="text-3xl font-bold">100+</div>
-                <div className="text-sm text-gray-500">
-                  Our Trusted Clients and Partners
-                </div>
-              </div>
+            <div className="flex flex-col sm:flex-row gap-4 mb-12">
+              <Link
+                href="/dashboard/shortestpath"
+                className="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-[#0F1F1C] bg-white rounded-full hover:bg-gray-100 transition-all duration-300 transform hover:scale-105"
+              >
+                Try Interactive Demo
+                {/* <ArrowRight className="ml-2 h-5 w-5" /> */}
+              </Link>
+              {/* <a
+                href="#learn-more"
+                className="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white border-2 border-white/20 rounded-full hover:bg-white/10 transition-all duration-300"
+              >
+                Learn More
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </a> */}
             </div>
-            <div className="relative overflow-hidden rounded-lg border bg-white p-6">
-              <div className="flex h-full flex-col justify-between">
-                <div className="text-3xl font-bold">1951+</div>
-                <div className="text-sm text-gray-500">Total Projects</div>
-                <div className="text-xs text-green-500">
-                  Increase of 15% this month
-                </div>
-              </div>
-            </div>
-            <div className="relative overflow-hidden rounded-lg border bg-white p-6">
-              <div className="flex h-full flex-col justify-between">
-                <div className="text-3xl font-bold">6+</div>
-                <div className="text-sm text-gray-500">
-                  Years of Dedicated Service
-                </div>
-              </div>
-            </div>
-            <div className="relative overflow-hidden rounded-lg border bg-white p-6">
-              <div className="flex h-full flex-col justify-between">
-                <div className="text-sm font-medium">
-                  Achieve Optimal Efficiency and Boost Productivity
-                </div>
-              </div>
-            </div> 
-          </div>*/}
+          </div>
         </div>
       </section>
 
@@ -231,9 +176,9 @@ export default function ShortestPathPage() {
             <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
               Key Benefits of Our System for Your Business Efficiency
             </h2>
-            <p className="max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-              Our systems boost productivity, cut costs, and drive business
-              growth.
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Experience our interactive demo to see how Dijkstra's algorithm efficiently finds 
+              the shortest path in complex networks.
             </p>
             <div className="space-y-4 pt-4">
               {[
@@ -297,201 +242,77 @@ export default function ShortestPathPage() {
         </div>
       </section> */}
 
-      {/* Integration Section */}
-      <section className="w-full py-12 md:py-24 lg:py-32">
-        <div className="container grid items-center gap-6 px-4 md:grid-cols-2 md:px-10">
-          <div className="flex flex-col justify-center space-y-4">
-            <div className="space-y-2">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                Discover Powerful Graph Visualizations
+      {/* Demo Section */}
+      {/* <section className="w-full py-24 bg-[#0F1F1C] relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/20 to-teal-600/20"></div>
+        <div className="container px-4 md:px-6 mx-auto relative z-10">
+          <div className="flex flex-col md:flex-row items-center gap-16">
+            <div className="flex-1">
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-teal-500 rounded-2xl transform -rotate-2 opacity-30 blur-lg"></div>
+                <div className="relative aspect-video rounded-xl overflow-hidden shadow-2xl">
+                  <iframe
+                    className="w-full h-full"
+                    src="https://www.youtube.com/embed/1a5iuO0mO5s"
+                    title="Shortest Path Demo"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+              </div>
+            </div>
+            <div className="flex-1">
+              <div className="inline-flex items-center space-x-2 bg-white/10 px-3 py-1 rounded-full text-sm text-white/80 backdrop-blur-sm mb-8">
+                <Play className="w-4 h-4" />
+                <span>Interactive Demo</span>
+              </div>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
+                Try It Yourself
               </h2>
-              <p className="max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Explore our interactive demo to see how Dijkstra’s algorithm
-                efficiently finds the shortest path in complex networks. Our
-                solution enables real-time route optimization, dynamic data
-                integration, and insightful analysis.{" "}
-                <a
-                  href="/dashboard/shortestpath"
-                  className="underline text-[#0F1F1C] pointer font-semibold hover:font-bold"
-                >
-                  Click here
-                </a>{" "}
-                to get it try.
+              <p className="text-lg text-gray-300 mb-8">
+                Experience our powerful visualization tools firsthand. Watch this video for a 
+                demonstration of how to use our Shortest Path visualization app.
               </p>
-            </div>
-          </div>
-          {/* <div className="aspect-video bg-black rounded-lg overflow-hidden">
-            <iframe
-              className="w-full h-full"
-              src="https://www.youtube.com/embed/1a5iuO0mO5s"
-              title="BPMP Demo"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-            ></iframe>
-          </div> */}
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      {/* <section className="w-full bg-[#0F1F1C] py-12 md:py-24 lg:py-32">
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-col items-center justify-center space-y-4 text-center">
-            <h2 className="text-3xl font-bold tracking-tighter text-white sm:text-4xl md:text-5xl">
-              From Idea to Production in Days
-            </h2>
-            <p className="mx-auto max-w-[700px] text-gray-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-              Accelerate your production with our technology. Reduce downtime
-              and optimize costs. Get a special offer now!
-            </p>
-            <Link
-              className="inline-flex h-10 items-center justify-center rounded-md bg-[#DCFCE7] px-8 text-sm font-medium text-black hover:bg-[#DCFCE7]/90"
-              href="#"
-            >
-              Work With Us
-            </Link>
-          </div>
-        </div>
-      </section> */}
-      {/* <section className="w-full bg-[#0F1F1C] py-12 md:py-24 lg:py-32">
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-col items-center justify-center space-y-6 text-center">
-            <h2 className="text-3xl font-bold tracking-tighter text-white sm:text-4xl md:text-5xl">
-              References
-            </h2>
-            <p className="mx-auto max-w-[1000px] text-gray-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-              For more technical information on applying OR to the BPMP, see the
-              following references:
-            </p>
-            <div className="space-y-6 w-full">
-              <a
-                href="https://www.sciencedirect.com/science/article/abs/pii/S0925527313002351?via%3Dihub"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block bg-gray-200 p-6 rounded-lg text-left transition-colors"
+              <Link
+                href="/dashboard/shortestpath"
+                className="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-[#0F1F1C] bg-white rounded-full hover:bg-gray-100 transition-all duration-300 transform hover:scale-105"
               >
-                <div className="flex justify-between items-start">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                    Maximizing Profit for Vehicle Routing Under Time and Weight
-                    Constraints
-                  </h3>
-                </div>
-                <p className="text-gray-700">Junfang Yu and Yuanyuan Dong</p>
-                <p className="text-gray-600 mt-1">
-                  International Journal of Production Economics, Vol. 145, No.
-                  2, October 2013, pp. 573-583.
-                </p>
-              </a>
-              <a
-                href="https://pubsonline.informs.org/doi/abs/10.1287/ijoo.2022.0071"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block bg-gray-200 p-6 rounded-lg text-left transition-colors hover:bg-gray-200"
-              >
-                <div className="flex justify-between items-start">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                    The Backhaul Profit Maximization Problem: Optimization
-                    Models and Solution Procedures
-                  </h3>
-                </div>
-                <p className="text-gray-700">
-                  Yuanyuan Dong, Yulan Bai, Eli V. Olinick, and Andrew Junfang
-                  Yu
-                </p>
-                <p className="text-gray-600 mt-1">
-                  INFORMS Journal on Optimization, Vol. 4, No. 4, Fall 2022, pp.
-                  347-445.
-                </p>
-              </a>
+                Launch Interactive Demo
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
             </div>
           </div>
         </div>
       </section> */}
 
-      {/* Footer */}
-      {/* <footer
-        id="footer"
-        className="w-full border-t bg-[#0F1F1C] py-12 md:py-24"
-      >
-        <div className="container grid gap-8 px-4 md:grid-cols-2 lg:grid-cols-4 md:px-6">
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2">
-              
-              <Truck color="white" />
-              <span className="text-xl font-semibold text-white">BPMP</span>
-            </div>
-            <p className="text-sm text-gray-400">
-              Our solutions make production faster and cheaper. Contact us for
-              more information.
-            </p>
-          </div>
-          <div className="grid gap-4">
-            <h3 className="font-semibold text-white">Company</h3>
-            <nav className="grid gap-2">
-              <Link className="text-sm text-gray-400 hover:text-white" href="#">
-                About
-              </Link>
-              <Link className="text-sm text-gray-400 hover:text-white" href="#">
-                Customers
-              </Link>
-              <Link className="text-sm text-gray-400 hover:text-white" href="#">
-                Newsroom
-              </Link>
-              <Link className="text-sm text-gray-400 hover:text-white" href="#">
-                Events
-              </Link>
-            </nav>
-          </div>
-          <div className="grid gap-4">
-            <h3 className="font-semibold text-white">Industries</h3>
-            <nav className="grid gap-2">
-              <Link className="text-sm text-gray-400 hover:text-white" href="#">
-                Precision Manufacturing
-              </Link>
-              <Link className="text-sm text-gray-400 hover:text-white" href="#">
-                Industrial Manufacturing
-              </Link>
-              <Link className="text-sm text-gray-400 hover:text-white" href="#">
-                High Tech & Electronics
-              </Link>
-              <Link className="text-sm text-gray-400 hover:text-white" href="#">
-                Aerospace
-              </Link>
-            </nav>
-          </div>
-          <div className="grid gap-4">
-            <h3 className="font-semibold text-white">Get in Touch</h3>
-            <div className="flex gap-4">
-              <Link className="text-gray-400 hover:text-white" href="#">
-                hello@bpmp.com
-              </Link>
-            </div>
-            <div className="flex gap-4">
-              <Link className="text-gray-400 hover:text-white" href="#">
-                LinkedIn
-              </Link>
-              <Link className="text-gray-400 hover:text-white" href="#">
-                YouTube
-              </Link>
-              <Link className="text-gray-400 hover:text-white" href="#">
-                Facebook
-              </Link>
-            </div>
-          </div>
-        </div> */}
-      {/* <div className="container flex flex-col gap-4 px-4 py-4 md:flex-row md:items-center md:justify-between md:px-6">
-          <div className="text-sm text-gray-400">
-            © 2024 Prodmast. All rights reserved.
-          </div>
-          <nav className="flex gap-4">
-            <Link className="text-sm text-gray-400 hover:text-white" href="#">
-              Terms & Conditions
-            </Link>
-            <Link className="text-sm text-gray-400 hover:text-white" href="#">
-              Privacy Policy
-            </Link>
-          </nav>
-        </div> */}
-      {/* </footer> */}
+      <style jsx global>{`
+        @keyframes float {
+          0%,
+          100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-20px);
+          }
+        }
+        @keyframes float-delay {
+          0%,
+          100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-20px);
+          }
+        }
+        .animate-float {
+          animation: float 6s ease-in-out infinite;
+        }
+        .animate-float-delay {
+          animation: float 6s ease-in-out infinite;
+          animation-delay: 3s;
+        }
+      `}</style>
+
       <Footer />
     </div>
   );
