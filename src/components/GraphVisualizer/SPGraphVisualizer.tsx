@@ -124,9 +124,10 @@ export default function SPGraphVisualiser({
       let indexToRemove: number = selectedRoute.indexOf(i);
 
       if (indexToRemove !== -1) {
-        deleteNodeToRoute(i);
+        const resutl = deleteNodeToRoute(i);
+        return !resutl;
       }
-      return false;
+      return true;
     }
   };
 

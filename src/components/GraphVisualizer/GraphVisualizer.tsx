@@ -219,11 +219,12 @@ export default function GraphVisualiser({
       let indexToRemove: number = selectedRoute.indexOf(i);
 
       if (indexToRemove !== -1) {
-        deleteNodeToRoute(i);
+        const result = deleteNodeToRoute(i);
 
         removeCargoGivenRemovedNode(i, weightDistantData);
+        return !result;
       }
-      return false;
+      return true;
     }
   };
 

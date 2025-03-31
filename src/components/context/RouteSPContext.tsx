@@ -31,7 +31,7 @@ type RouteSPContextType = {
     node: number,
     distance: number
   ) => { status: boolean; selectedRoute: number[] };
-  deleteNodeToRoute: (nodeToRemove: number) => void;
+  deleteNodeToRoute: (nodeToRemove: number) => boolean;
   totalDistance: number;
 };
 
@@ -102,6 +102,24 @@ export const RouteSPProvider: React.FC<RouteSPProviderProps> = ({
     node: number,
     distance: number
   ): { status: boolean; selectedRoute: number[] } => {
+    if (distance > 100) {
+      toast({
+        variant: "destructive",
+        style: { height: "auto", borderRadius: "15px" },
+        description: (
+          <div className="flex flex-row items-center gap-10">
+            <MdErrorOutline className="text-white" size={"50px"} />
+            <div>
+              <ToastTitle className="text-xl font-bold text-white">
+                {`Node ${node} cannot be added`}
+              </ToastTitle>
+              <ToastDescription className="text-lg text-white">{`There is no request to ${node} from the current node`}</ToastDescription>
+            </div>
+          </div>
+        ),
+      });
+      return { status: false, selectedRoute };
+    }
     setSelectedRoute((prevRoute) => [...prevRoute, node]);
     const updatedRoute = [...selectedRoute, node];
 
@@ -130,32 +148,68 @@ export const RouteSPProvider: React.FC<RouteSPProviderProps> = ({
     return { status: true, selectedRoute: updatedRoute };
   };
 
-  const deleteNodeToRoute = (nodeToRemove: number) => {
+  const deleteNodeToRoute = (nodeToRemove: number): boolean => {
+    let isSuccess = false;
+    let nodeBefore: number | null = null;
+    let nodeAfter: number | null = null;
+
     setSelectedRoute((prevRoute) => {
+      const currentIndex = prevRoute.indexOf(nodeToRemove);
+
+      // Get the node before and after
+      nodeBefore = currentIndex > 0 ? prevRoute[currentIndex - 1] : null;
+      nodeAfter =
+        currentIndex < prevRoute.length - 1
+          ? prevRoute[currentIndex + 1]
+          : null;
+      // If we have both a before and after node, check the distance
+      if (nodeBefore !== null && nodeAfter !== null && weightDistantData) {
+        // Find the distance between nodeBefore and nodeAfter in weightDistantData
+        const distanceData = weightDistantData.find(
+          (item) => item.x === nodeBefore && item.y === nodeAfter
+        );
+
+        // Check if distance exists and is greater than 100
+        if (distanceData && distanceData.d > 100) {
+          return prevRoute;
+        }
+      }
       // Filter out the node to remove and get the new route
       const updatedRoute = prevRoute.filter((n) => n !== nodeToRemove);
 
       // Use the updated route immediately for calculation
       calculateTotalDistance(updatedRoute);
+      isSuccess = true;
 
       // Return the updated route to update the state
       return updatedRoute;
     });
+
     toast({
       variant: "destructive",
       style: { height: "auto", borderRadius: "15px" },
       description: (
         <div className="flex flex-row items-center gap-10">
-          <IoIosCheckmarkCircleOutline className="text-white" size={"40px"} />
+          {isSuccess ? (
+            <IoIosCheckmarkCircleOutline className="text-white" size={"40px"} />
+          ) : (
+            <MdErrorOutline className="text-white" size={"50px"} />
+          )}
           <div>
             <ToastTitle className="text-xl font-bold text-white">
-              {`Removed successfully`}
+              {isSuccess ? "Removed successfully" : "Removal Prevented"}
             </ToastTitle>
-            <ToastDescription className="text-lg text-white">{`Node ${nodeToRemove} removed from the route`}</ToastDescription>
+            <ToastDescription className="text-lg text-white">
+              {isSuccess
+                ? `Node ${nodeToRemove} removed from the route.`
+                : `There is no request from ${nodeBefore} to ${nodeAfter}.`}
+            </ToastDescription>
           </div>
         </div>
       ),
     });
+
+    return isSuccess;
   };
 
   return (
