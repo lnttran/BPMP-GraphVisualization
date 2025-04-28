@@ -19,15 +19,16 @@ const constVariations = {
   close: {
     width: "2rem",
     transition: {
-      type: "spring",
+      type: "tween",
       damping: 15,
       duration: 0.5,
     },
   },
   open: {
-    width: "24rem",
+    width: "100%",
+    maxWidth: "24rem",
     transition: {
-      type: "spring",
+      type: "tween",
       damping: 15,
       duration: 0.5,
     },
@@ -36,12 +37,13 @@ const constVariations = {
 
 const redDivVariants = {
   visible: {
-    width: "22rem",
-    transition: { type: "spring", damping: 15, duration: 0.5 },
+    width: "100%",
+    maxWidth: "22rem",
+    transition: { type: "tween", damping: 15, duration: 0.5 },
   },
   hidden: {
-    width: "0rem",
-    transition: { type: "spring", damping: 15, duration: 0.5 },
+    width: "2rem",
+    transition: { type: "tween", damping: 15, duration: 0.5 },
   },
 };
 
@@ -76,10 +78,11 @@ export default function CollapsableSheet({
         >
           <div
             onClick={handleOpenClose}
-            className="bg-background rounded-tl-3xl rounded-bl-3xl w-[2rem] h-20 cursor-pointer self-center flex items-center justify-center "
+            className="bg-background rounded-tl-3xl rounded-bl-3xl w-[2rem] h-16 sm:h-20 cursor-pointer self-center flex items-center justify-center "
           >
             <IoReorderThreeOutline
-              style={{ transform: "rotate(90deg)", fontSize: "2rem" }}
+               style={{ transform: "rotate(90deg)", fontSize: "1.5rem" }}
+              className="sm:text-2xl"
             />
           </div>
           {/* <BPMPContent dataItem={dataItem} /> */}
@@ -97,10 +100,11 @@ export default function CollapsableSheet({
         >
           <div
             onClick={handleOpenClose}
-            className="bg-background rounded-tl-3xl rounded-bl-3xl w-[2rem] h-20 cursor-pointer self-center flex items-center justify-center "
+            className="bg-background rounded-tl-3xl rounded-bl-3xl w-[2rem] h-16 sm:h-20 cursor-pointer self-center flex items-center justify-center "
           >
             <IoReorderThreeOutline
-              style={{ transform: "rotate(90deg)", fontSize: "2rem" }}
+              style={{ transform: "rotate(90deg)", fontSize: "1.5rem" }}
+              className="sm:text-2xl"
             />
           </div>
           {!isOpen && (

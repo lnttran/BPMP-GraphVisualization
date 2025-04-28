@@ -98,19 +98,22 @@ export default function GraphVisualization() {
   return (
     <div className="relative bg-background w-full h-full">
       <div className="flex flex-col gap-4 h-full">
-        <h1 className="font-extrabold text-[32px] sm:text-3xl md:text-[32px]">
+        <h1 className="font-extrabold text-xl pl-14 md:pl-0 sm:text-3xl md:text-4xl lg:text-[32px]">
           Graph Visualization
         </h1>
         <div className="bg-popover rounded-xl flex flex-col xl:flex-row items-start justify-between p-3 gap-3">
-          <div className="flex lg:flex-row md:flex-col flex-col justify-between gap-3 w-full">
+          <div className="flex flex-col lg:flex-row justify-between gap-3 w-full">
+            <div className="flex flex-row justify-between w-full">
+
+            
             <Select value={selectedDataset} onValueChange={setSelectedDataset}>
-              <SelectTrigger className="w-full  lg:w-[500px] xl:w-[400px] border-black">
-                <SelectValue placeholder="Select dataset" />
+              <SelectTrigger className="w-[160px] sm:w-full lg:w-[500px] xl:w-[400px] border-black text-xs sm:text-sm ">
+                <SelectValue placeholder="Select dataset"/>
               </SelectTrigger>
-              <SelectContent className="text-text__primary bg-background">
+              <SelectContent className="text-black bg-background">
                 <SelectGroup>
                   {filenames.map((filename) => (
-                    <SelectItem key={filename} value={filename}>
+                    <SelectItem key={filename} value={filename} className="text-xs sm:text-sm">
                       {filename}
                     </SelectItem>
                   ))}
@@ -118,59 +121,42 @@ export default function GraphVisualization() {
               </SelectContent>
             </Select>
 
-            <div className="flex flex-row gap-3">
+            <div className="flex items-center space-x-2 sm:hidden ">
+              <Switch
+                checked={isToggled}
+                onCheckedChange={handleToggle}
+                id="toggle-mode"
+                thumbClassName="data-[state=checked]:bg-background data-[state=unchecked]:bg-destructive"
+                className="data-[state=checked]:bg-destructive data-[state=unchecked]:bg-background border-destructive border-[1.5px]"
+              />
+              <label htmlFor="toggle-mode" className="text-xs">
+                All Requests
+              </label>
+            </div>
+            </div>
+
+            <div className="flex flex-row justify-between sm:justify-around w-full">
               {maxCapacity && (
                 <div className="flex flex-row gap-4 items-center">
-                  <div>Max Capacity</div>
+                  <div className="text-xs sm:text-sm md:text-base">Max Capacity</div>
                   <div className="w-[50px] h-[35px] border border-input bg-background text-sm rounded-md flex items-center justify-center">
                     {maxCapacity}
                   </div>
-
-                  {/* <Select
-              value={maxCapacity.toString()}
-              onValueChange={(value) => setNewMaxCapacity(Number(value))}
-            >
-              <SelectTrigger className="w-full sm:w-[50px] md:w-[70px] border-black">
-                <SelectValue placeholder="Max Capacity" />
-              </SelectTrigger>
-              <SelectContent className="text-text__primary bg-background">
-                {[1, 2, 3, 4, 5].map((num) => (
-                  <SelectItem key={num} value={num.toString()}>
-                    {num}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select> */}
                 </div>
               )}
 
               {maxDistance && (
                 <div className="flex flex-row gap-4 items-center">
-                  <div>Max Distance</div>
+                  <div className="text-xs sm:text-sm md:text-base">Max Distance</div>
                   <div className="w-[50px] h-[35px] border border-input bg-background text-sm rounded-md flex items-center justify-center">
                     {maxDistance}
                   </div>
-                  {/* <Select
-              value={maxDistance.toString()}
-              onValueChange={(value) => setNewMaxDistance(Number(value))}
-            >
-              <SelectTrigger className="w-full sm:w-[50px] md:w-[70px] border-black">
-                <SelectValue placeholder="Max Capacity" />
-              </SelectTrigger>
-              <SelectContent className="text-text__primary bg-background">
-                {[20, 25, 30, 35, 40].map((num) => (
-                  <SelectItem key={num} value={num.toString()}>
-                    {num}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select> */}
                 </div>
               )}
             </div>
           </div>
-          <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
-            <div className="flex items-center space-x-2">
+          <div className="flex flex-col sm:flex-row items-start sm:justify-between lg:justify-end sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 w-full lg:w-auto">
+            <div className="items-center space-x-2 sm:flex hidden">
               <Switch
                 checked={isToggled}
                 onCheckedChange={handleToggle}
@@ -182,33 +168,36 @@ export default function GraphVisualization() {
                 View All Requests
               </label>
             </div>
-            <Button
-              onClick={() => {
-                handleShowOptimal();
-              }}
-              variant="destructive"
-              className="text-white w-full sm:w-auto"
-            >
-              Show Optimal
-            </Button>
-            <Button
-              onClick={() => {
-                resetCargo();
-                resetRoute();
-                setResetSignal((prev) => !prev);
-              }}
-              variant="destructive"
-              className="text-white w-full sm:w-auto"
-            >
-              Reset
-            </Button>
+            <div className="flex flex-row gap-2 w-full sm:w-auto">
+              <Button
+                onClick={() => {
+                  handleShowOptimal();
+                }}
+                variant="destructive"
+                className="text-white w-full sm:w-auto "
+              >
+                <div className="text-xs sm:text-sm md:text-md">Show Optimal</div>
+                
+              </Button>
+              <Button
+                onClick={() => {
+                  resetCargo();
+                  resetRoute();
+                  setResetSignal((prev) => !prev);
+                }}
+                variant="destructive"
+                className="text-white w-full sm:w-auto"
+              >
+               <div className="text-xs sm:text-sm md:text-md">Reset</div>
+              </Button>
+            </div>
           </div>
         </div>
-        <div className="relative flex-grow">
+        <div className="relative flex-grow min-h-[400px] sm:min-h-[500px] md:min-h-[600px]">
           <GraphVisualiser
             filename={selectedDataset}
             resetSignal={resetSignal}
-            isToggled={isToggled} // Pass the toggle state to GraphVisualiser
+            isToggled={isToggled}
           />
         </div>
       </div>

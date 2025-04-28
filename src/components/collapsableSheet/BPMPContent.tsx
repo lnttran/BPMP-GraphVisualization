@@ -9,6 +9,7 @@ import {
 } from "../ui/accordion";
 import { calculateProfit } from "../tools/Tools";
 import { CargoCard } from "./CargoCard";
+import { useDataContext } from "../context/DataContext";
 
 const returnAvailableCargo = (
   selectedCargo: Cargo[],
@@ -41,9 +42,9 @@ const returnAvailableCargo = (
 
 export default function BPMPContent({ dataItem }: { dataItem: DataItem }) {
   const weightDistantData = dataItem?.data?.weightDistantData || [];
-  const informationData = dataItem?.data;
   const { getRoute, totalDistance, selectedRoute, routeWeightMap } =
     useRouteContext();
+  const {priceCharge, travelCost, vehicleWeight} = useDataContext(); 
   const { selectedCargo, calculateTotalWeight, removeCargo, addCargo } =
     useCargoContext();
   return (
@@ -51,18 +52,18 @@ export default function BPMPContent({ dataItem }: { dataItem: DataItem }) {
       <div className="flex flex-col w-full gap-3 justify-between place-items-start">
         <div className="grid grid-cols-2 gap-y-3 justify-between w-full">
           <div className="flex flex-col">
-            <p className="font-light text-sm">Total Cargo</p>
-            <p className="font-extrabold text-2xl">{calculateTotalWeight()}</p>
+            <p className="font-light text-xs md:text-sm">Total Cargo</p>
+            <p className="font-extrabold text-lg md:text-2xl ">{calculateTotalWeight()}</p>
           </div>
           <div className="flex flex-col">
-            <p className="font-light text-sm">Total Distance</p>
-            <p className="font-extrabold text-2xl">
+            <p className="font-light text-xs md:text-sm">Total Distance</p>
+            <p className="font-extrabold text-lg md:text-2xl ">
               {totalDistance === 0 ? "0" : totalDistance}
             </p>
           </div>
           <div className="flex flex-col">
-            <p className="font-light text-sm">Total Profit</p>
-            <p className="font-extrabold text-2xl">
+            <p className="font-light text-xs md:text-sm">Total Profit</p>
+            <p className="font-extrabold text-lg md:text-2xl ">
               {calculateProfit({
                 selectedRouteWeightMap: routeWeightMap,
                 selectedCargo: selectedCargo,
@@ -71,27 +72,27 @@ export default function BPMPContent({ dataItem }: { dataItem: DataItem }) {
             </p>
           </div>
           <div className="flex flex-col">
-            <p className="font-light text-sm">Price per cargo</p>
-            <p className="font-extrabold text-2xl">
-              {informationData?.p ? informationData.p.toString() : "N/A"}
+            <p className="font-light text-xs md:text-sm">Price per cargo</p>
+            <p className="font-extrabold text-lg md:text-2xl ">
+              {priceCharge ? priceCharge.toString() : "N/A"}
             </p>
           </div>
           <div className="flex flex-col">
-            <p className="font-light text-sm">Travel cost </p>
-            <p className="font-extrabold text-2xl">
-              {informationData?.c ? informationData.c.toString() : "N/A"}
+            <p className="font-light text-xs md:text-sm">Travel cost </p>
+            <p className="font-extrabold text-lg md:text-2xl ">
+              {travelCost ? travelCost.toString() : "N/A"}
             </p>
           </div>
           <div className="flex flex-col">
-            <p className="font-light text-sm">Vehicle weight</p>
-            <p className="font-extrabold text-2xl">
-              {informationData?.v ? informationData.v.toString() : "N/A"}
+            <p className="font-light text-xs md:text-sm">Vehicle weight</p>
+            <p className="font-extrabold text-lg md:text-2xl ">
+              {vehicleWeight ? vehicleWeight.toString() : "N/A"}
             </p>
           </div>
         </div>
         <div className="flex flex-col">
-          <p className="font-light text-sm">Route</p>
-          <div className="font-extrabold text-2xl"> {getRoute()}</div>
+          <p className="font-light text-xs md:text-sm">Route</p>
+          <div className="font-extrabold text-lg md:text-2xl "> {getRoute()}</div>
         </div>
       </div>
 
@@ -101,7 +102,7 @@ export default function BPMPContent({ dataItem }: { dataItem: DataItem }) {
         defaultValue={["selected", "available"]}
       >
         <AccordionItem value="selected" className="border-b-neutral-300">
-          <AccordionTrigger className="font-light text-sm">
+          <AccordionTrigger className="font-light text-xs md:text-sm">
             Selected Cargo
           </AccordionTrigger>
           <AccordionContent>
@@ -118,7 +119,7 @@ export default function BPMPContent({ dataItem }: { dataItem: DataItem }) {
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="available" className="border-b-neutral-300">
-          <AccordionTrigger className="font-light text-sm">
+          <AccordionTrigger className="font-light text-xs md:text-sm">
             Available Cargo
           </AccordionTrigger>
           <AccordionContent>

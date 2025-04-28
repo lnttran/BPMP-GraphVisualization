@@ -1,8 +1,10 @@
 // get Route
 
-const PRICE_CHARGE = 1.2;
-const TRAVEL_COST = 1;
-const VEHICLE_WEIGHT = 0.1;
+import { useDataContext } from "../context/DataContext";
+
+// const PRICE_CHARGE = 1.2;
+// const TRAVEL_COST = 1;
+// const VEHICLE_WEIGHT = 0.1;
 
 //get Cargo
 
@@ -23,6 +25,7 @@ export const calculateProfit = ({
   selectedCargo: Cargo[];
   distance: number;
 }) => {
+  const {priceCharge, travelCost, vehicleWeight} = useDataContext(); 
   let p1 = 0;
   let p2 = 0;
 
@@ -39,9 +42,9 @@ export const calculateProfit = ({
     return accumulate + weight.w * weight.d;
   }, 0);
 
-  const revenue = PRICE_CHARGE * p1;
-  const cost = TRAVEL_COST * p2;
-  const TotalProfit = revenue - cost - TRAVEL_COST * VEHICLE_WEIGHT * distance;
+  const revenue = priceCharge * p1; 
+  const cost = travelCost * p2;
+  const TotalProfit = revenue - cost - travelCost * vehicleWeight * distance;
 
   return parseFloat(TotalProfit.toFixed(4));
 };

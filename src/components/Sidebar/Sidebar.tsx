@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { SidebarContext } from "./SidebarContext";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,9 +13,11 @@ import {
   GanttChart,
   TvMinimal,
   House,
+  Menu,
 } from "lucide-react";
 
 import { usePathname } from "next/navigation";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "../ui/sheet";
 
 const sidebarItems = [
   {
@@ -59,9 +61,46 @@ const Sidebar = ({
 }) => {
   const pathname = usePathname();
   const { isCollapsed, toggleSidebarcollapse } = useContext(SidebarContext);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
 
+  const handleLinkClick = () => {
+    setIsSheetOpen(false);
+  };
   return (
-    <div className="relative">
+    <div>
+      <div className="md:hidden fixed top-4 left-4 z-20">
+        <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+          <SheetTrigger asChild>
+            <Button variant="outline" size="icon" className="border-foreground">
+              <Menu className="h-6 w-6" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" className="w-[250px] p-4">
+            <SheetTitle>
+              <div className="flex items-center gap-4 pb-6">
+              <Truck className="sidebar__logo" />
+                <p className="text-[24px] font-bold">{title}</p>
+              </div>
+            </SheetTitle>
+            <ul className="space-y-2">
+              {sidebarItems.map(({ name, href, icon }) => (
+                 <li key={name}>
+                 <Link
+                   className={`sidebar__link ${
+                     pathname === href ? "sidebar__link--active" : ""
+                   }`}
+                   href={href}
+                 >
+                   <span className="sidebar__icon">{icon}</span>
+                   <span className="sidebar__name">{name}</span>
+                 </Link>
+               </li>
+              ))}
+            </ul>
+          </SheetContent>
+        </Sheet>
+      </div>
+    <div className="relative hidden md:block h-full" >
       <Button
         className="absolute w-12 h-12 rounded-full top-20 bg-background -right-5 hover:bg-background"
         onClick={toggleSidebarcollapse}
@@ -94,6 +133,7 @@ const Sidebar = ({
           })}
         </ul>
       </aside>
+    </div>
     </div>
   );
 };

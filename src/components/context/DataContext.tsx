@@ -13,6 +13,9 @@ type DataContextType = {
   retrievedData: DataItem | null;
   selectedDataset: string;
   maxCapacity: number;
+  priceCharge: number; 
+  vehicleWeight: number; 
+  travelCost: number; 
   lastNode: number | null;
   maxDistance: number;
 };
@@ -25,9 +28,13 @@ type DataProviderProps = {
   children: ReactNode;
 };
 
+
 export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
   const [retrievedData, setRetrievedData] = useState<DataItem | null>(null);
   const [maxCapacity, setMaxCapacity] = useState(1);
+  const [priceCharge, setPriceCharge] = useState(1.2);
+  const [travelCost, setTravelCost] = useState(1); 
+  const [vehicleWeight, setVehicleWeight] = useState(0.1); 
   const [lastNode, setLastNode] = useState<number | null>(null);
   const [maxDistance, setMaxDistance] = useState(20);
   const defaultDataset = "demo_data_2.txt";
@@ -69,6 +76,9 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
           setNewMaxCapacity(Number(data.data.Q));
           setLastNode(Number(data.data.n));
           setNewMaxDistance(Number(data.data.DIS));
+          setPriceCharge(Number(data.data.p));
+          setTravelCost(Number(data.data.c));
+          setVehicleWeight(Number(data.data.v));
         }
       } catch (err) {
         console.log("error");
@@ -100,6 +110,9 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
         setSelectedDataset,
         retrievedData,
         maxCapacity,
+        priceCharge, 
+        vehicleWeight,
+        travelCost,
         lastNode,
         maxDistance,
         selectedDataset,
