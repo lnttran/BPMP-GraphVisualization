@@ -1,12 +1,7 @@
 import { distance, motion, useAnimationControls } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 import { IoReorderThreeOutline } from "react-icons/io5";
-import { useRouteContext } from "../context/RouteContext";
-import { CargoCard } from "./CargoCard";
-import { useCargoContext } from "../context/CargoContext";
-import { calculateProfit } from "../tools/Tools";
-import { Cargo } from "../context/CargoContext";
-import { DataItem, weightDistant } from "@/db/data";
+
 import {
   Accordion,
   AccordionContent,
@@ -81,7 +76,7 @@ export default function CollapsableSheet({
             className="bg-background rounded-tl-3xl rounded-bl-3xl w-[2rem] h-16 sm:h-20 cursor-pointer self-center flex items-center justify-center "
           >
             <IoReorderThreeOutline
-               style={{ transform: "rotate(90deg)", fontSize: "1.5rem" }}
+              style={{ transform: "rotate(90deg)", fontSize: "1.5rem" }}
               className="sm:text-2xl"
             />
           </div>

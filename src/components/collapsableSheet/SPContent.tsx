@@ -1,14 +1,4 @@
 import { DataItem, weightDistant } from "@/db/data";
-import { Cargo, useCargoContext } from "../context/CargoContext";
-import { useRouteContext } from "../context/RouteContext";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "../ui/accordion";
-import { calculateProfit } from "../tools/Tools";
-import { CargoCard } from "./CargoCard";
 import { useRouteSPContext } from "../context/RouteSPContext";
 import { getWeightDistantbyPickupDropoff } from "../GraphVisualizer/GraphVisualizer";
 

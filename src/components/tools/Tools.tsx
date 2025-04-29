@@ -16,7 +16,7 @@ type Cargo = {
 };
 
 //calculate cargo
-export const calculateProfit = ({
+export const CalculateProfit = ({
   selectedRouteWeightMap,
   selectedCargo,
   distance,
@@ -25,7 +25,7 @@ export const calculateProfit = ({
   selectedCargo: Cargo[];
   distance: number;
 }) => {
-  const {priceCharge, travelCost, vehicleWeight} = useDataContext(); 
+  const { priceCharge, travelCost, vehicleWeight } = useDataContext();
   let p1 = 0;
   let p2 = 0;
 
@@ -42,7 +42,7 @@ export const calculateProfit = ({
     return accumulate + weight.w * weight.d;
   }, 0);
 
-  const revenue = priceCharge * p1; 
+  const revenue = priceCharge * p1;
   const cost = travelCost * p2;
   const TotalProfit = revenue - cost - travelCost * vehicleWeight * distance;
 

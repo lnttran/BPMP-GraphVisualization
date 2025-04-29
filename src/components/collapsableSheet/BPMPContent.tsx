@@ -7,7 +7,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "../ui/accordion";
-import { calculateProfit } from "../tools/Tools";
+import { CalculateProfit } from "../tools/Tools";
 import { CargoCard } from "./CargoCard";
 import { useDataContext } from "../context/DataContext";
 
@@ -44,7 +44,7 @@ export default function BPMPContent({ dataItem }: { dataItem: DataItem }) {
   const weightDistantData = dataItem?.data?.weightDistantData || [];
   const { getRoute, totalDistance, selectedRoute, routeWeightMap } =
     useRouteContext();
-  const {priceCharge, travelCost, vehicleWeight} = useDataContext(); 
+  const { priceCharge, travelCost, vehicleWeight } = useDataContext();
   const { selectedCargo, calculateTotalWeight, removeCargo, addCargo } =
     useCargoContext();
   return (
@@ -53,7 +53,9 @@ export default function BPMPContent({ dataItem }: { dataItem: DataItem }) {
         <div className="grid grid-cols-2 gap-y-3 justify-between w-full">
           <div className="flex flex-col">
             <p className="font-light text-xs md:text-sm">Total Cargo</p>
-            <p className="font-extrabold text-lg md:text-2xl ">{calculateTotalWeight()}</p>
+            <p className="font-extrabold text-lg md:text-2xl ">
+              {calculateTotalWeight()}
+            </p>
           </div>
           <div className="flex flex-col">
             <p className="font-light text-xs md:text-sm">Total Distance</p>
@@ -64,7 +66,7 @@ export default function BPMPContent({ dataItem }: { dataItem: DataItem }) {
           <div className="flex flex-col">
             <p className="font-light text-xs md:text-sm">Total Profit</p>
             <p className="font-extrabold text-lg md:text-2xl ">
-              {calculateProfit({
+              {CalculateProfit({
                 selectedRouteWeightMap: routeWeightMap,
                 selectedCargo: selectedCargo,
                 distance: totalDistance,
@@ -92,7 +94,10 @@ export default function BPMPContent({ dataItem }: { dataItem: DataItem }) {
         </div>
         <div className="flex flex-col">
           <p className="font-light text-xs md:text-sm">Route</p>
-          <div className="font-extrabold text-lg md:text-2xl "> {getRoute()}</div>
+          <div className="font-extrabold text-lg md:text-2xl ">
+            {" "}
+            {getRoute()}
+          </div>
         </div>
       </div>
 
