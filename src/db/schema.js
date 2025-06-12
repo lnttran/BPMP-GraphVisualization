@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { dataSchema } from "./data.ts";
-import { coordinateSchema } from "./coordinate";
+import { coordinateSchema, locationSchema } from "./coordinate";
 import {
   optimalSolutionSchema,
   optimalSolutionSPSchema,
@@ -19,6 +19,8 @@ const optimalSolutionSPModel =
   shortestpathDb.model("OptimalSolutionSP", optimalSolutionSPSchema);
 
 const dataModel = mongoose.models.Data || mongoose.model("Data", dataSchema);
+const locationModel =
+  mongoose.models.Location || mongoose.model("Location", locationSchema);
 const coordinateModel =
   mongoose.models.Coordinate || mongoose.model("Coordinate", coordinateSchema);
 const optimalSolutionModel =
@@ -31,3 +33,4 @@ export const OptimalSolutionSP = optimalSolutionSPModel;
 export const Data = dataModel;
 export const Coordinate = coordinateModel;
 export const OptimalSolution = optimalSolutionModel;
+export const Location = locationModel;

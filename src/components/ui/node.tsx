@@ -16,6 +16,7 @@ const Node = ({
   resetSignal,
   filename,
   isDeparts = false,
+  correspondingLoc,
   isDepot,
 }: {
   x: number;
@@ -30,6 +31,7 @@ const Node = ({
   filename: string;
   resetSignal: boolean;
   isDepot: boolean;
+  correspondingLoc?: string;
 }) => {
   const [isClicked, setIsClicked] = useState(false);
   const [isAdded, setIsAdded] = useState(onClickedDefault);
@@ -55,24 +57,37 @@ const Node = ({
   }, [resetSignal, filename, onClickedDefault]);
 
   return (
-    <div>
-      <Button
-        style={{ left: x * 100, top: y * 100 }}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-        className={cn(
-          "absolute rounded-full w-12 h-12 border-2 hover:bg-accent hover:text-white hover:font-bold -translate-x-1/2 -translate-y-1/2",
-          {
-            "bg-accent-foreground text-white": isDepot && !isAdded,
-            "bg-accent text-white": isAdded,
-            "bg-background": !isDepot && !isAdded,
-          },
-          classname
+    <div
+      className="absolute flex flex-col items-center"
+      style={{ left: x * 100, top: y * 100 }}
+    >
+      <div className="relative">
+        <Button
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+          className={cn(
+            "rounded-full w-12 h-12 border-2 hover:bg-accent hover:text-white hover:font-bold -translate-x-1/2 -translate-y-1/2",
+            {
+              "bg-accent-foreground text-white": isDepot && !isAdded,
+              "bg-accent text-white": isAdded,
+              "bg-background": !isDepot && !isAdded,
+            },
+            classname
+          )}
+          onClick={handleClick}
+        >
+          {children}
+        </Button>
+        {correspondingLoc && (
+          <div
+            className={
+              "mt-2 px-3 py-1 rounded-full truncate text-sm font-medium text-center w-full transition-all duration-300 bg-blue-50 border-background text-accent backdrop-blur-sm border shadow-sm -translate-x-6"
+            }
+          >
+            {correspondingLoc}
+          </div>
         )}
-        onClick={handleClick}
-      >
-        {children}
-      </Button>
+      </div>
     </div>
   );
 };

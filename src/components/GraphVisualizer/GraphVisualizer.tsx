@@ -135,6 +135,8 @@ export default function GraphVisualiser({
   useEffect(() => {
     resetRoute();
     resetCargo();
+
+    console.log("data", retrievedData);
   }, [filename]);
 
   const lines = weightDistantData.reduce<
@@ -475,6 +477,7 @@ export default function GraphVisualiser({
         }
         filename={filename}
         resetSignal={resetSignal}
+        correspondingLoc={nodeList.location}
       >
         {nodeList.node}
       </Node>

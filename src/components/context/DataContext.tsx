@@ -13,9 +13,9 @@ type DataContextType = {
   retrievedData: DataItem | null;
   selectedDataset: string;
   maxCapacity: number;
-  priceCharge: number; 
-  vehicleWeight: number; 
-  travelCost: number; 
+  priceCharge: number;
+  vehicleWeight: number;
+  travelCost: number;
   lastNode: number | null;
   maxDistance: number;
 };
@@ -28,13 +28,12 @@ type DataProviderProps = {
   children: ReactNode;
 };
 
-
 export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
   const [retrievedData, setRetrievedData] = useState<DataItem | null>(null);
   const [maxCapacity, setMaxCapacity] = useState(1);
   const [priceCharge, setPriceCharge] = useState(1.2);
-  const [travelCost, setTravelCost] = useState(1); 
-  const [vehicleWeight, setVehicleWeight] = useState(0.1); 
+  const [travelCost, setTravelCost] = useState(1);
+  const [vehicleWeight, setVehicleWeight] = useState(0.1);
   const [lastNode, setLastNode] = useState<number | null>(null);
   const [maxDistance, setMaxDistance] = useState(20);
   const defaultDataset = "demo_data_2.txt";
@@ -70,8 +69,8 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
         }
         const result = await response.json();
         const data = result[0];
-        setRetrievedData(data);
-        // Set max capacity and max distance
+
+        // Set max capacity and related values
         if (data && data.data) {
           setNewMaxCapacity(Number(data.data.Q));
           setLastNode(Number(data.data.n));
@@ -79,6 +78,38 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
           setPriceCharge(Number(data.data.p));
           setTravelCost(Number(data.data.c));
           setVehicleWeight(Number(data.data.v));
+        }
+
+        let locationMap: Record<string, string> = {};
+
+        // Fetch corresponding locations
+        const locationResponse = await fetch(
+          `/api/data/location?fileName=${selectedDataset}`
+        );
+
+        if (locationResponse.status === 200) {
+          locationMap = await locationResponse.json();
+        } else if (locationResponse.status !== 404) {
+          throw new Error(`HTTP error! Status: ${locationResponse.status}`);
+        }
+
+        // Merge location into coordinate
+        if (data.coordinate) {
+          const enrichedCoordinates = data.coordinate.map((coord: any) => ({
+            ...coord,
+            location: locationMap[String(coord.node)],
+          }));
+
+          // Replace coordinates and set updated data
+          const updatedData = {
+            ...data,
+            coordinate: enrichedCoordinates,
+          };
+
+          setRetrievedData(updatedData);
+        } else {
+          // No coordinate? Just set original data
+          setRetrievedData(data);
         }
       } catch (err) {
         console.log("error");
@@ -110,7 +141,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
         setSelectedDataset,
         retrievedData,
         maxCapacity,
-        priceCharge, 
+        priceCharge,
         vehicleWeight,
         travelCost,
         lastNode,
