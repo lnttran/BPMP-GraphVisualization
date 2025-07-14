@@ -11,7 +11,7 @@ export async function GET(request) {
     const allData = await Data.find({}).lean();
 
     // Extract filenames from the documents
-    const filenames = allData.map((doc) => doc.file);
+    const filenames = allData.map((doc) => doc.file).sort((a, b) => a.localeCompare(b)); // Alphebatize file names
 
     // Return the filenames
     return NextResponse.json(filenames, { status: 200 });

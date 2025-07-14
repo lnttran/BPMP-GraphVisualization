@@ -10,7 +10,7 @@ import { SidebarProvider } from "@/components/Sidebar/SidebarContext";
 import BaseLayout from "@/components/Sidebar/BaseLayout";
 import { ToastProvider, ToastViewport } from "@/components/ui/toast";
 import { Toaster } from "@/components/ui/toaster";
-import { Database, GanttChart, House } from "lucide-react";
+import { Database, GanttChart, House, Info } from "lucide-react";
 
 const roboto_slab = Roboto_Slab({ subsets: ["latin"] });
 
@@ -26,6 +26,11 @@ export const metadata: Metadata = {
 };
 
 const sidebarItems = [
+  {
+    name: "Guide",
+    href: "/dashboard/bpmp/guide",
+    icon: <Info />,
+  },
   {
     name: "Visualization",
     href: "/dashboard/bpmp",
