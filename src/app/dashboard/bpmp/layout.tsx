@@ -69,8 +69,8 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    // <html lang="en">
+    //   <body className={inter.className}>
         <div className="relative max-h-screen h-full">
           <div className="relative h-full">
             <SidebarProvider>
@@ -81,7 +81,7 @@ export default function DashboardLayout({
             </SidebarProvider>
           </div>
         </div>
-      </body>
-    </html>
+    //   </body>
+    // </html>
   );
 }

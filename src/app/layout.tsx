@@ -27,6 +27,7 @@ export default function RootLayout({
   const isWebsitePage = pathname?.startsWith("/website") || pathname === "/";
 
   return (
+    console.log('Rendering html'),
     <html lang="en">
       <body className={inter.className}>
         <div className="relative max-h-screen h-full">
@@ -77,6 +78,17 @@ export default function RootLayout({
                       >
                         {/* <Route className="w-4 h-4" /> */}
                         <span>Shortest Path</span>
+                      </Link>
+                      <Link
+                        href="/dashboard/bpmp"
+                        className={`flex items-center gap-2 text-sm font-medium transition-colors duration-200 ${
+                          pathname === "/dashboard/bpmp"
+                            ? "text-emerald-600"
+                            : "text-gray-600 hover:text-emerald-600"
+                        }`}
+                      >
+                        {/* <Network className="w-4 h-4" /> */}
+                        <span>Interactive App</span>
                       </Link>
                     </nav>
                   </div>

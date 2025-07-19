@@ -10,7 +10,7 @@ import { SidebarProvider } from "@/components/Sidebar/SidebarContext";
 import BaseLayout from "@/components/Sidebar/BaseLayout";
 import { ToastProvider, ToastViewport } from "@/components/ui/toast";
 import { Toaster } from "@/components/ui/toaster";
-import { Database, GanttChart, House } from "lucide-react";
+import { Database, GanttChart, House, Info } from "lucide-react";
 
 const roboto_slab = Roboto_Slab({ subsets: ["latin"] });
 
@@ -27,13 +27,18 @@ export const metadata: Metadata = {
 
 const sidebarSPItems = [
   {
+    name: "Guide",
+    href: "/dashboard/shortestpath/guide",
+    icon: <Info />,
+  },
+  {
     name: "Visualization",
-    href: "/dashboard/shortestpath",
+    href: "/dashboard/bpmp",
     icon: <GanttChart />,
   },
   {
     name: "Data",
-    href: "/dashboard/shortestpath/database",
+    href: "/dashboard/bpmp/database",
     icon: <Database />,
   },
   {
@@ -64,8 +69,8 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    // <html lang="en">
+    //   <body className={inter.className}>
         <div className="relative max-h-screen h-full">
           <div className="relative h-full">
             <SidebarProvider>
@@ -76,7 +81,7 @@ export default function DashboardLayout({
             </SidebarProvider>
           </div>
         </div>
-      </body>
-    </html>
+    //   </body>
+    // </html>
   );
 }
