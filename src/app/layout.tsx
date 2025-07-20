@@ -10,6 +10,7 @@ import "./globals.css";
 import Link from "next/link";
 import { Truck, Network, Route, Home } from "lucide-react";
 import { usePathname } from "next/navigation";
+import Dropdown from "@/components/ui/dropdown";
 
 const roboto_slab = Roboto_Slab({ subsets: ["latin"] });
 const poppin = Poppins({ subsets: ["latin"], weight: "400" });
@@ -79,17 +80,32 @@ export default function RootLayout({
                         {/* <Route className="w-4 h-4" /> */}
                         <span>Shortest Path</span>
                       </Link>
-                      <Link
+                      {/* <Link
                         href="/dashboard/bpmp"
                         className={`flex items-center gap-2 text-sm font-medium transition-colors duration-200 ${
                           pathname === "/dashboard/bpmp"
                             ? "text-emerald-600"
                             : "text-gray-600 hover:text-emerald-600"
                         }`}
-                      >
+                      > */}
                         {/* <Network className="w-4 h-4" /> */}
-                        <span>Interactive App</span>
-                      </Link>
+                        {/* <span>Interactive App</span>
+                      </Link> */}
+                      <Dropdown
+                        label="Interactive App"
+                        href="/dashboard/bpmp"
+                        icon={<Network className="w-4 h-4" />}
+                        children={[
+                          {
+                            label: "BPMP",
+                            href: "/dashboard/bpmp",
+                          },
+                          {
+                            label: "Shortest Path",
+                            href: "/dashboard/shortestpath",
+                          },
+                        ]}
+                      />
                     </nav>
                   </div>
                 </header>
