@@ -9,19 +9,19 @@ const lineTypes = [
   {
     icon: <TfiLineDashed size={40} className="text-accent" />,
     arrow: <IoIosArrowForward size={24} className="text-accent" />,
-    title: "Unselected route with available cargo",
+    title: "Unselected arc with available cargo",
     id: "dashed text-accent",
   },
   {
     icon: <RxDividerHorizontal size={40} className="text-accent" />,
     arrow: <IoIosArrowForward size={24} className="text-accent" />,
-    title: "Selected route with empty truck",
+    title: "Selected arc with empty truck",
     id: "solid text-accent",
   },
   {
     icon: <RxDividerHorizontal size={40} className="text-accent-foreground" />,
     arrow: <IoIosArrowForward size={24} className="text-accent-foreground" />,
-    title: "Selected route with selected cargo",
+    title: "Selected arc with selected cargo",
     id: "solid text-accent-foreground",
   },
   {

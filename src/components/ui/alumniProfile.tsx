@@ -5,7 +5,7 @@ import { useOutsideClick } from "@/hooks/use-outside-click";
 import Image from "next/image";
 import { Linkedin } from "lucide-react";
 
-export function TeamProfile() {
+export function AlumniProfile() {
   const [active, setActive] = useState<(typeof cards)[number] | boolean | null>(
     null
   );
@@ -144,7 +144,7 @@ export function TeamProfile() {
           </div>
         ) : null}
       </AnimatePresence>
-      <ul className="mx-auto max-w-5xl gap-8 pt-12 flex flex-col items-center">
+      <ul className="mx-auto max-w-5xl gap-8 flex flex-col items-center">
         <div className="flex justify-center gap-8 lg:flex-row flex-col">
           {cards.slice(0, 2).map((card, index) => (
             <motion.div
@@ -258,88 +258,44 @@ export const CloseIcon = () => {
 
 const cards = [
   {
-    description:
-      "Associate Professor of Operations Research & Engineering Management",
-    title: "Eli Olinick, Ph.D",
-    src: "/olinick_new.jpg",
+    description: "Ph.D candidate in Mathematics",
+    title: "Daniel Ryan",
+    src: "/Daniel-Ryan.jpg",
+    ctaText: "More",
+    ctaLink: "https://djryn.github.io",
+    linkedin: "https://www.linkedin.com/in/danieljosephryan/",
+    content: () => {
+      return (
+        <p>
+          Daniel Ryan began on this project as an undergraduate at SMU as a part
+          of the SURF program with the Lyle School of Engineering. He later
+          completed his B.A. in Mathematics, Computer Science, and Music at SMU
+          and is currently pursuing his Ph.D. in Mathematics at North Carolina
+          State University.
+        </p>
+      );
+    },
+  },
+
+  {
+    description: "B.S. in Computer Science and Data Science",
+    title: "Tran Lam",
+    src: "/Tran-Lam-Headshot.jpg",
     ctaText: "More",
     ctaLink:
-      "https://www.smu.edu/lyle/departments/orem/people/faculty/olinick-eli",
-    linkedin: "https://www.linkedin.com/in/eli-olinick-6ab0541/",
+      "https://blog.smu.edu/saes/2025/01/29/undergraduate-research-student-spotlight-tran-lam/",
+    linkedin: "https://www.linkedin.com/in/tranlam06/",
     content: () => {
       return (
         <p>
-          Eli V. Olinick is an Associate Professor in the Department of
-          Operations Research and Engineering Management at SMU&apos;s Bobby B.
-          Lyle School of Engineering. He completed his B.S. in Applied
-          Mathematics at Brown University and earned his M.S. and Ph.D. in
-          Industrial Engineering and Operations Research at the University of
-          California at Berkeley.
-        </p>
-      );
-    },
-  },
-  {
-    description: "M.S. in Management Science and Ph.D. in Operations Research",
-    title: "YuanYuan Dong",
-    src: "/Yuanyuan (Angela).JPG",
-    ctaText: "More",
-    ctaLink: "https://www.linkedin.com/in/yuanyuan-dong-profile/",
-    linkedin: "https://www.linkedin.com/in/yuanyuan-dong-profile/",
-    content: () => {
-      return (
-        <p>
-          Yuanyuan (Angela) Dong received B.S. (2003) in Civil Aviation
-          Transportation Management from Nanjing University of Aeronautics and
-          Astronautics, M.S. (2006) in Management Science from Nanjing
-          University, and Ph.D. (2015) in Operations Research from Southern
-          Methodist University (SMU). She worked on ground transportation as an
-          operations research scientist at Amazon from 2016 to 2018. After being
-          an independent researcher from 2019 to 2022, she became the
-          postdoctoral researcher at SMU from 2023 to 2025. Her research
-          interest includes applied optimization, heuristics, logistics and
-          supply chain management, vehicle routing problem, and network
-          problems.
-        </p>
-      );
-    },
-  },
-  {
-    description: "B.S. in Management Science and Data Science",
-    title: "Sreshta Ghosh",
-    src: "/Sreshta-Ghosh.jpeg",
-    ctaText: "More",
-    ctaLink: "https://www.linkedin.com/in/sreshtaghosh/",
-    linkedin: "https://www.linkedin.com/in/sreshtaghosh/",
-    content: () => {
-      return (
-        <p>
-          Sreshta Ghosh is an honors student at Southern Methodist University,
-          pursuing a B.S. in Management Science and Data Science with a minor in
-          Business. She is actively involved in research on the Backhaul Profit
-          Maximization Problem (BPMP), focusing on expanding the algorithm to
-          multiple vehicles. Beyond her research, Sreshta is a member of the
-          Society of Women Engineers, the SMU Belletones, and the SMU Crafts
-          Club.
-        </p>
-      );
-    },
-  },
-  {
-    description: "B.A. in Computer Science, B.S. in Data Science, B.A. in Music",
-    title: "Anika Saiprabhu",
-    src: "/Anika-Saiprabhu.jpg",
-    ctaText: "More",
-    ctaLink: "https://www.linkedin.com/in/anika-saiprabhu-156a27240/",
-    linkedin: "https://www.linkedin.com/in/anika-saiprabhu-156a27240/",
-    content: () => {
-      return (
-        <p>
-          Anika Saiprabhu is a senior at Southern Methodist University pursuing degrees in
-          Computer Science, Data Science, and Music. She joined this project at the end of her
-          junior year through the URA (Undergraduate Research Assistant) program facilitated
-          through SMU Engaged Learning. She is currently working on the web application and 
-          implementing various shortest path algorithms. 
+          Tran Lam is pursuing a B.S. in Computer Science and Data Science at
+          Southern Methodist University. Through the URI program under Engage
+          Learning, Tran became involved in the research on the Backhaul Profit
+          Maximization Problem (BPMP), focusing on optimizing algorithms to
+          enhance efficiency. In addition to developing faster problem-solving
+          techniques, Tran is also working on a web-based visualization platform
+          to make the research more accessible and engaging for a broader
+          audience.
         </p>
       );
     },

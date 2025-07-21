@@ -61,7 +61,7 @@ const Dropdown = ({ label, href, icon, className = "", variant, children = [] }:
                           ? "bg-destructive text-white hover:bg-destructive/90"
                           : variant === "default"
                           ? "border border-gray-300 text-gray-800 hover:bg-gray-100"
-                          : "bg-gray-100 text-gray-800 hover:bg-gray-200"
+                          : " text-gray-800 hover:text-emerald-600"
                       } ${className}`}
                 >
                     <span>{label}</span>

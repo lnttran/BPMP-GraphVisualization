@@ -41,9 +41,9 @@ export default function RootLayout({
                     <Link href="/website" className="flex items-center gap-3 group">
                       <div className="flex items-center gap-2">
                         <Truck className="w-7 h-7 text-emerald-600" />
-                        <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-emerald-600 to-teal-600 text-transparent bg-clip-text">
+                        {/* <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-emerald-600 to-teal-600 text-transparent bg-clip-text">
                           BPMP
-                        </span>
+                        </span> */}
                       </div>
                     </Link>
                     <nav className="flex items-center gap-8">

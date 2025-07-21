@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import Footer from "@/components/footer/footer";
 import { TeamProfile } from "@/components/ui/teamProfile";
+import { AlumniProfile } from "@/components/ui/alumniProfile";
 
 export default function LandingPage() {
   return (
@@ -185,6 +186,27 @@ export default function LandingPage() {
           </div>
 
           <TeamProfile />
+          {/* <div className="flex justify-center mt-12">
+            <Link
+              href="/website/team"
+              className="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded-full transition-colors duration-300"
+            >
+              View Full Team
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Link>
+          </div> */}
+
+          <br></br>
+          <br></br>
+          <br></br>
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0F1F1C] mb-4">
+              Alumni
+            </h2>
+          </div>
+          
+          <AlumniProfile />
+
         </div>
       </section>
 
