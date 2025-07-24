@@ -77,5 +77,5 @@ export async function GET(request) {
       { message: "Failed to fetch solution", error: error.message },
       { status: 500 }
     );
-  }
+  } 
 }
