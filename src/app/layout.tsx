@@ -95,7 +95,7 @@ export default function RootLayout({
                         label="Interactive App"
                         href="/dashboard/bpmp"
                         icon={<Network className="w-4 h-4" />}
-                        children={[
+                        items={[
                           {
                             label: "BPMP",
                             href: "/dashboard/bpmp",

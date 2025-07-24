@@ -11,14 +11,14 @@ interface DropdownTabProps {
     icon?: ReactNode;
     className?: string;
     variant?: "default" | "destructive";
-    children?: {
+    items?: {
         label: string;
         href: string;
     }[];
 }
 
 
-const Dropdown = ({ label, href, icon, className = "", variant, children = [] }: DropdownTabProps) => {
+const Dropdown = ({ label, href, icon, className = "", variant, items = [] }: DropdownTabProps) => {
             
     const getItemClasses = (href: string) => {
         const isActive = pathname === href;
@@ -39,7 +39,7 @@ const Dropdown = ({ label, href, icon, className = "", variant, children = [] }:
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
-    const active = pathname === href || children.some(child => pathname === child.href);
+    const active = pathname === href || items.some(item => pathname === item.href);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -69,7 +69,7 @@ const Dropdown = ({ label, href, icon, className = "", variant, children = [] }:
                     <ChevronDown className="w-4 h-4" />
                 </button>
 
-                {isOpen && children.length > 0 && (
+                {isOpen && items.length > 0 && (
                     <div className={`absolute right-0 z-10 w-56 origin-top-right rounded-md ${
                         variant === "destructive"
                             ? "bg-destructive mt-10 "
@@ -79,14 +79,14 @@ const Dropdown = ({ label, href, icon, className = "", variant, children = [] }:
                         } ${className}`}
                     >
                         <div className="py-1">
-                            {children.map((child) => (
+                            {items.map((item) => (
                                 <Link
-                                    key={child.href}
-                                    href={child.href}
+                                    key={item.href}
+                                    href={item.href}
                                     onClick={() => setIsOpen(false)}
-                                    className={`block px-4 py-2 text-sm transition-colors duration-200 ${getItemClasses(child.href)}`}
+                                    className={`block px-4 py-2 text-sm transition-colors duration-200 ${getItemClasses(item.href)}`}
                                 >
-                                    {child.label}
+                                    {item.label}
                                 </Link>
                             ))}
                         </div>
