@@ -11,6 +11,8 @@ const shortestpathDb = mongoose.connection.useDb("shortestpath");
 
 const dataSPModel =
   shortestpathDb.models.Data || shortestpathDb.model("Data", dataSchema);
+const locationSPModel =
+  shortestpathDb.models.Location || shortestpathDb.model("Location", locationSchema);
 const coordinateSPModel =
   shortestpathDb.models.Coordinate ||
   shortestpathDb.model("Coordinate", coordinateSchema);
@@ -30,6 +32,7 @@ const optimalSolutionModel =
 export const DataSP = dataSPModel;
 export const CoordinateSP = coordinateSPModel;
 export const OptimalSolutionSP = optimalSolutionSPModel;
+export const LocationSP = locationSPModel;
 export const Data = dataModel;
 export const Coordinate = coordinateModel;
 export const OptimalSolution = optimalSolutionModel;

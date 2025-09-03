@@ -63,15 +63,59 @@ export const DataSPProvider: React.FC<DataSPProviderProps> = ({ children }) => {
         }
         const result = await response.json();
         const data = result[0];
-        setRetrievedData(data);
-        // Set max capacity and max distance
-        if (data && data.data) {
-          setLastNode(Number(data.data.n));
+
+        let locationMap: Record<string, string> = {};
+
+        // Fetch corresponding locations
+        const locationResponse = await fetch(
+          `/api/shortestpath/data/location?fileName=${selectedDataset}`
+        );
+
+        if (locationResponse.status === 200) {
+          locationMap = await locationResponse.json();
+        } else if (locationResponse.status !== 404) {
+          throw new Error(`HTTP error! Status: ${locationResponse.status}`);
         }
+
+    
+
+
+        // Merge location into coordinate
+        if (data.coordinate) {
+          const enrichedCoordinates = data.coordinate.map((coord: any) => ({
+            ...coord,
+            location: locationMap[String(coord.node)],
+          }));
+
+          // Replace coordinates and set updated data
+          const updatedData = {
+            ...data,
+            coordinate: enrichedCoordinates,
+          };
+
+          setRetrievedData(updatedData);
+        } else {
+          // No coordinate? Just set original data
+          console.log("No coordinate data found, setting original data");
+          setRetrievedData(data);
+        }
+
+        console.log(retrievedData?.coordinate?.[0]);
+
+        
+        // setRetrievedData(data);
+        // // Set max capacity and max distance
+        // if (data && data.data) {
+        //   setLastNode(Number(data.data.n));
+        // }
+
+        
+
       } catch (err) {
         console.log("error");
       }
     };
+    
 
     fetchData();
   }, [selectedDataset]);
@@ -114,3 +158,5 @@ export const useDataSPContext = () => {
   }
   return context;
 };
+
+

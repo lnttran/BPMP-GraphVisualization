@@ -379,6 +379,25 @@ export default function SPGraphVisualiser({
   const renderBoardPiece = () => {
     return coordinateData.map((nodeList, index) => {
       return (
+        // <Node
+        //   key={`node-${index}`}
+        //   x={nodeList.x}
+        //   y={nodeList.y}
+        //   onMouseEnter={() => setHoveredNode(nodeList.node)}
+        //   onMouseLeave={() => setHoveredNode(null)}
+        //   onClickedDefault={
+        //     selectedRoute.includes(nodeList.node) && nodeList.node != lastNode
+        //   }
+        //   isDeparts={index == 0}
+        //   isDepot={lastNode !== null && index === lastNode - 1}
+        //   onClick={(isSelected: boolean) =>
+        //     handleOnClickedNode(isSelected, index + 1)
+        //   }
+        //   filename={filename}
+        //   resetSignal={resetSignal}
+        // >
+        //   {nodeList.node}
+        // </Node>
         <Node
           key={`node-${index}`}
           x={nodeList.x}
@@ -395,9 +414,12 @@ export default function SPGraphVisualiser({
           }
           filename={filename}
           resetSignal={resetSignal}
+          correspondingLoc={nodeList.location} 
         >
           {nodeList.node}
         </Node>
+
+        
       );
     });
   };
