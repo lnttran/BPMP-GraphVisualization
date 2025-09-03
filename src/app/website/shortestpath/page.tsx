@@ -26,10 +26,10 @@ export default function ShortestPathPage() {
       <section className="w-full min-h-screen relative overflow-hidden bg-gradient-to-br from-[#0F1F1C] via-[#1a2f2a] to-[#0F1F1C]">
         {/* Animated dots background */}
         <div className="absolute inset-0 opacity-10">
-          <div
+          {/* <div
             className="absolute w-2 h-2 bg-white rounded-full animate-float"
             style={{ top: "10%", left: "20%" }}
-          />
+          /> */}
           <div
             className="absolute w-2 h-2 bg-white rounded-full animate-float-delay"
             style={{ top: "30%", left: "70%" }}
