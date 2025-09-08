@@ -301,6 +301,25 @@ export default function BPMPPage() {
                 INFORMS Journal on Optimization, Vol. 4, No. 4, Fall 2022
               </p>
             </a>
+
+            <a
+              href="https://www.sciencedirect.com/science/article/abs/pii/S0925527313002351?via%3Dihub"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+            >
+              <h3 className="text-xl font-semibold text-[#0F1F1C] mb-4">
+                Practical and Effective Heuristics for the Backhaul Profit Maximization Problem
+              </h3>
+              <p className="text-emerald-600 font-medium mb-2">
+                Daniel Ryan, Tran Lam, Yuanyuan Dong & Eli Olinick
+              </p>
+              <p className="text-gray-600">
+                Networks and Spatial Economics, 
+                May 2025
+              </p>
+            </a>
+
           </div>
         </div>
       </section>
