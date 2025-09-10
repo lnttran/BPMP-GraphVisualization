@@ -133,6 +133,12 @@ export default function GraphVisualiser({
   const dataSize = coordinateData.length;
 
   useEffect(() => {
+    if (filename && (window as any).optimalButtonControl) {
+      (window as any).optimalButtonControl.setCurrentFile(filename);
+    }
+  }, [filename]);
+
+  useEffect(() => {
     resetRoute();
     resetCargo();
 
@@ -216,6 +222,13 @@ export default function GraphVisualiser({
         });
       }
 
+    if (result && i === lastNode) {
+  if ((window as any).optimalButtonControl) {
+    (window as any).optimalButtonControl.incrementAttempts();
+    checkOptimalPath();  // 调用检查函数
+  }
+}
+
       return result;
     } else {
       let indexToRemove: number = selectedRoute.indexOf(i);
@@ -229,6 +242,61 @@ export default function GraphVisualiser({
       return true;
     }
   };
+
+  const checkOptimalPath = async () => {
+  console.log("=== Checking optimal solution ===");
+  console.log("Current selectedRoute:", selectedRoute);
+  console.log("Current selectedCargo:", selectedCargo);
+  console.log("selectedCargo length:", selectedCargo.length);
+  
+  try {
+    const response = await fetch(
+      `/api/data/optimalSolution?filename=${encodeURIComponent(filename)}`
+    );
+    
+    if (response.ok) {
+      const optimalSolution = await response.json();
+      // 转换 cargo 格式
+      const currentCargoSimple = selectedCargo.map(item => [item.pickup, item.dropoff]);
+      
+      console.log("Converted cargo:", currentCargoSimple);
+      console.log("Optimal cargo:", optimalSolution.content.cargo);
+      
+      const isRouteMatch = JSON.stringify(selectedRoute) === JSON.stringify(optimalSolution.content.route);
+
+      const sortedCurrentCargo = [...currentCargoSimple].sort((a, b) => {
+        if (a[0] !== b[0]) return a[0] - b[0];
+        return a[1] - b[1];
+      });
+      
+      const sortedOptimalCargo = [...optimalSolution.content.cargo].sort((a, b) => {
+        if (a[0] !== b[0]) return a[0] - b[0];
+        return a[1] - b[1];
+      });
+
+      const isCargoMatch = JSON.stringify(sortedCurrentCargo) === JSON.stringify(sortedOptimalCargo);
+      
+      console.log("Route match:", isRouteMatch);
+      console.log("Cargo match:", isCargoMatch);
+      
+      if (isRouteMatch && isCargoMatch) {
+        console.log("✅ Found optimal solution!");
+        if ((window as any).optimalButtonControl) {
+          (window as any).optimalButtonControl.setOptimalFound();
+        }
+      }
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
+};
+
+useEffect(() => {
+  // 只要有route或cargo就检查
+  if (selectedRoute.length > 0 || selectedCargo.length > 0) {
+    checkOptimalPath();
+  }
+}, [selectedRoute, selectedCargo]);
 
   const renderRoute = () => {
     let filteredLines: {
