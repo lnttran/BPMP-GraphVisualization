@@ -23,30 +23,24 @@ import { useToast } from "../ui/use-toast";
 import { ToastDescription, ToastTitle } from "@radix-ui/react-toast";
 import { MdErrorOutline } from "react-icons/md";
 
-// 修改 optimalButtonControl 对象，添加对不同文件的支持
 const optimalButtonControl = {
-  // 使用对象存储每个文件的尝试次数
   attemptsMap: {} as Record<string, number>,
   optimalFoundMap: {} as Record<string, boolean>,
   maxAttempts: 5,
   currentFile: '',
   
-  // 设置当前文件
   setCurrentFile: function(filename: string) {
     this.currentFile = filename;
-    // 如果是新文件，初始化计数
     if (!this.attemptsMap[filename]) {
       this.attemptsMap[filename] = 0;
       this.optimalFoundMap[filename] = false;
     }
   },
   
-  // 获取当前文件的尝试次数
   getCurrentAttempts: function() {
     return this.attemptsMap[this.currentFile] || 0;
   },
   
-  // 增加当前文件的尝试次数
   incrementAttempts: function() {
     if (!this.currentFile) return;
     if (!this.attemptsMap[this.currentFile]) {
@@ -55,13 +49,11 @@ const optimalButtonControl = {
     this.attemptsMap[this.currentFile]++;
   },
   
-  // 设置当前文件找到最优解
   setOptimalFound: function() {
     if (!this.currentFile) return;
     this.optimalFoundMap[this.currentFile] = true;
   },
   
-  // 检查当前文件是否可以显示最优解
   canShowOptimal: function() {
     if (!this.currentFile) return false;
     const attempts = this.attemptsMap[this.currentFile] || 0;
@@ -69,13 +61,11 @@ const optimalButtonControl = {
     return found || attempts >= this.maxAttempts;
   },
   
-  // 获取当前文件的剩余尝试次数
   getRemainingAttempts: function() {
     const attempts = this.getCurrentAttempts();
     return Math.max(0, this.maxAttempts - attempts);
   },
   
-  // 重置当前文件的状态
   reset: function() {
     if (!this.currentFile) return;
     this.attemptsMap[this.currentFile] = 0;

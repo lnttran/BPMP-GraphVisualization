@@ -102,7 +102,7 @@ export const RouteSPProvider: React.FC<RouteSPProviderProps> = ({
     node: number,
     distance: number
   ): { status: boolean; selectedRoute: number[] } => {
-    if (distance > 100) {
+    if (distance > 9998) {
       toast({
         variant: "destructive",
         style: { height: "auto", borderRadius: "15px" },

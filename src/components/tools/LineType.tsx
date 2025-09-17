@@ -122,7 +122,7 @@ export const LineTypeSP = ({
   isToggle?: boolean;
 }) => {
   //selected distance has cargo = solid text-accent
-  if (d >= 100) {
+  if (d >= 9999) {
     return { style: "solid", color: "text-accent", display: "hidden" };
   } else if (selectedRoute && from !== undefined && to !== undefined) {
     if (areNodesAdjacentInRoute(from, to, selectedRoute)) {
