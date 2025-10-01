@@ -16,14 +16,81 @@ import useSWR from "swr";
 import { useDataSPContext } from "../context/DataSPContext";
 import SPGraphVisualiser from "./SPGraphVisualizer";
 import { useRouteSPContext } from "../context/RouteSPContext";
+import { useToast } from "../ui/use-toast";
+import { ToastDescription, ToastTitle } from "@radix-ui/react-toast";
+import { MdErrorOutline } from "react-icons/md";
+
+const optimalButtonControl = {
+  attemptsMap: {} as Record<string, number>,
+  optimalFoundMap: {} as Record<string, boolean>,
+  maxAttempts: 10,
+  currentFile: '',
+  
+  setCurrentFile: function(filename: string) {
+    this.currentFile = filename;
+    if (!this.attemptsMap[filename]) {
+      this.attemptsMap[filename] = 0;
+      this.optimalFoundMap[filename] = false;
+    }
+  },
+  
+  getCurrentAttempts: function() {
+    return this.attemptsMap[this.currentFile] || 0;
+  },
+  
+  incrementAttempts: function() {
+    if (!this.currentFile) return;
+    if (!this.attemptsMap[this.currentFile]) {
+      this.attemptsMap[this.currentFile] = 0;
+    }
+    this.attemptsMap[this.currentFile]++;
+    console.log(`🔢 Attempt #${this.attemptsMap[this.currentFile]} for ${this.currentFile}`);
+  },
+  
+  setOptimalFound: function() {
+    if (!this.currentFile) return;
+    this.optimalFoundMap[this.currentFile] = true;
+    console.log(`🎉 Optimal solution found for ${this.currentFile}!`);
+  },
+  
+  canShowOptimal: function() {
+    if (!this.currentFile) return false;
+    const attempts = this.attemptsMap[this.currentFile] || 0;
+    const found = this.optimalFoundMap[this.currentFile] || false;
+    return found || attempts >= this.maxAttempts;
+  },
+  
+  getRemainingAttempts: function() {
+    const attempts = this.getCurrentAttempts();
+    return Math.max(0, this.maxAttempts - attempts);
+  },
+  
+  reset: function() {
+    if (!this.currentFile) return;
+    this.attemptsMap[this.currentFile] = 0;
+    this.optimalFoundMap[this.currentFile] = false;
+    console.log(`🔄 Reset for ${this.currentFile}`);
+  }
+};
+
+if (typeof window !== 'undefined') {
+  (window as any).optimalButtonControl = optimalButtonControl;
+}
 
 export default function SPGraphVisualization() {
   const { selectedDataset, setSelectedDataset } = useDataSPContext();
   const { resetRoute, setOptimalSolutionRoute, setReachableNodes } =
     useRouteSPContext();
+  const { toast } = useToast();
 
   const [resetSignal, setResetSignal] = useState(false);
   const [isToggled, setIsToggled] = useState(false); // New state for toggle
+
+  useEffect(() => {
+    if (selectedDataset && (window as any).optimalButtonControl) {
+      (window as any).optimalButtonControl.setCurrentFile(selectedDataset);
+    }
+  }, [selectedDataset]);
 
   const { data: filenames, error } = useSWR<string[]>(
     `/api/shortestpath/data/filename`,
@@ -47,6 +114,28 @@ export default function SPGraphVisualization() {
       alert("Please select a dataset first.");
       return;
     }
+
+    if (!optimalButtonControl.canShowOptimal()) {
+      const remaining = optimalButtonControl.getRemainingAttempts();
+          toast({
+            variant: "destructive",
+            style: { height: "auto", borderRadius: "15px" },
+            description: (
+              <div className="flex flex-row items-center gap-10">
+                <MdErrorOutline className="text-white" size={"50px"} />
+                <div>
+                  <ToastTitle className="text-xl font-bold text-white">
+                    Not Available Yet
+                  </ToastTitle>
+                  <ToastDescription className="text-lg text-white">
+                    {`Please continue trying to find the optimal solution. You have ${remaining} attempts remaining.`}
+                  </ToastDescription>
+                </div>
+              </div>
+            ),
+          });
+          return;
+        }
 
     try {
       const response = await fetch(

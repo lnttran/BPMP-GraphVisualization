@@ -31,7 +31,7 @@ export type Cargo = {
 type CargoContextType = {
   selectedCargo: Cargo[];
   setSelectedCargo: React.Dispatch<React.SetStateAction<Cargo[]>>;
-  setOptimalSolutionCargo: (route: number[], cargo: [number, number][]) => void;
+  setOptimalSolutionCargo: (route: number[], cargo: [number, number][], profit?: number) => void;
   // setRouteWeightMap: React.Dispatch<React.SetStateAction<Cargo[]>>;
   calculateTotalWeight: () => number;
 
@@ -75,7 +75,8 @@ export const CargoProvider: React.FC<CargoProviderProps> = ({ children }) => {
 
   const setOptimalSolutionCargo = (
     route: number[],
-    cargo: [number, number][]
+    cargo: [number, number][],
+    profit?: number
   ) => {
     const updatedCargo: Cargo[] = cargo.map(
       ([pickup, dropoff]: [number, number]) => {

@@ -170,11 +170,13 @@ export default function GraphVisualization() {
       console.log("Optimal Solution:", optimalSolution);
       setOptimalSolutionRoute(
         optimalSolution.content.route,
-        optimalSolution.content.cargo
+        optimalSolution.content.cargo,
+        optimalSolution.content.profit
       );
       setOptimalSolutionCargo(
         optimalSolution.content.route,
-        optimalSolution.content.cargo
+        optimalSolution.content.cargo,
+        optimalSolution.content.profit
       );
     } catch (error) {
       console.error("Error while fetching optimal solution:", error);

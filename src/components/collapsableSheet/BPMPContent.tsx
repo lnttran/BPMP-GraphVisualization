@@ -42,7 +42,7 @@ const returnAvailableCargo = (
 
 export default function BPMPContent({ dataItem }: { dataItem: DataItem }) {
   const weightDistantData = dataItem?.data?.weightDistantData || [];
-  const { getRoute, totalDistance, selectedRoute, routeWeightMap } =
+  const { getRoute, totalDistance, selectedRoute, routeWeightMap, optimalProfit } =
     useRouteContext();
   const { priceCharge, travelCost, vehicleWeight } = useDataContext();
   const { selectedCargo, calculateTotalWeight, removeCargo, addCargo } =
@@ -66,11 +66,14 @@ export default function BPMPContent({ dataItem }: { dataItem: DataItem }) {
           <div className="flex flex-col">
             <p className="font-light text-xs md:text-sm">Total Profit</p>
             <p className="font-extrabold text-lg md:text-2xl ">
-              {CalculateProfit({
-                selectedRouteWeightMap: routeWeightMap,
-                selectedCargo: selectedCargo,
-                distance: totalDistance,
-              })}
+              {optimalProfit !== null 
+                ? optimalProfit.toFixed(2)  
+                : CalculateProfit({          
+                    selectedRouteWeightMap: routeWeightMap,
+                    selectedCargo: selectedCargo,
+                    distance: totalDistance,
+                })
+              }
             </p>
           </div>
           <div className="flex flex-col">

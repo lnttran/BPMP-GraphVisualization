@@ -24,7 +24,7 @@ type RouteContextType = {
   selectedRoute: number[];
   setSelectedRoute: React.Dispatch<React.SetStateAction<number[]>>;
   setRouteWeightMap: React.Dispatch<React.SetStateAction<Cargo[]>>;
-  setOptimalSolutionRoute: (route: number[], cargo: [number, number][]) => void;
+  setOptimalSolutionRoute: (route: number[], cargo: [number, number][], profit?: number) => void;
   routeWeightMap: Cargo[];
   getRoute: () => string;
   resetRoute: () => void;
@@ -35,6 +35,7 @@ type RouteContextType = {
   ) => { status: boolean; selectedRoute: number[] };
   deleteNodeToRoute: (nodeToRemove: number) => boolean;
   totalDistance: number;
+  optimalProfit: number | null; 
 };
 
 // Step 2: Create context
@@ -49,6 +50,7 @@ export const RouteProvider: React.FC<RouteProviderProps> = ({ children }) => {
   const [selectedRoute, setSelectedRoute] = useState<number[]>([1]);
   const [totalDistance, setTotalDistance] = useState<number>(0);
   const [routeWeightMap, setRouteWeightMap] = useState<Cargo[]>([]);
+  const [optimalProfit, setOptimalProfit] = useState<number | null>(null);
   const { toast } = useToast();
   const { retrievedData, maxDistance } = useDataContext();
   const weightDistantData = retrievedData?.data?.weightDistantData || [];
@@ -85,10 +87,14 @@ export const RouteProvider: React.FC<RouteProviderProps> = ({ children }) => {
 
   const setOptimalSolutionRoute = (
     route: number[],
-    cargo: [number, number][]
+    cargo: [number, number][],
+    profit?: number
   ) => {
     setSelectedRoute(route);
     calculateTotalDistance(route);
+    if (profit !== undefined) {
+    setOptimalProfit(profit);
+    }
   };
 
   const getRoute = () => {
@@ -98,6 +104,7 @@ export const RouteProvider: React.FC<RouteProviderProps> = ({ children }) => {
   const resetRoute = () => {
     setSelectedRoute([1]);
     setTotalDistance(0);
+    setOptimalProfit(null);
   };
 
   const addNodeToRoute = (
@@ -246,6 +253,7 @@ export const RouteProvider: React.FC<RouteProviderProps> = ({ children }) => {
         addNodeToRoute,
         deleteNodeToRoute,
         setOptimalSolutionRoute,
+        optimalProfit,
       }}
     >
       {children}

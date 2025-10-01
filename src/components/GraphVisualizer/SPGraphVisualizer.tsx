@@ -48,6 +48,19 @@ export default function SPGraphVisualiser({
     resetRoute();
   }, [filename]);
 
+  useEffect(() => {
+    if (filename && (window as any).optimalButtonControl) {
+      (window as any).optimalButtonControl.setCurrentFile(filename);
+    }
+    resetRoute();
+  }, [filename]);
+
+  useEffect(() => {
+    if (selectedRoute.length > 0) {
+      checkOptimalPath();
+    }
+  }, [selectedRoute]);
+
   const lines = weightDistantData.reduce<
     {
       from: number;
@@ -96,6 +109,42 @@ export default function SPGraphVisualiser({
     return lines;
   }, []);
 
+  const checkOptimalPath = async () => {
+  console.log("=== Checking optimal solution (SP) ===");
+  console.log("Current selectedRoute:", selectedRoute);
+  
+  try {
+    const response = await fetch(
+      `/api/shortestpath/data/optimalSolution?filename=${encodeURIComponent(filename)}`
+    );
+    
+    if (response.ok) {
+      const optimalSolution = await response.json();
+      
+      const routes = optimalSolution.content.routes;
+      let isMatch = false;
+      
+      if (routes && routes.length > 0) {
+        const finalRoute = routes[routes.length - 1];
+        isMatch = JSON.stringify(selectedRoute) === JSON.stringify(finalRoute);
+        
+        console.log("Final route:", finalRoute);
+        console.log("Current route:", selectedRoute);
+        console.log("Route match:", isMatch);
+      }
+      
+      if (isMatch) {
+        console.log(" Found optimal solution!");
+        if ((window as any).optimalButtonControl) {
+          (window as any).optimalButtonControl.setOptimalFound();
+        }
+      }
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
+};
+
   const handleOnClickedNode = (isSelected: boolean, i: number): boolean => {
     if (i == 1) {
       return false;
@@ -118,7 +167,16 @@ export default function SPGraphVisualiser({
       );
 
       const { status: result, selectedRoute: thisSelectedRoute } =
-        addNodeToRoute(i, d);
+      addNodeToRoute(i, d);
+    
+
+      if (result) {
+        if ((window as any).optimalButtonControl) {
+        (window as any).optimalButtonControl.incrementAttempts();
+      }
+      checkOptimalPath();
+    }
+    
       return result;
     } else {
       let indexToRemove: number = selectedRoute.indexOf(i);
@@ -297,7 +355,7 @@ export default function SPGraphVisualiser({
   ) => {
     setNoteContent(
       `From: ${from}\nTo: ${to}\nDistance: ${d}\n
-     `
+      `
     );
     setCurrentLineType(`${style} ${color}`);
   };

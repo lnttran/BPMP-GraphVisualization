@@ -222,10 +222,10 @@ export default function GraphVisualiser({
         });
       }
 
-    if (result && i === lastNode) {
+if (result && i === lastNode) {
   if ((window as any).optimalButtonControl) {
     (window as any).optimalButtonControl.incrementAttempts();
-    checkOptimalPath();  // 调用检查函数
+    checkOptimalPath();  
   }
 }
 
@@ -292,7 +292,6 @@ export default function GraphVisualiser({
 };
 
 useEffect(() => {
-  // 只要有route或cargo就检查
   if (selectedRoute.length > 0 || selectedCargo.length > 0) {
     checkOptimalPath();
   }
