@@ -23,7 +23,7 @@ import { MdErrorOutline } from "react-icons/md";
 const optimalButtonControl = {
   attemptsMap: {} as Record<string, number>,
   optimalFoundMap: {} as Record<string, boolean>,
-  maxAttempts: 10,
+  maxAttempts: 1,
   currentFile: '',
   
   setCurrentFile: function(filename: string) {
@@ -54,11 +54,10 @@ const optimalButtonControl = {
   },
   
   canShowOptimal: function() {
-    if (!this.currentFile) return false;
-    const attempts = this.attemptsMap[this.currentFile] || 0;
-    const found = this.optimalFoundMap[this.currentFile] || false;
-    return found || attempts >= this.maxAttempts;
-  },
+  if (!this.currentFile) return false;
+  const found = this.optimalFoundMap[this.currentFile] || false;
+  return found; 
+},
   
   getRemainingAttempts: function() {
     const attempts = this.getCurrentAttempts();
@@ -116,26 +115,25 @@ export default function SPGraphVisualization() {
     }
 
     if (!optimalButtonControl.canShowOptimal()) {
-      const remaining = optimalButtonControl.getRemainingAttempts();
-          toast({
-            variant: "destructive",
-            style: { height: "auto", borderRadius: "15px" },
-            description: (
-              <div className="flex flex-row items-center gap-10">
-                <MdErrorOutline className="text-white" size={"50px"} />
-                <div>
-                  <ToastTitle className="text-xl font-bold text-white">
-                    Not Available Yet
-                  </ToastTitle>
-                  <ToastDescription className="text-lg text-white">
-                    {`Please continue trying to find the optimal solution. You have ${remaining} attempts remaining.`}
-                  </ToastDescription>
-                </div>
-              </div>
-            ),
-          });
-          return;
-        }
+  toast({
+    variant: "destructive",
+    style: { height: "auto", borderRadius: "15px" },
+    description: (
+      <div className="flex flex-row items-center gap-10">
+        <MdErrorOutline className="text-white" size={"50px"} />
+        <div>
+          <ToastTitle className="text-xl font-bold text-white">
+            Not Available Yet
+          </ToastTitle>
+          <ToastDescription className="text-lg text-white">
+            Please complete a path from the origin to the destination node first.
+          </ToastDescription>
+        </div>
+      </div>
+    ),
+  });
+  return;
+}
 
     try {
       const response = await fetch(

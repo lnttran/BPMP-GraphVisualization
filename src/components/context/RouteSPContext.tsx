@@ -111,9 +111,8 @@ export const RouteSPProvider: React.FC<RouteSPProviderProps> = ({
             <MdErrorOutline className="text-white" size={"50px"} />
             <div>
               <ToastTitle className="text-xl font-bold text-white">
-                {`Node ${node} cannot be added`}
+              {`Node ${node} cannot be added`}
               </ToastTitle>
-              <ToastDescription className="text-lg text-white">{`There is no request to ${node} from the current node`}</ToastDescription>
             </div>
           </div>
         ),
@@ -197,13 +196,13 @@ export const RouteSPProvider: React.FC<RouteSPProviderProps> = ({
           )}
           <div>
             <ToastTitle className="text-xl font-bold text-white">
-              {isSuccess ? "Removed successfully" : "Removal Prevented"}
+            {isSuccess ? "Removed successfully" : "Removal Prevented"}
             </ToastTitle>
-            <ToastDescription className="text-lg text-white">
-              {isSuccess
-                ? `Node ${nodeToRemove} removed from the route.`
-                : `There is no request from ${nodeBefore} to ${nodeAfter}.`}
-            </ToastDescription>
+            {isSuccess && (
+              <ToastDescription className="text-lg text-white">
+              {`Node ${nodeToRemove} removed from the route.`}
+              </ToastDescription>
+            )}
           </div>
         </div>
       ),

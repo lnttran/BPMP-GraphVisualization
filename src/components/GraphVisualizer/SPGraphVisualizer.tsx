@@ -34,7 +34,7 @@ export default function SPGraphVisualiser({
     useRouteSPContext();
   const [noteContent, setNoteContent] = useState("");
   const [currentLineType, setCurrentLineType] = useState("");
-  const { retrievedData, lastNode } = useDataSPContext();
+  const { retrievedData } = useDataSPContext();
   const [mapState, setMapState] = useState({
     scale: 0.5,
     translation: { x: 0, y: 0 },
@@ -43,6 +43,7 @@ export default function SPGraphVisualiser({
   const weightDistantData = retrievedData?.data?.weightDistantData || [];
   const coordinateData = retrievedData?.coordinate || [];
   const dataSize = coordinateData.length;
+  const lastNode = dataSize; 
 
   useEffect(() => {
     resetRoute();
@@ -171,11 +172,14 @@ export default function SPGraphVisualiser({
     
 
       if (result) {
-        if ((window as any).optimalButtonControl) {
-        (window as any).optimalButtonControl.incrementAttempts();
-      }
+        const updatedRoute = [...selectedRoute, i];
+        if (updatedRoute.includes(lastNode)) {
+          if ((window as any).optimalButtonControl) {
+            (window as any).optimalButtonControl.incrementAttempts();
+          }
+        }
       checkOptimalPath();
-    }
+      }
     
       return result;
     } else {
@@ -366,73 +370,93 @@ export default function SPGraphVisualiser({
   };
 
   const renderLines = (
-    lineList: {
-      x1: number;
-      y1: number;
-      x2: number;
-      y2: number;
-      w: number;
-      d: number;
-      style: string;
-      display: string;
-      color: string;
-      from: number;
-      to: number;
-    }[]
-  ) => {
-    return (
-      <div>
-        {lineList.map((line, i) => {
-          const radius = 15;
-          const center1 = { cx: line.x1 * 100, cy: line.y1 * 100, r: radius };
-          const center2 = { cx: line.x2 * 100, cy: line.y2 * 100, r: radius };
-          const numSnapPoints = 10;
+  lineList: {
+    x1: number;
+    y1: number;
+    x2: number;
+    y2: number;
+    w: number;
+    d: number;
+    style: string;
+    display: string;
+    color: string;
+    from: number;
+    to: number;
+  }[]
+) => {
+  return (
+    <div>
+      {lineList.map((line, i) => {
+        const radius = 15;
+        const center1 = { cx: line.x1 * 100, cy: line.y1 * 100, r: radius };
+        const center2 = { cx: line.x2 * 100, cy: line.y2 * 100, r: radius };
+        const numSnapPoints = 10;
 
-          const snapPoints1: Point[] = calculateSnapPoints(
-            center1.cx,
-            center1.cy,
-            center1.r,
-            numSnapPoints
-          );
+        const snapPoints1: Point[] = calculateSnapPoints(
+          center1.cx,
+          center1.cy,
+          center1.r,
+          numSnapPoints
+        );
 
-          const angle: number = calculateAngle(
-            center1.cx,
-            center1.cy,
-            center2.cx,
-            center2.cy
-          );
-          const closestPoint1: Point = findClosestSnapPoint(
-            angle,
-            snapPoints1,
-            center1.cx,
-            center1.cy
-          );
+        const angle: number = calculateAngle(
+          center1.cx,
+          center1.cy,
+          center2.cx,
+          center2.cy
+        );
+        const closestPoint1: Point = findClosestSnapPoint(
+          angle,
+          snapPoints1,
+          center1.cx,
+          center1.cy
+        );
 
-          return (
-            <Line
-              key={i}
-              to={{ x: closestPoint1.x, y: closestPoint1.y }}
-              from={{ x: line.x2 * 100, y: line.y2 * 100 }}
-              style={`${line.style}`}
-              className={line.color}
-              display={line.display}
-              showArrow={false}
-              onMouseEnter={() =>
-                handleLineMouseEnter(
-                  line.from,
-                  line.to,
-                  line.d,
-                  line.color,
-                  line.style
-                )
-              }
-              onMouseLeave={handleLineMouseLeave}
-            />
-          );
-        })}
-      </div>
-    );
-  };
+        return (
+          <Line
+            key={i}
+            to={{ x: closestPoint1.x, y: closestPoint1.y }}
+            from={{ x: line.x2 * 100, y: line.y2 * 100 }}
+            style={`${line.style}`}
+            className={line.color}
+            display={line.display}
+            showArrow={false}
+            onMouseEnter={() =>
+              handleLineMouseEnter(
+                line.from,
+                line.to,
+                line.d,
+                line.color,
+                line.style
+              )
+            }
+            onMouseLeave={handleLineMouseLeave}
+          />
+        );
+      })}
+      {lineList.map((line, i) => {
+        if (line.display === "hidden") return null;
+        
+        const midX = (line.x1 * 100 + line.x2 * 100) / 2;
+        const midY = (line.y1 * 100 + line.y2 * 100) / 2;
+        
+        return (
+          <div
+            key={`distance-${i}`}
+            className="absolute text-xs bg-white px-1 rounded shadow-sm pointer-events-none"
+            style={{
+              left: `${midX}px`,
+              top: `${midY}px`,
+              transform: 'translate(-50%, -50%)',
+            }}
+          >
+            {line.d}
+          </div>
+        );
+      })}
+    </div>
+  );
+};
 
   const renderBoardPiece = () => {
     return coordinateData.map((nodeList, index) => {
@@ -466,7 +490,7 @@ export default function SPGraphVisualiser({
             selectedRoute.includes(nodeList.node) && nodeList.node != lastNode
           }
           isDeparts={index == 0}
-          isDepot={lastNode !== null && index === lastNode - 1}
+          isDepot={nodeList.node === lastNode}
           onClick={(isSelected: boolean) =>
             handleOnClickedNode(isSelected, index + 1)
           }
@@ -533,6 +557,7 @@ export default function SPGraphVisualiser({
         isVisible={true}
         currentLineType={currentLineType}
         numberOfLine={2}
+        mode="sp"
       >
         {noteContent}
       </NoteBox>
