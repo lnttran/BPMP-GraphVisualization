@@ -303,7 +303,7 @@ export default function BPMPPage() {
             </a>
 
             <a
-              href="https://www.sciencedirect.com/science/article/abs/pii/S0925527313002351?via%3Dihub"
+              href="https://link.springer.com/article/10.1007/s11067-025-09684-0"
               target="_blank"
               rel="noopener noreferrer"
               className="flex-1 bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
