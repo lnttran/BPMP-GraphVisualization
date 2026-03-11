@@ -242,8 +242,44 @@ export default function ShortestPathPage() {
         </div>
       </section> */}
 
-      {/* Demo Section */}
-      {/* <section className="w-full py-24 bg-[#0F1F1C] relative overflow-hidden">
+      {/* Overview Section with floating cards */}
+      <section
+        className="w-full py-24 bg-white relative overflow-hidden"
+        id="learn-more"
+      >
+        <div className="container px-4 md:px-6 mx-auto">
+          <div className="flex flex-col md:flex-row items-center gap-16">
+            <div className="flex-1 space-y-8">
+              <div className="inline-flex items-center space-x-2 bg-emerald-50 px-3 py-1 rounded-full text-sm text-emerald-700">
+                <Sparkles className="w-4 h-4" />
+                <span>Overview</span>
+              </div>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0F1F1C]">
+                Understanding the Algorithm
+              </h2>
+              <p className="text-lg text-gray-600">
+                This overview walks you through how Dijkstra's algorithm works and how it can be used to find the most efficient delivery routes in logistics networks.
+              </p>
+            </div>
+            <div className="flex-1">
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-teal-500 rounded-2xl transform rotate-2 opacity-30 blur-lg"></div>
+                <div className="relative aspect-video rounded-xl overflow-hidden shadow-2xl">
+                  <iframe
+                    className="w-full h-full"
+                    src="https://www.youtube.com/embed/p-hLoR7wBpo"
+                    title="BPMP Overview"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+        <section className="w-full py-24 bg-[#0F1F1C] relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/20 to-teal-600/20"></div>
         <div className="container px-4 md:px-6 mx-auto relative z-10">
           <div className="flex flex-col md:flex-row items-center gap-16">
@@ -253,7 +289,7 @@ export default function ShortestPathPage() {
                 <div className="relative aspect-video rounded-xl overflow-hidden shadow-2xl">
                   <iframe
                     className="w-full h-full"
-                    src="https://www.youtube.com/embed/1a5iuO0mO5s"
+                    src="https://www.youtube.com/embed/Ee_QPgyKG2c"
                     title="Shortest Path Demo"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowFullScreen
@@ -283,7 +319,7 @@ export default function ShortestPathPage() {
             </div>
           </div>
         </div>
-      </section> */}
+      </section> 
 
       <style jsx global>{`
         @keyframes float {
