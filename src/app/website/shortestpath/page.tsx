@@ -289,7 +289,7 @@ export default function ShortestPathPage() {
                 <div className="relative aspect-video rounded-xl overflow-hidden shadow-2xl">
                   <iframe
                     className="w-full h-full"
-                    src="https://www.youtube.com/embed/Ee_QPgyKG2c"
+                    src="https://www.youtube.com/embed/sWXp9ZYFd7k"
                     title="Shortest Path Demo"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowFullScreen

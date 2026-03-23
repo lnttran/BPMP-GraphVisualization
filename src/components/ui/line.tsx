@@ -15,6 +15,7 @@ export default class Line extends React.Component<{
   display: string;
   onMouseEnter: () => void;
   onMouseLeave: () => void;
+  onClick?: () => void;
   showArrow: boolean;
 }> {
   static propTypes = {
@@ -103,8 +104,19 @@ export default class Line extends React.Component<{
               this.setState({ isHovered: false });
               this.props.onMouseLeave();
             }}
+            onClick={this.props.onClick}
+            style={{ cursor: this.props.onClick ? 'pointer' : 'default' }}
           >
             <div style={wrapperStyle}>
+              <div
+                style={{
+                  position: "absolute",
+                  width: `${len}px`,
+                  height: "30px",  
+                  top: "-10px",    
+                  cursor: this.props.onClick ? 'pointer' : 'default',
+                }}
+              />
               <div style={lineStyle} className={cn(this.props.className)}></div>
               {this.props.showArrow && (
                 <FaChevronLeft

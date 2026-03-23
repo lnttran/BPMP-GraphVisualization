@@ -104,6 +104,10 @@ export default function RootLayout({
                             label: "Shortest Path",
                             href: "/dashboard/shortestpath",
                           },
+                          {
+                            label: "Minimum Spanning Tree",
+                            href: "/dashboard/minimumspanningtree",
+                          },
                         ]}
                       />
                     </nav>

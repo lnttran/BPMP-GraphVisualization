@@ -41,13 +41,11 @@ const Node = ({
       return;
     }
     const newIsClicked = !isClicked;
-    setIsClicked(newIsClicked);
-    console.log("isClicked in the node", newIsClicked);
-    if (onClick(newIsClicked)) {
-      setIsAdded(true);
-    } else {
-      setIsAdded(false);
-      console.log("IsAdded not success");
+    const result = onClick(newIsClicked);
+
+    if (result !== isClicked) {
+      setIsClicked(result);
+      setIsAdded(result);
     }
   };
 

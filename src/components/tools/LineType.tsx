@@ -144,3 +144,5 @@ export const LineTypeSP = ({
     };
   }
 };
+
+export const LineTypeMST = LineTypeSP; 

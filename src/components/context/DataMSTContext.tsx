@@ -1,0 +1,162 @@
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
+
+import { DataItem } from "@/db/data";
+
+type DataMSTContextType = {
+  setSelectedDataset: React.Dispatch<React.SetStateAction<string>>;
+  retrievedData: DataItem | null;
+  selectedDataset: string;
+  //   maxCapacity: number;
+  lastNode: number | null;
+  //   maxDistance: number;
+};
+
+// Step 2: Create context
+const DataMSTContext = createContext<DataMSTContextType | undefined>(undefined);
+
+// Step 3: Create provider component with typed props
+type DataMSTProviderProps = {
+  children: ReactNode;
+};
+
+export const DataMSTProvider: React.FC<DataMSTProviderProps> = ({ children }) => {
+  const [retrievedData, setRetrievedData] = useState<DataItem | null>(null);
+  const [lastNode, setLastNode] = useState<number | null>(null);
+  const defaultDataset = "sp_02_data.txt";
+
+  const [selectedDataset, setSelectedDataset] = useState(() => {
+    if (typeof window !== "undefined") {
+      // Safe to access localStorage in the browser
+      const storedVersion = localStorage.getItem("appVersion");
+      const currentVersion = "1.0.0"; // Change this when you release updates
+      const storedDataset = localStorage.getItem("selectedMSTDataset");
+
+      // Reset localStorage if version has changed or no dataset is stored
+      if (storedVersion !== currentVersion || !storedDataset) {
+        localStorage.setItem("appVersion", currentVersion);
+        localStorage.setItem("selectedMSTDataset", defaultDataset);
+        return defaultDataset;
+      }
+
+      return storedDataset;
+    }
+    // Default value for SSR
+    return defaultDataset;
+  });
+
+  useEffect(() => {
+    localStorage.setItem("selectedMSTDataset", selectedDataset);
+
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `/api/shortestpath/data?fileName=${selectedDataset}`
+        );
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const result = await response.json();
+        const data = result[0];
+
+        let locationMap: Record<string, string> = {};
+
+        // Fetch corresponding locations
+        const locationResponse = await fetch(
+          `/api/shortestpath/data/location?fileName=${selectedDataset}`
+        );
+
+        if (locationResponse.status === 200) {
+          locationMap = await locationResponse.json();
+        } else if (locationResponse.status !== 404) {
+          throw new Error(`HTTP error! Status: ${locationResponse.status}`);
+        }
+
+    
+
+
+        // Merge location into coordinate
+        if (data.coordinate) {
+          const enrichedCoordinates = data.coordinate.map((coord: any) => ({
+            ...coord,
+            location: locationMap[String(coord.node)],
+          }));
+
+          // Replace coordinates and set updated data
+          const updatedData = {
+            ...data,
+            coordinate: enrichedCoordinates,
+          };
+
+          setRetrievedData(updatedData);
+        } else {
+          // No coordinate? Just set original data
+          console.log("No coordinate data found, setting original data");
+          setRetrievedData(data);
+        }
+
+        console.log(retrievedData?.coordinate?.[0]);
+
+        
+        // setRetrievedData(data);
+        // // Set max capacity and max distance
+        // if (data && data.data) {
+        //   setLastNode(Number(data.data.n));
+        // }
+
+        
+
+      } catch (err) {
+        console.log("error");
+      }
+    };
+    
+
+    fetchData();
+  }, [selectedDataset]);
+
+  //   const setNewMaxCapacity = (newCapacity: number) => {
+  //     if (newCapacity > 0) {
+  //       setMaxCapacity(newCapacity);
+  //     } else {
+  //       console.error("Max capacity must be greater than 0");
+  //     }
+  //   };
+
+  //   const setNewMaxDistance = (newDistance: number) => {
+  //     if (newDistance > 0) {
+  //       setMaxDistance(newDistance);
+  //     } else {
+  //       console.error("Max distance must be greater than 0");
+  //     }
+  //   };
+
+  return (
+    <DataMSTContext.Provider
+      value={{
+        setSelectedDataset,
+        retrievedData,
+        lastNode,
+        selectedDataset,
+      }}
+    >
+      {children}
+    </DataMSTContext.Provider>
+  );
+};
+
+// Step 4: Custom hook to use context
+export const useDataMSTContext = () => {
+  const context = useContext(DataMSTContext);
+  if (!context) {
+    throw new Error("useDataMSTContext must be used within a DataMSTProvider");
+  }
+  return context;
+};
+
+

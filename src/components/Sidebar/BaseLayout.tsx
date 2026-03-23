@@ -43,6 +43,7 @@ const BaseLayout = ({
         items={[
           { label: "BPMP", href: "/dashboard/bpmp" },
           { label: "Shortest Path", href: "/dashboard/shortestpath" },
+          { label: "Minimum Spanning Tree", href: "/dashboard/minimumspanningtree" },
         ]}
       />
         {children}

@@ -59,6 +59,21 @@ const lineTypesSP = [
   },
 ];
 
+const lineTypesMST = [
+  {
+    icon: <TfiLineDashed size={40} className="text-accent" />,
+    arrow: <IoIosArrowForward size={24} className="text-accent" />,
+    title: "Unselected edge",  
+    id: "dashed text-accent",
+  },
+  {
+    icon: <RxDividerHorizontal size={40} className="text-accent" />,
+    arrow: <IoIosArrowForward size={24} className="text-accent" />,
+    title: "Selected edge",  
+    id: "solid text-accent",
+  },
+];
+
 const NoteBox = ({
   isVisible,
   currentLineType,
@@ -70,11 +85,11 @@ const NoteBox = ({
   currentLineType: string;
   children: React.ReactNode;
   numberOfLine?: number;
-  mode?: "bpmp" | "sp";  
+  mode?: "bpmp" | "sp" | "mst";  
 }) => {
   const [isOpen, setIsOpen] = useState(true);
   
-  const lineTypes = mode === "sp" ? lineTypesSP : lineTypesBPMP;
+  const lineTypes = mode === "sp" ? lineTypesSP : mode === "mst" ? lineTypesMST : lineTypesBPMP;
   
   const handleToggle = () => {
     setIsOpen(!isOpen);
@@ -101,10 +116,12 @@ const NoteBox = ({
             <FaMinus />
           </div>
           <pre className="mx-3 mt-2">{children}</pre>
-          <div className="flex items-center gap-10 mx-3 mt-2">
-            <div className="w-9 h-9 rounded-full bg-accent-foreground border-2"></div>
-            <p className="">Destination Node</p>
-          </div>
+          {mode !== "mst" && (
+            <div className="flex items-center gap-10 mx-3 mt-2">
+              <div className="w-9 h-9 rounded-full bg-accent-foreground border-2"></div>
+              <p className="">Destination Node</p>
+            </div>
+          )}
           {/* Line Type Node */}
           <div className="flex mx-3 mt-2 flex-col">
             <p className="mb-2 font-bold">Line Types:</p>
@@ -118,7 +135,7 @@ const NoteBox = ({
                 <div key={index} className="flex flex-row items-center gap-8">
                   <div className="flex flex-row items-center">
                     {lineType.icon}
-                    {mode !== "sp" && lineType.arrow} 
+                    {mode !== "sp" && mode !== "mst" && lineType.arrow}
                   </div>
                   <p
                     className={`${

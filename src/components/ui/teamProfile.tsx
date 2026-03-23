@@ -344,4 +344,19 @@ const cards = [
       );
     },
   },
+  {
+    description: "B.A. in Computer Science and B.S. in Data Science",
+    title: "Grace Gao",
+    src: "",
+    ctaText: "More",
+    ctaLink: "https://www.linkedin.com/in/grace-gao-213a743a8/",
+    linkedin: "https://www.linkedin.com/in/grace-gao-213a743a8/",
+    content: () => {
+      return (
+        <p>
+          Grace Gao is an undergraduate at Southern Methodist University studying Computer Science and Data Science. She works as an Undergraduate Research Assistant on the Backhaul Profit Maximization Project, contributing to C++ optimization algorithms and improving the project’s web visualization tool. She also assists the Research in Mathematics Education (RME) project with data collection, processing, and analysis.
+        </p>
+      );
+    },
+  },
 ];
