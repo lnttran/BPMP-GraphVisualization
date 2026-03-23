@@ -37,7 +37,6 @@ export default function MSTGraphVisualiser({
   isToggled: boolean;
 }) {
   const { toast } = useToast();
-  const [hoveredNode, setHoveredNode] = useState<number | null>(null);
   const { selectedEdges, selectedNodes, addEdge, removeEdge, resetMST, setSelectedNodes } =
     useRouteMSTContext();
   const [noteContent, setNoteContent] = useState("");
@@ -356,6 +355,9 @@ export default function MSTGraphVisualiser({
         setSelectedNodes(prev => {
           const newSet = new Set(prev);
           newSet.delete(lastEdge.to);
+          if (selectedEdges.length === 1) {
+            newSet.delete(lastEdge.from);
+          }
           return newSet;
         });
       }
@@ -637,12 +639,11 @@ export default function MSTGraphVisualiser({
           key={`node-${index}`}
           x={nodeList.x}
           y={nodeList.y}
-          onMouseEnter={() => setHoveredNode(nodeList.node)}
-          onMouseLeave={() => setHoveredNode(null)}
+          classname="pointer-events-none"
           onClickedDefault={selectedNodes.has(nodeList.node)}
           isDeparts={false}
           isDepot={false}
-          onClick={(isSelected: boolean) => isSelected}
+          onClick={() => false}
 /*           onClick={(isSelected: boolean) =>
             handleOnClickedNode(isSelected, nodeList.node)
           } */

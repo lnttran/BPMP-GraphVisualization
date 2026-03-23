@@ -36,11 +36,11 @@ const sidebarMSTItems = [
     href: "/dashboard/minimumspanningtree",
     icon: <GanttChart />,
   },
-  {
-    name: "Data",
-    href: "/dashboard/minimumspanningtree/database",
-    icon: <Database />,
-  },
+  // {
+  //   name: "Data",
+  //   href: "/dashboard/minimumspanningtree/database",
+  //   icon: <Database />,
+  // },
   {
     name: "Home Page",
     href: "/",
