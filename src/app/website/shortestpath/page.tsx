@@ -258,7 +258,7 @@ export default function ShortestPathPage() {
                 Understanding the Algorithm
               </h2>
               <p className="text-lg text-gray-600">
-                This overview walks you through how Dijkstra's algorithm works and how it can be used to find the most efficient delivery routes in logistics networks.
+                This overview walks you through how Dijkstra&apos;s algorithm works and how it can be used to find the most efficient delivery routes in logistics networks.
               </p>
             </div>
             <div className="flex-1">
