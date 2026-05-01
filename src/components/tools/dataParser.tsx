@@ -229,6 +229,7 @@ export function parseOptimalSolution(fileContent: string) {
 
   return { route, cargo, profit };
 }
+
 export function parseOptimalSolutionSP(fileContent: string) {
   const lines = fileContent.split("\n").filter((line) => line.trim() !== "");
 
@@ -236,4 +237,9 @@ export function parseOptimalSolutionSP(fileContent: string) {
   const routes = lines.slice(1).map((line) => JSON.parse(line.trim()));
 
   return { routes, totalDist };
+}
+
+export function parseOptimalSolutionMST(fileContent: string) {
+  const parsed = JSON.parse(fileContent);
+  return { totalWeight: parsed.totalWeight, edges: parsed.edges };
 }

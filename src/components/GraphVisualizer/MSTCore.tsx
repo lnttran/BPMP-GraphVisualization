@@ -25,20 +25,20 @@ const optimalButtonControl = {
   optimalFoundMap: {} as Record<string, boolean>,
   maxAttempts: 1,
   currentFile: '',
-  
-  setCurrentFile: function(filename: string) {
+
+  setCurrentFile: function (filename: string) {
     this.currentFile = filename;
     if (!this.attemptsMap[filename]) {
       this.attemptsMap[filename] = 0;
       this.optimalFoundMap[filename] = false;
     }
   },
-  
-  getCurrentAttempts: function() {
+
+  getCurrentAttempts: function () {
     return this.attemptsMap[this.currentFile] || 0;
   },
-  
-  incrementAttempts: function() {
+
+  incrementAttempts: function () {
     if (!this.currentFile) return;
     if (!this.attemptsMap[this.currentFile]) {
       this.attemptsMap[this.currentFile] = 0;
@@ -46,25 +46,25 @@ const optimalButtonControl = {
     this.attemptsMap[this.currentFile]++;
     console.log(`🔢 Attempt #${this.attemptsMap[this.currentFile]} for ${this.currentFile}`);
   },
-  
-  setOptimalFound: function() {
+
+  setOptimalFound: function () {
     if (!this.currentFile) return;
     this.optimalFoundMap[this.currentFile] = true;
     console.log(`🎉 Optimal solution found for ${this.currentFile}!`);
   },
-  
-  canShowOptimal: function() {
-  if (!this.currentFile) return false;
-  const found = this.optimalFoundMap[this.currentFile] || false;
-  return found; 
-},
-  
-  getRemainingAttempts: function() {
+
+  canShowOptimal: function () {
+    if (!this.currentFile) return false;
+    const found = this.optimalFoundMap[this.currentFile] || false;
+    return found;
+  },
+
+  getRemainingAttempts: function () {
     const attempts = this.getCurrentAttempts();
     return Math.max(0, this.maxAttempts - attempts);
   },
-  
-  reset: function() {
+
+  reset: function () {
     if (!this.currentFile) return;
     this.attemptsMap[this.currentFile] = 0;
     this.optimalFoundMap[this.currentFile] = false;
@@ -77,9 +77,8 @@ if (typeof window !== 'undefined') {
 }
 
 export default function MSTGraphVisualization() {
-  const { selectedDataset, setSelectedDataset } = useDataMSTContext();
-  const { resetMST, setOptimalSolutionEdges } =
-    useRouteMSTContext();
+  const { selectedDataset, setSelectedDataset, retrievedData } = useDataMSTContext();
+  const { resetMST, setOptimalSolutionEdges, selectedNodes } = useRouteMSTContext();
   const { toast } = useToast();
 
   const [resetSignal, setResetSignal] = useState(false);
@@ -92,16 +91,16 @@ export default function MSTGraphVisualization() {
   }, [selectedDataset]);
 
   const { data: filenames, error } = useSWR<string[]>(
-    `/api/shortestpath/data/filename`,
+    `/api/minimumspanningtree/data/filename`,
     fetcher
   );
 
   if (error) return <div>Failed to load</div>;
   if (!filenames) return <div>Loading...</div>;
 
-/*   const handleToggle = () => {
-    setIsToggled(!isToggled);
-  }; */
+  /*   const handleToggle = () => {
+      setIsToggled(!isToggled);
+    }; */
 
   const handleShowOptimal = async () => {
     if (!selectedDataset) {
@@ -109,50 +108,62 @@ export default function MSTGraphVisualization() {
       return;
     }
 
-    if (!optimalButtonControl.canShowOptimal()) {
-  toast({
-    variant: "destructive",
-    style: { height: "auto", borderRadius: "15px" },
-    description: (
-      <div className="flex flex-row items-center gap-10">
-        <MdErrorOutline className="text-white" size={"50px"} />
-        <div>
-          <ToastTitle className="text-xl font-bold text-white">
-            Not Available Yet
-          </ToastTitle>
-          <ToastDescription className="text-lg text-white">
-            Please complete a path from the origin to the destination node first.
-          </ToastDescription>
-        </div>
-      </div>
-    ),
-  });
-  return;
-}
+    const totalNodes = retrievedData?.coordinate?.length || 0;
+
+    if (selectedNodes.size < totalNodes || totalNodes === 0) {
+      toast({
+        variant: "destructive",
+        style: { height: "auto", borderRadius: "15px" },
+        description: (
+          <div className="flex flex-row items-center gap-10">
+            <MdErrorOutline className="text-white" size={"50px"} />
+            <div>
+              <ToastTitle className="text-xl font-bold text-white">
+                Not Available Yet
+              </ToastTitle>
+              <ToastDescription className="text-lg text-white">
+                Please connect all nodes first.
+              </ToastDescription>
+            </div>
+          </div>
+        ),
+      });
+      return;
+    }
 
     try {
       const response = await fetch(
-        `/api/shortestpath/data/optimalSolution?filename=${encodeURIComponent(
-          selectedDataset
-        )}`
+        `/api/minimumspanningtree/data/optimalSolution?filename=${selectedDataset}`
       );
+      if (!response.ok) throw new Error("No solution found");
+      const solution = await response.json();
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        console.error("Failed to fetch optimal solution:", errorData.message);
-        alert(`Error: ${errorData.message}`);
-        return;
-      }
+      const edges = solution.content.edges.map(([from, to]: [number, number]) => {
+        const edgeData = retrievedData?.data?.weightDistantData?.find(
+          (d: any) => (d.x === from && d.y === to) || (d.x === to && d.y === from)
+        );
+        return { from, to, weight: edgeData?.d ?? 0 }; 
+      });
 
-      const optimalSolution = await response.json();
-      console.log("Optimal Solution:", optimalSolution);
-      if (optimalSolution.content.edges && optimalSolution.content.edges.length > 0) {
-        setOptimalSolutionEdges(optimalSolution.content.edges);
-      } else {
-        setOptimalSolutionEdges([]); // Handle empty case
-      }
+      setOptimalSolutionEdges(edges);
     } catch (error) {
-      console.error("Error while fetching optimal solution:", error);
+      toast({
+        variant: "destructive",
+        style: { height: "auto", borderRadius: "15px" },
+        description: (
+          <div className="flex flex-row items-center gap-10">
+            <MdErrorOutline className="text-white" size={"50px"} />
+            <div>
+              <ToastTitle className="text-xl font-bold text-white">
+                No Data Available
+              </ToastTitle>
+              <ToastDescription className="text-lg text-white">
+                Optimal solution data is not available yet.
+              </ToastDescription>
+            </div>
+          </div>
+        ),
+      });
     }
   };
 
@@ -179,7 +190,7 @@ export default function MSTGraphVisualization() {
           </Select>
 
           <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
-{/*             <div className="flex items-center space-x-2">
+            {/*             <div className="flex items-center space-x-2">
               <Switch
                 checked={isToggled}
                 onCheckedChange={handleToggle}

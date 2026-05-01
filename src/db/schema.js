@@ -4,10 +4,17 @@ import { coordinateSchema, locationSchema } from "./coordinate";
 import {
   optimalSolutionSchema,
   optimalSolutionSPSchema,
+  optimalSolutionMSTSchema, 
 } from "./optimalSolution";
 
 //change the bellow for corresponding collection
 const shortestpathDb = mongoose.connection.useDb("shortestpath");
+const minimumspanningtreeDb = mongoose.connection.useDb("minimumspanningtree");
+
+const dataMSTModel = minimumspanningtreeDb.models.Data || minimumspanningtreeDb.model("Data", dataSchema);
+const locationMSTModel = minimumspanningtreeDb.models.Location || minimumspanningtreeDb.model("Location", locationSchema);
+const coordinateMSTModel = minimumspanningtreeDb.models.Coordinate || minimumspanningtreeDb.model("Coordinate", coordinateSchema);
+const optimalSolutionMSTModel = minimumspanningtreeDb.models.OptimalSolutionMST || minimumspanningtreeDb.model("OptimalSolutionMST", optimalSolutionMSTSchema);
 
 const dataSPModel =
   shortestpathDb.models.Data || shortestpathDb.model("Data", dataSchema);
@@ -37,3 +44,7 @@ export const Data = dataModel;
 export const Coordinate = coordinateModel;
 export const OptimalSolution = optimalSolutionModel;
 export const Location = locationModel;
+export const DataMST = dataMSTModel;
+export const CoordinateMST = coordinateMSTModel;
+export const LocationMST = locationMSTModel;
+export const OptimalSolutionMST = optimalSolutionMSTModel;

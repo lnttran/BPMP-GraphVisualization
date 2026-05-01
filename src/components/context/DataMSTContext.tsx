@@ -56,7 +56,7 @@ export const DataMSTProvider: React.FC<DataMSTProviderProps> = ({ children }) =>
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `/api/shortestpath/data?fileName=${selectedDataset}`
+          `/api/minimumspanningtree/data?fileName=${selectedDataset}`
         );
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -68,7 +68,7 @@ export const DataMSTProvider: React.FC<DataMSTProviderProps> = ({ children }) =>
 
         // Fetch corresponding locations
         const locationResponse = await fetch(
-          `/api/shortestpath/data/location?fileName=${selectedDataset}`
+          `/api/minimumspanningtree/data/location?fileName=${selectedDataset}`
         );
 
         if (locationResponse.status === 200) {
@@ -77,7 +77,7 @@ export const DataMSTProvider: React.FC<DataMSTProviderProps> = ({ children }) =>
           throw new Error(`HTTP error! Status: ${locationResponse.status}`);
         }
 
-    
+
 
 
         // Merge location into coordinate
@@ -102,20 +102,20 @@ export const DataMSTProvider: React.FC<DataMSTProviderProps> = ({ children }) =>
 
         console.log(retrievedData?.coordinate?.[0]);
 
-        
+
         // setRetrievedData(data);
         // // Set max capacity and max distance
         // if (data && data.data) {
         //   setLastNode(Number(data.data.n));
         // }
 
-        
+
 
       } catch (err) {
         console.log("error");
       }
     };
-    
+
 
     fetchData();
   }, [selectedDataset]);

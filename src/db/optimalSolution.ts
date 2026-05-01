@@ -32,3 +32,19 @@ export const optimalSolutionSPSchema = new mongoose.Schema({
     collection: "optimalSolutionSP",
     versionKey: false,
 })
+
+export interface optimalSolutionMST {
+  totalWeight: number;
+  edges: [number, number][];
+}
+
+export const optimalSolutionMSTSchema = new mongoose.Schema({
+  file: String,
+  content: {
+    totalWeight: Number,
+    edges: [[Number]],
+  }
+}, {
+  collection: "optimalSolutionMST",
+  versionKey: false,
+})

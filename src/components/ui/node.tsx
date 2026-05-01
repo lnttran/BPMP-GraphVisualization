@@ -78,9 +78,13 @@ const Node = ({
         </Button>
         {correspondingLoc && (
           <div
-            className={
-              "mt-2 px-3 py-1 rounded-full truncate text-sm font-medium text-center w-full transition-all duration-300 bg-blue-50 border-background text-accent backdrop-blur-sm border shadow-sm -translate-x-6"
-            }
+            className="absolute px-3 py-1 rounded-full truncate text-sm font-medium bg-blue-50 border border-background text-accent shadow-sm"
+            style={{
+              top: "100%",
+              left: "50%",
+              transform: "translateX(-50%)",
+              whiteSpace: "nowrap",
+            }}
           >
             {correspondingLoc}
           </div>

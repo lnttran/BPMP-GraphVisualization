@@ -139,7 +139,7 @@ export default function MSTGraphVisualiser({
 
     try {
       const response = await fetch(
-        `/api/mst/data/optimalSolution?filename=${encodeURIComponent(filename)}`
+        `/api/minimumspanningtree/data/optimalSolution?filename=${encodeURIComponent(filename)}`
       );
 
       if (response.ok) {
@@ -168,153 +168,153 @@ export default function MSTGraphVisualiser({
     }
   };
 
-/*   const handleOnClickedNode = (isSelected: boolean, nodeId: number): boolean => {
-    /* if (isSelected) {
-      if (selectedNodes.size === 0) {
-        setSelectedNodes(new Set([nodeId]));
-        toast({
-          variant: "destructive",
-          style: { height: "auto", borderRadius: "15px" },
-          description: (
-            <div className="flex flex-row items-center gap-10">
-              <IoIosCheckmarkCircleOutline className="text-white" size={"40px"} />
-              <div>
-                <ToastTitle className="text-xl font-bold text-white">
-                  Starting node selected
-                </ToastTitle>
-                <ToastDescription className="text-lg text-white">
-                  {`Node ${nodeId} is now the starting point`}
-                </ToastDescription>
+  /*   const handleOnClickedNode = (isSelected: boolean, nodeId: number): boolean => {
+      /* if (isSelected) {
+        if (selectedNodes.size === 0) {
+          setSelectedNodes(new Set([nodeId]));
+          toast({
+            variant: "destructive",
+            style: { height: "auto", borderRadius: "15px" },
+            description: (
+              <div className="flex flex-row items-center gap-10">
+                <IoIosCheckmarkCircleOutline className="text-white" size={"40px"} />
+                <div>
+                  <ToastTitle className="text-xl font-bold text-white">
+                    Starting node selected
+                  </ToastTitle>
+                  <ToastDescription className="text-lg text-white">
+                    {`Node ${nodeId} is now the starting point`}
+                  </ToastDescription>
+                </div>
               </div>
-            </div>
-          ),
-        });
-        return true;
-      }
-
-      if (selectedNodes.has(nodeId)) {
-        return false;
-      }
-
-      const possibleEdges = weightDistantData.filter(
-        link =>
-          (selectedNodes.has(link.x) && link.y === nodeId) ||
-          (selectedNodes.has(link.y) && link.x === nodeId)
-      );
-
-      if (possibleEdges.length === 0) {
-        toast({
-          variant: "destructive",
-          style: { height: "auto", borderRadius: "15px" },
-          description: (
-            <div className="flex flex-row items-center gap-10">
-              <MdErrorOutline className="text-white" size={"50px"} />
-              <div>
-                <ToastTitle className="text-xl font-bold text-white">
-                  Node not reachable
-                </ToastTitle>
-                <ToastDescription className="text-lg text-white">
-                  No edge exists from current node to node {nodeId}
-                </ToastDescription>
-              </div>
-            </div>
-          ),
-        });
-        return false;
-      }
-
-      let minEdge = possibleEdges[0];
-      for (const edge of possibleEdges) {
-        if (edge.d < minEdge.d) {
-          minEdge = edge;
+            ),
+          });
+          return true;
         }
-      }
-
-      let from = minEdge.x;
-      let to = minEdge.y;
-      if (!selectedNodes.has(from)) {
-        [from, to] = [to, from];
-      }
-
-      const { status: result } = addEdge(from, to, minEdge.d);
-
-      if (result) {
-        if (selectedNodes.size === dataSize) {
-          if ((window as any).optimalButtonControl) {
-            (window as any).optimalButtonControl.incrementAttempts();
+  
+        if (selectedNodes.has(nodeId)) {
+          return false;
+        }
+  
+        const possibleEdges = weightDistantData.filter(
+          link =>
+            (selectedNodes.has(link.x) && link.y === nodeId) ||
+            (selectedNodes.has(link.y) && link.x === nodeId)
+        );
+  
+        if (possibleEdges.length === 0) {
+          toast({
+            variant: "destructive",
+            style: { height: "auto", borderRadius: "15px" },
+            description: (
+              <div className="flex flex-row items-center gap-10">
+                <MdErrorOutline className="text-white" size={"50px"} />
+                <div>
+                  <ToastTitle className="text-xl font-bold text-white">
+                    Node not reachable
+                  </ToastTitle>
+                  <ToastDescription className="text-lg text-white">
+                    No edge exists from current node to node {nodeId}
+                  </ToastDescription>
+                </div>
+              </div>
+            ),
+          });
+          return false;
+        }
+  
+        let minEdge = possibleEdges[0];
+        for (const edge of possibleEdges) {
+          if (edge.d < minEdge.d) {
+            minEdge = edge;
           }
         }
-        checkOptimalPath();
-      }
-
-      return result;
-    } else {
-      const firstNode = Array.from(selectedNodes)[0];
-      if (nodeId === firstNode) {
-        if (selectedEdges.length === 0) {
-          setSelectedNodes(new Set());
-          return true;
-        } else {
-          toast({
-            variant: "destructive",
-            style: { height: "auto", borderRadius: "15px" },
-            description: (
-              <div className="flex flex-row items-center gap-10">
-                <MdErrorOutline className="text-white" size={"50px"} />
-                <div>
-                  <ToastTitle className="text-xl font-bold text-white">
-                    Cannot remove starting node
-                  </ToastTitle>
-                  <ToastDescription className="text-lg text-white">
-                    Please remove all edges first
-                  </ToastDescription>
-                </div>
-              </div>
-            ),
-          });
-          return true;
+  
+        let from = minEdge.x;
+        let to = minEdge.y;
+        if (!selectedNodes.has(from)) {
+          [from, to] = [to, from];
         }
-
-      }
-
-      if (selectedEdges.length > 0) {
-        const lastEdge = selectedEdges[selectedEdges.length - 1];
-        if (nodeId !== lastEdge.to) {
-          toast({
-            variant: "destructive",
-            style: { height: "auto", borderRadius: "15px" },
-            description: (
-              <div className="flex flex-row items-center gap-10">
-                <MdErrorOutline className="text-white" size={"50px"} />
-                <div>
-                  <ToastTitle className="text-xl font-bold text-white">
-                    Cannot remove this node
-                  </ToastTitle>
-                  <ToastDescription className="text-lg text-white">
-                    Please remove nodes in reverse order
-                  </ToastDescription>
-                </div>
-              </div>
-            ),
-          });
-          return true;
-        }
-
-        const result = removeEdge(lastEdge.from, lastEdge.to);
-
+  
+        const { status: result } = addEdge(from, to, minEdge.d);
+  
         if (result) {
-          setSelectedNodes(prev => {
-            const newSet = new Set(prev);
-            newSet.delete(nodeId);
-            return newSet;
-          });
+          if (selectedNodes.size === dataSize) {
+            if ((window as any).optimalButtonControl) {
+              (window as any).optimalButtonControl.incrementAttempts();
+            }
+          }
+          checkOptimalPath();
         }
+  
         return result;
-      }
-
-      return true;
-    } 
-  } */
+      } else {
+        const firstNode = Array.from(selectedNodes)[0];
+        if (nodeId === firstNode) {
+          if (selectedEdges.length === 0) {
+            setSelectedNodes(new Set());
+            return true;
+          } else {
+            toast({
+              variant: "destructive",
+              style: { height: "auto", borderRadius: "15px" },
+              description: (
+                <div className="flex flex-row items-center gap-10">
+                  <MdErrorOutline className="text-white" size={"50px"} />
+                  <div>
+                    <ToastTitle className="text-xl font-bold text-white">
+                      Cannot remove starting node
+                    </ToastTitle>
+                    <ToastDescription className="text-lg text-white">
+                      Please remove all edges first
+                    </ToastDescription>
+                  </div>
+                </div>
+              ),
+            });
+            return true;
+          }
+  
+        }
+  
+        if (selectedEdges.length > 0) {
+          const lastEdge = selectedEdges[selectedEdges.length - 1];
+          if (nodeId !== lastEdge.to) {
+            toast({
+              variant: "destructive",
+              style: { height: "auto", borderRadius: "15px" },
+              description: (
+                <div className="flex flex-row items-center gap-10">
+                  <MdErrorOutline className="text-white" size={"50px"} />
+                  <div>
+                    <ToastTitle className="text-xl font-bold text-white">
+                      Cannot remove this node
+                    </ToastTitle>
+                    <ToastDescription className="text-lg text-white">
+                      Please remove nodes in reverse order
+                    </ToastDescription>
+                  </div>
+                </div>
+              ),
+            });
+            return true;
+          }
+  
+          const result = removeEdge(lastEdge.from, lastEdge.to);
+  
+          if (result) {
+            setSelectedNodes(prev => {
+              const newSet = new Set(prev);
+              newSet.delete(nodeId);
+              return newSet;
+            });
+          }
+          return result;
+        }
+  
+        return true;
+      } 
+    } */
 
   const handleLineClick = (from: number, to: number, weight: number) => {
     const isSelected = selectedEdges.some(
@@ -412,10 +412,26 @@ export default function MSTGraphVisualiser({
 
       const { status: result } = addEdge(finalFrom, finalTo, weight);
       if (result) {
-        if (selectedNodes.size === dataSize) {
+        if (selectedNodes.size + 1 === dataSize) {
           if ((window as any).optimalButtonControl) {
             (window as any).optimalButtonControl.incrementAttempts();
           }
+          toast({
+            style: { height: "auto", borderRadius: "15px", backgroundColor: "#1a1a1a" },
+            description: (
+              <div className="flex flex-row items-center gap-10">
+                <IoIosCheckmarkCircleOutline className="text-white" size={"50px"} />
+                <div>
+                  <ToastTitle className="text-xl font-bold text-white">
+                    All Nodes Connected!
+                  </ToastTitle>
+                  <ToastDescription className="text-lg text-white">
+                    You have connected all nodes in the graph.
+                  </ToastDescription>
+                </div>
+              </div>
+            ),
+          });
         }
         checkOptimalPath();
       }
@@ -615,7 +631,7 @@ export default function MSTGraphVisualiser({
           return (
             <div
               key={`distance-${i}`}
-              className="absolute text-xs bg-white px-1 rounded shadow-sm pointer-events-none"
+              className="absolute text-sm font-semibold bg-white px-2 py-0.5 rounded shadow-sm pointer-events-none"
               style={{
                 left: `${midX}px`,
                 top: `${midY}px`,
@@ -644,9 +660,9 @@ export default function MSTGraphVisualiser({
           isDeparts={false}
           isDepot={false}
           onClick={() => false}
-/*           onClick={(isSelected: boolean) =>
-            handleOnClickedNode(isSelected, nodeList.node)
-          } */
+          /*           onClick={(isSelected: boolean) =>
+                      handleOnClickedNode(isSelected, nodeList.node)
+                    } */
           filename={filename}
           resetSignal={resetSignal}
           correspondingLoc={nodeList.location}
