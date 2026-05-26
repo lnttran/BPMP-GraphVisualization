@@ -227,7 +227,7 @@ export default function MSTGraphVisualization() {
           <MSTGraphVisualiser
             filename={selectedDataset}
             resetSignal={resetSignal}
-            isToggled={isToggled} // Pass the toggle state to GraphVisualiser
+            isToggled={isToggled} 
           />
         </div>
       </div>
