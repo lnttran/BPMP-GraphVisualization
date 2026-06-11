@@ -95,65 +95,78 @@ const NoteBox = ({
     setIsOpen(!isOpen);
   };
   
-  return (
-    <div
-      className={`absolute bottom-0 m-5 ${
-        !isOpen
-          ? "w-[50px] h-[50px] p-1.5 rounded-full"
-          : "w-fill h-fill p-2 rounded-xl"
-      } bg-[#1B4332] bg-opacity-50 text-white z-60 flex items-center justify-center`}
-    >
-      {!isOpen ? (
-        <div className=" p-1.5 cursor-pointer" onClick={handleToggle}>
-          <FaStickyNote />
-        </div>
-      ) : (
-        <div className="flex flex-col w-full h-full">
+return (
+  <div
+    className={`absolute bottom-0 m-5 ${
+      !isOpen
+        ? "w-[40px] h-[40px] p-1.5 rounded-full"
+        : "p-3 rounded-xl w-fit"
+    } bg-[#1B4332] bg-opacity-50 text-white z-60 flex items-center justify-center`}
+  >
+    {!isOpen ? (
+      <div className="p-1 cursor-pointer" onClick={handleToggle}>
+        <FaStickyNote />
+      </div>
+    ) : (
+      <div className="flex flex-col w-fit gap-2">
+        <div className="flex justify-end">
           <div
-            className="bg-[#1B4332] bg-opacity-70 hover:bg-opacity-90 w-fit p-1.5 rounded-md self-end cursor-pointer"
+            className="bg-[#1B4332] bg-opacity-70 hover:bg-opacity-90 p-1 rounded-md cursor-pointer"
             onClick={handleToggle}
           >
             <FaMinus />
           </div>
-          <pre className="mx-3 mt-2">{children}</pre>
-          {mode !== "mst" && (
-            <div className="flex items-center gap-10 mx-3 mt-2">
-              <div className="w-9 h-9 rounded-full bg-accent-foreground border-2"></div>
-              <p className="">Destination Node</p>
-            </div>
-          )}
-          {/* Line Type Node */}
-          <div className="flex mx-3 mt-2 flex-col">
-            <p className="mb-2 font-bold">Line Types:</p>
+        </div>
+        {children && (
+  <div className="grid grid-cols-2 gap-x-4 gap-y-0 text-sm border-b border-white border-opacity-30 pb-2">
+    {String(children).split('\n').filter(Boolean).map((line, i) => {
+      const [label, value] = line.split(': ');
+      return (
+        <div key={i} className="flex gap-1">
+          <span className="opacity-70 whitespace-nowrap">{label}:</span>
+          <span className="font-medium whitespace-nowrap">{value}</span>
+        </div>
+      );
+    })}
+  </div>
+)}
+        {mode !== "mst" && (
+          <div className="flex items-center gap-2">
+            <div className="w-5 h-5 rounded-full bg-accent-foreground border-2 shrink-0"></div>
+            <p className="text-sm">Destination Node</p>
+          </div>
+        )}
+        <div>
+          <p className="font-bold text-sm mb-1">Line Types:</p>
+          <div className="grid grid-cols-2 gap-x-3 gap-y-1">
             {lineTypes.slice(0, numberOfLine).map((lineType, index) => (
               <div
                 key={index}
-                className={`px-2 rounded-md ${
+                className={`flex flex-row items-center gap-1 px-1 rounded-md ${
                   currentLineType === lineType.id ? "bg-background" : ""
                 }`}
               >
-                <div key={index} className="flex flex-row items-center gap-8">
-                  <div className="flex flex-row items-center">
-                    {lineType.icon}
-                    {mode !== "sp" && mode !== "mst" && lineType.arrow}
-                  </div>
-                  <p
-                    className={`${
-                      currentLineType === lineType.id
-                        ? "text-destructive"
-                        : "text-white"
-                    }`}
-                  >
-                    {lineType.title}
-                  </p>
+                <div className="flex flex-row items-center shrink-0">
+                  {lineType.icon}
+                  {mode !== "sp" && mode !== "mst" && lineType.arrow}
                 </div>
+                <p
+                  className={`text-sm whitespace-nowrap ${
+                    currentLineType === lineType.id
+                      ? "text-destructive"
+                      : "text-white"
+                  }`}
+                >
+                  {lineType.title}
+                </p>
               </div>
             ))}
           </div>
         </div>
-      )}
-    </div>
-  );
+      </div>
+    )}
+  </div>
+);
 };
 
 export default NoteBox;
