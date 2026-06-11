@@ -23,7 +23,7 @@ import { useToast } from "../ui/use-toast";
 import { ToastDescription, ToastTitle } from "@radix-ui/react-toast";
 import { MdErrorOutline } from "react-icons/md";
 
-const optimalButtonControl = {
+const bpmpButtonControl = {
   attemptsMap: {} as Record<string, number>,
   optimalFoundMap: {} as Record<string, boolean>,
   maxAttempts: 5,
@@ -74,7 +74,7 @@ const optimalButtonControl = {
 };
 
 if (typeof window !== 'undefined') {
-  (window as any).optimalButtonControl = optimalButtonControl;
+  (window as any).bpmpButtonControl = bpmpButtonControl;
 }
 
 export default function GraphVisualization() {
@@ -89,8 +89,8 @@ export default function GraphVisualization() {
   const [canShowButton, setCanShowButton] = useState(false);
 
   useEffect(() => {
-    if (selectedDataset && (window as any).optimalButtonControl) {
-      (window as any).optimalButtonControl.setCurrentFile(selectedDataset);
+    if (selectedDataset && (window as any).bpmpButtonControl) {
+      (window as any).bpmpButtonControl.setCurrentFile(selectedDataset);
     }
   }, [selectedDataset]);
 
@@ -114,8 +114,8 @@ export default function GraphVisualization() {
       return;
     }
 
-    if (!optimalButtonControl.canShowOptimal()) {
-      const remaining = optimalButtonControl.getRemainingAttempts();
+    if (!bpmpButtonControl.canShowOptimal()) {
+      const remaining = bpmpButtonControl.getRemainingAttempts();
       
       toast({
         variant: "destructive",
@@ -189,8 +189,8 @@ export default function GraphVisualization() {
     resetRoute();
     setResetSignal((prev) => !prev);
     
-    if ((window as any).optimalButtonControl) {
-      (window as any).optimalButtonControl.reset();
+    if ((window as any).bpmpButtonControl) {
+      (window as any).bpmpButtonControl.reset();
     }
   };
 

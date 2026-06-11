@@ -20,7 +20,7 @@ import { useToast } from "../ui/use-toast";
 import { ToastDescription, ToastTitle } from "@radix-ui/react-toast";
 import { MdErrorOutline } from "react-icons/md";
 
-const optimalButtonControl = {
+const spButtonControl = {
   attemptsMap: {} as Record<string, number>,
   optimalFoundMap: {} as Record<string, boolean>,
   maxAttempts: 1,
@@ -73,7 +73,7 @@ const optimalButtonControl = {
 };
 
 if (typeof window !== 'undefined') {
-  (window as any).optimalButtonControl = optimalButtonControl;
+  (window as any).spButtonControl = spButtonControl;
 }
 
 export default function SPGraphVisualization() {
@@ -86,8 +86,8 @@ export default function SPGraphVisualization() {
   const [isToggled, setIsToggled] = useState(false); // New state for toggle
 
   useEffect(() => {
-    if (selectedDataset && (window as any).optimalButtonControl) {
-      (window as any).optimalButtonControl.setCurrentFile(selectedDataset);
+    if (selectedDataset && (window as any).spButtonControl) {
+      (window as any).spButtonControl.setCurrentFile(selectedDataset);
     }
   }, [selectedDataset]);
 
@@ -114,7 +114,7 @@ export default function SPGraphVisualization() {
       return;
     }
 
-    if (!optimalButtonControl.canShowOptimal()) {
+    if (!spButtonControl.canShowOptimal()) {
   toast({
     variant: "destructive",
     style: { height: "auto", borderRadius: "15px" },

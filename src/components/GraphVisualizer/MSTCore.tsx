@@ -20,7 +20,7 @@ import { useToast } from "../ui/use-toast";
 import { ToastDescription, ToastTitle } from "@radix-ui/react-toast";
 import { MdErrorOutline } from "react-icons/md";
 
-const optimalButtonControl = {
+const mstButtonControl = {
   attemptsMap: {} as Record<string, number>,
   optimalFoundMap: {} as Record<string, boolean>,
   maxAttempts: 1,
@@ -73,7 +73,7 @@ const optimalButtonControl = {
 };
 
 if (typeof window !== 'undefined') {
-  (window as any).optimalButtonControl = optimalButtonControl;
+  (window as any).mstButtonControl = mstButtonControl;
 }
 
 export default function MSTGraphVisualization() {
@@ -85,8 +85,8 @@ export default function MSTGraphVisualization() {
   const [isToggled, setIsToggled] = useState(true); // New state for toggle
 
   useEffect(() => {
-    if (selectedDataset && (window as any).optimalButtonControl) {
-      (window as any).optimalButtonControl.setCurrentFile(selectedDataset);
+    if (selectedDataset && (window as any).mstButtonControl) {
+      (window as any).mstButtonControl.setCurrentFile(selectedDataset);
     }
   }, [selectedDataset]);
 

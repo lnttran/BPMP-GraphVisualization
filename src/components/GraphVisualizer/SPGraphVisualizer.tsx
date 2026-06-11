@@ -50,8 +50,8 @@ export default function SPGraphVisualiser({
   }, [filename]);
 
   useEffect(() => {
-    if (filename && (window as any).optimalButtonControl) {
-      (window as any).optimalButtonControl.setCurrentFile(filename);
+    if (filename && (window as any).spButtonControl) {
+      (window as any).spButtonControl.setCurrentFile(filename);
     }
     resetRoute();
   }, [filename]);
@@ -136,8 +136,8 @@ export default function SPGraphVisualiser({
       
       if (isMatch) {
         console.log(" Found optimal solution!");
-        if ((window as any).optimalButtonControl) {
-          (window as any).optimalButtonControl.setOptimalFound();
+        if ((window as any).spButtonControl) {
+          (window as any).spButtonControl.setOptimalFound();
         }
       }
     }
@@ -174,8 +174,8 @@ export default function SPGraphVisualiser({
       if (result) {
         const updatedRoute = [...selectedRoute, i];
         if (updatedRoute.includes(lastNode)) {
-          if ((window as any).optimalButtonControl) {
-            (window as any).optimalButtonControl.incrementAttempts();
+          if ((window as any).spButtonControl) {
+            (window as any).spButtonControl.incrementAttempts();
           }
         }
       checkOptimalPath();

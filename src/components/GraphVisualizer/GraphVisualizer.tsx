@@ -133,8 +133,8 @@ export default function GraphVisualiser({
   const dataSize = coordinateData.length;
 
   useEffect(() => {
-    if (filename && (window as any).optimalButtonControl) {
-      (window as any).optimalButtonControl.setCurrentFile(filename);
+    if (filename && (window as any).bpmpButtonControl) {
+      (window as any).bpmpButtonControl.setCurrentFile(filename);
     }
   }, [filename]);
 
@@ -223,8 +223,8 @@ export default function GraphVisualiser({
       }
 
 if (result && i === lastNode) {
-  if ((window as any).optimalButtonControl) {
-    (window as any).optimalButtonControl.incrementAttempts();
+  if ((window as any).bpmpButtonControl) {
+    (window as any).bpmpButtonControl.incrementAttempts();
     checkOptimalPath();  
   }
 }
@@ -281,8 +281,8 @@ if (result && i === lastNode) {
       
       if (isRouteMatch && isCargoMatch) {
         console.log("✅ Found optimal solution!");
-        if ((window as any).optimalButtonControl) {
-          (window as any).optimalButtonControl.setOptimalFound();
+        if ((window as any).bpmpButtonControl) {
+          (window as any).bpmpButtonControl.setOptimalFound();
         }
       }
     }

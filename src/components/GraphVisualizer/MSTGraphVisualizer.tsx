@@ -57,8 +57,8 @@ export default function MSTGraphVisualiser({
   }, [filename]);
 
   useEffect(() => {
-    if (filename && (window as any).optimalButtonControl) {
-      (window as any).optimalButtonControl.setCurrentFile(filename);
+    if (filename && (window as any).mstButtonControl) {
+      (window as any).mstButtonControl.setCurrentFile(filename);
     }
     resetMST();
   }, [filename]);
@@ -158,8 +158,8 @@ export default function MSTGraphVisualiser({
 
         if (isMatch) {
           console.log("✓ Found optimal solution!");
-          if ((window as any).optimalButtonControl) {
-            (window as any).optimalButtonControl.setOptimalFound();
+          if ((window as any).mstButtonControl) {
+            (window as any).mstButtonControl.setOptimalFound();
           }
         }
       }
@@ -240,8 +240,8 @@ export default function MSTGraphVisualiser({
   
         if (result) {
           if (selectedNodes.size === dataSize) {
-            if ((window as any).optimalButtonControl) {
-              (window as any).optimalButtonControl.incrementAttempts();
+            if ((window as any).mstButtonControl) {
+              (window as any).mstButtonControl.incrementAttempts();
             }
           }
           checkOptimalPath();
@@ -413,8 +413,8 @@ export default function MSTGraphVisualiser({
       const { status: result } = addEdge(finalFrom, finalTo, weight);
       if (result) {
         if (selectedNodes.size + 1 === dataSize) {
-          if ((window as any).optimalButtonControl) {
-            (window as any).optimalButtonControl.incrementAttempts();
+          if ((window as any).mstButtonControl) {
+            (window as any).mstButtonControl.incrementAttempts();
           }
           toast({
             style: { height: "auto", borderRadius: "15px", backgroundColor: "#1a1a1a" },
