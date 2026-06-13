@@ -5,16 +5,12 @@ import {
   Star,
   ArrowRight,
   Sparkles,
-  Box,
-  Shield,
-  BarChart3,
-  Settings,
-  Gauge,
   Truck,
   Play,
   ChevronRight,
   ArrowUpRight,
 } from "lucide-react";
+
 import Footer from "@/components/footer/footer";
 
 export default function BPMPPage() {
@@ -146,7 +142,8 @@ export default function BPMPPage() {
         </div>
       </section>
 
-      {/* Features Section with hover effects */}
+{/* 
+      /*Features Section with hover effects 
       <section className="w-full py-24 bg-gray-50">
         <div className="container px-4 md:px-6 mx-auto">
           <div className="text-center mb-16">
@@ -203,6 +200,7 @@ export default function BPMPPage() {
           </div>
         </div>
       </section>
+*/}
 
       {/* Demo Section with gradient overlay */}
       <section className="w-full py-24 bg-[#0F1F1C] relative overflow-hidden">
@@ -317,6 +315,23 @@ export default function BPMPPage() {
               <p className="text-gray-600">
                 Networks and Spatial Economics, 
                 May 2025
+              </p>
+            </a>
+
+            <a
+            href="https://doi.org/10.5281/zenodo.19688769"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+            >
+              <h3 className="text-xl font-semibold text-[#0F1F1C] mb-4">
+                A Lagrangian Relaxation Matheuristic for the Selective One-to-One Pickup-and-Delivery Problem
+              </h3>
+              <p className="text-emerald-600 font-medium mb-2">
+                Yuanyuan Dong and Eli Olinick
+              </p>
+              <p className="text-gray-600">
+                Refereed Proceedings of the 2026 INFORMS Optimization Society Conference (IOS2026), Atlanta, GA, USA
               </p>
             </a>
 

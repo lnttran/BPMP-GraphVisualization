@@ -89,10 +89,10 @@ export default function RootLayout({
                         }`}
                       > */}
                         {/* <Network className="w-4 h-4" /> */}
-                        {/* <span>Interactive App</span>
+                        {/* <span>Interactive Apps</span>
                       </Link> */}
                       <Dropdown
-                        label="Interactive App"
+                        label="Interactive Apps"
                         href="/dashboard/bpmp"
                         icon={<Network className="w-4 h-4" />}
                         items={[

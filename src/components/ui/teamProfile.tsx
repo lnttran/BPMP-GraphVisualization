@@ -325,29 +325,11 @@ const cards = [
       );
     },
   },
-  {
-    description: "B.A. in Computer Science, B.S. in Data Science, B.A. in Music",
-    title: "Anika Saiprabhu",
-    src: "/Anika-Saiprabhu.jpg",
-    ctaText: "More",
-    ctaLink: "https://www.linkedin.com/in/anika-saiprabhu-156a27240/",
-    linkedin: "https://www.linkedin.com/in/anika-saiprabhu-156a27240/",
-    content: () => {
-      return (
-        <p>
-          Anika Saiprabhu is a senior at Southern Methodist University pursuing degrees in
-          Computer Science, Data Science, and Music. She joined this project at the end of her
-          junior year through the URA (Undergraduate Research Assistant) program facilitated
-          through SMU Engaged Learning. She is currently working on the web application and 
-          implementing various shortest path algorithms. 
-        </p>
-      );
-    },
-  },
+
   {
     description: "B.A. in Computer Science and B.S. in Data Science",
     title: "Grace Gao",
-    src: "",
+    src: "/Grace-Gao.jpg",
     ctaText: "More",
     ctaLink: "https://www.linkedin.com/in/grace-gao-213a743a8/",
     linkedin: "https://www.linkedin.com/in/grace-gao-213a743a8/",

@@ -51,25 +51,16 @@ export default function ShortestPathPage() {
               <span>Path Optimization</span>
             </div>
 
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tight">
-              Shortest Path using{" "}
-              <span className="bg-gradient-to-r from-emerald-400 to-teal-500 text-transparent bg-clip-text">
-                Dijkstra
-              </span>
+        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tight">
+            <span className="bg-gradient-to-r from-emerald-400 to-teal-500 text-transparent bg-clip-text">
+            Shortest{" "}
+            </span>
+            Path Problem
             </h1>
 
-            <p className="mx-auto text-gray-200 sm:text-md md:text-lg text-left mb-12">
-              Dijkstra&apos;s algorithm is a fundamental approach in Operations
-              Research and Computer Science for finding the shortest path
-              between nodes in a graph. It is widely used in transportation,
-              network routing, and logistics to optimize travel efficiency and
-              reduce costs. The algorithm works by iteratively selecting the
-              node with the smallest known distance, updating its neighbors, and
-              expanding the search until the shortest path to all reachable
-              nodes is determined. This method is particularly valuable for
-              third-party logistics (3PL) companies, enabling them to optimize
-              delivery routes, minimize fuel consumption, and improve overall
-              efficiency.
+          <p className="mx-auto text-gray-200 sm:text-md md:text-lg text-center mb-12 max-w-3xl">
+              In Operations Research, Computer Science and related fields, the task of finding 
+              the most efficient route through a network is known as the Shortest Path Problem.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 mb-12">
@@ -80,13 +71,13 @@ export default function ShortestPathPage() {
                 Try Interactive Demo
                 {/* <ArrowRight className="ml-2 h-5 w-5" /> */}
               </Link>
-              {/* <a
+              { <a
                 href="#learn-more"
                 className="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white border-2 border-white/20 rounded-full hover:bg-white/10 transition-all duration-300"
               >
                 Learn More
                 <ArrowRight className="ml-2 h-5 w-5" />
-              </a> */}
+              </a> }
             </div>
           </div>
         </div>
@@ -258,7 +249,7 @@ export default function ShortestPathPage() {
                 Understanding the Algorithm
               </h2>
               <p className="text-lg text-gray-600">
-                This overview walks you through how Dijkstra&apos;s algorithm works and how it can be used to find the most efficient delivery routes in logistics networks.
+                This overview explains the shortest path problem and some of its many applications.
               </p>
             </div>
             <div className="flex-1">

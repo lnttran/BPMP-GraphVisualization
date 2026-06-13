@@ -18,7 +18,7 @@ const BaseLayout = ({
 }) => {
   const pathName = usePathname();
 
-  let buttonLabel = "Interactive App";
+  let buttonLabel = "Interactive Apps";
 
   // if (pathName.includes("bpmp")) {
   //   buttonLabel = "Shortest Path";
