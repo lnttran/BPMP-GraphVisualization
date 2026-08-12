@@ -5,7 +5,9 @@ import { getWeightDistantbyPickupDropoff } from "../GraphVisualizer/GraphVisuali
 export default function SPContent({ dataItem }: { dataItem: DataItem }) {
   const weightDistantData = dataItem?.data?.weightDistantData || [];
   const informationData = dataItem?.data;
-  const { getRoute, totalDistance, selectedRoute, reachableNodes } =
+  const coordinateData = dataItem?.coordinate || [];
+  const dataSize = coordinateData.length;
+  const { getRoute, totalDistance, selectedRoute, reachableNodes, studentRoute } =
     useRouteSPContext();
 
   return (
@@ -49,28 +51,68 @@ export default function SPContent({ dataItem }: { dataItem: DataItem }) {
             )}
           </div>
         </div>
-        {reachableNodes && reachableNodes.length > 1 && (
-          <div className="flex flex-col">
-            <p className="font-light text-sm">All Reachable Routes</p>
-            <div className="font-bold text-2xl">
-              {reachableNodes.slice(0, -1).map((route, index) => {
-                const lastNode = route[route.length - 1]; // Last node in the route
-                const routeWithoutLast = route.slice(0, -1); // All nodes except last
-
-                return (
-                  <div key={index} className="mb-2 flex items-center gap-1">
-                    <p>{routeWithoutLast.join(" -> ")}</p>
-                    {routeWithoutLast.length > 0 && " -> "}
-                    <div className="px-3 py-1 rounded-sm bg-popover">
-                      {lastNode}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
       </div>
+
+      {reachableNodes && reachableNodes.length > 0 && (
+        <>
+          <div className="w-full h-px bg-neutral-300 my-4"></div>
+
+          <p className="font-light text-sm mb-1">Your Answer</p>
+
+          {studentRoute.length > 1 ? (
+            <div className="flex flex-col w-full gap-3 justify-between place-items-start">
+              <div className="grid grid-cols-2 gap-y-3 justify-between w-full">
+                <div className="flex flex-col">
+                  <p className="font-light text-sm">Total Distance</p>
+                  <p className="font-extrabold text-2xl">
+                    {parseFloat(studentRoute.reduce((total, node, index) => {
+                      if (index < studentRoute.length - 1) {
+                        const { d } = getWeightDistantbyPickupDropoff(
+                          node,
+                          studentRoute[index + 1],
+                          weightDistantData
+                        );
+                        return total + d;
+                      }
+                      return total;
+                    }, 0).toFixed(2))}
+                  </p>
+                </div>
+              </div>
+              <div className="flex flex-col">
+                <p className="font-light text-sm">Route</p>
+                <div className="font-extrabold text-2xl">
+                  {studentRoute.join(" -> ")}
+                </div>
+              </div>
+              <div className="flex flex-col">
+                <p className="font-light text-sm">Distances</p>
+                <div className="font-extrabold text-2xl">
+                  {studentRoute.map((node, index) => {
+                    if (index < studentRoute.length - 1) {
+                      const from = node;
+                      const to = studentRoute[index + 1];
+                      const { d } = getWeightDistantbyPickupDropoff(
+                        from,
+                        to,
+                        weightDistantData
+                      );
+                      return (
+                        <div key={`student-${from}-${to}-${index}`}>
+                          {from} -&gt; {to} : {d}
+                        </div>
+                      );
+                    }
+                    return null;
+                  })}
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="font-extrabold text-2xl">No answer submitted</div>
+          )}
+        </>
+      )}
 
       {/* <Accordion
         type="multiple"

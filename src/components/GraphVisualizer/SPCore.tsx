@@ -25,20 +25,20 @@ const spButtonControl = {
   optimalFoundMap: {} as Record<string, boolean>,
   maxAttempts: 1,
   currentFile: '',
-  
-  setCurrentFile: function(filename: string) {
+
+  setCurrentFile: function (filename: string) {
     this.currentFile = filename;
     if (!this.attemptsMap[filename]) {
       this.attemptsMap[filename] = 0;
       this.optimalFoundMap[filename] = false;
     }
   },
-  
-  getCurrentAttempts: function() {
+
+  getCurrentAttempts: function () {
     return this.attemptsMap[this.currentFile] || 0;
   },
-  
-  incrementAttempts: function() {
+
+  incrementAttempts: function () {
     if (!this.currentFile) return;
     if (!this.attemptsMap[this.currentFile]) {
       this.attemptsMap[this.currentFile] = 0;
@@ -46,25 +46,25 @@ const spButtonControl = {
     this.attemptsMap[this.currentFile]++;
     console.log(`🔢 Attempt #${this.attemptsMap[this.currentFile]} for ${this.currentFile}`);
   },
-  
-  setOptimalFound: function() {
+
+  setPathCompleted: function () {
     if (!this.currentFile) return;
     this.optimalFoundMap[this.currentFile] = true;
-    console.log(`🎉 Optimal solution found for ${this.currentFile}!`);
+    console.log(`✅ Path completed for ${this.currentFile}!`);
   },
-  
-  canShowOptimal: function() {
-  if (!this.currentFile) return false;
-  const found = this.optimalFoundMap[this.currentFile] || false;
-  return found; 
-},
-  
-  getRemainingAttempts: function() {
+
+  canShowOptimal: function () {
+    if (!this.currentFile) return false;
+    const found = this.optimalFoundMap[this.currentFile] || false;
+    return found;
+  },
+
+  getRemainingAttempts: function () {
     const attempts = this.getCurrentAttempts();
     return Math.max(0, this.maxAttempts - attempts);
   },
-  
-  reset: function() {
+
+  reset: function () {
     if (!this.currentFile) return;
     this.attemptsMap[this.currentFile] = 0;
     this.optimalFoundMap[this.currentFile] = false;
@@ -78,7 +78,7 @@ if (typeof window !== 'undefined') {
 
 export default function SPGraphVisualization() {
   const { selectedDataset, setSelectedDataset } = useDataSPContext();
-  const { resetRoute, setOptimalSolutionRoute, setReachableNodes } =
+  const { resetRoute, setOptimalSolutionRoute, setReachableNodes, saveStudentRoute } =
     useRouteSPContext();
   const { toast } = useToast();
 
@@ -115,25 +115,27 @@ export default function SPGraphVisualization() {
     }
 
     if (!spButtonControl.canShowOptimal()) {
-  toast({
-    variant: "destructive",
-    style: { height: "auto", borderRadius: "15px" },
-    description: (
-      <div className="flex flex-row items-center gap-10">
-        <MdErrorOutline className="text-white" size={"50px"} />
-        <div>
-          <ToastTitle className="text-xl font-bold text-white">
-            Not Available Yet
-          </ToastTitle>
-          <ToastDescription className="text-lg text-white">
-            Please complete a path from the origin to the destination node first.
-          </ToastDescription>
-        </div>
-      </div>
-    ),
-  });
-  return;
-}
+      toast({
+        variant: "destructive",
+        style: { height: "auto", borderRadius: "15px" },
+        description: (
+          <div className="flex flex-row items-center gap-10">
+            <MdErrorOutline className="text-white" size={"50px"} />
+            <div>
+              <ToastTitle className="text-xl font-bold text-white">
+                Not Available Yet
+              </ToastTitle>
+              <ToastDescription className="text-lg text-white">
+                Please complete a path from the origin to the destination node first.
+              </ToastDescription>
+            </div>
+          </div>
+        ),
+      });
+      return;
+    }
+
+    saveStudentRoute();
 
     try {
       const response = await fetch(
@@ -153,9 +155,8 @@ export default function SPGraphVisualization() {
       console.log("Optimal Solution:", optimalSolution);
       if (optimalSolution.content.routes.length > 0) {
         setOptimalSolutionRoute(
-          optimalSolution.content.routes[
-            optimalSolution.content.routes.length - 1
-          ]
+          optimalSolution.content.routes[optimalSolution.content.routes.length - 1],
+          optimalSolution.content.totalDist
         );
       } else {
         setOptimalSolutionRoute([]); // Handle empty case

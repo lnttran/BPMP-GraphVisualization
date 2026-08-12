@@ -22,7 +22,7 @@ import { useDataSPContext } from "./DataSPContext";
 type RouteSPContextType = {
   selectedRoute: number[];
   setSelectedRoute: React.Dispatch<React.SetStateAction<number[]>>;
-  setOptimalSolutionRoute: (route: number[]) => void;
+  setOptimalSolutionRoute: (route: number[], totalDist?: number) => void;
   getRoute: () => string;
   resetRoute: () => void;
   reachableNodes: number[][];
@@ -33,6 +33,8 @@ type RouteSPContextType = {
   ) => { status: boolean; selectedRoute: number[] };
   deleteNodeToRoute: (nodeToRemove: number) => boolean;
   totalDistance: number;
+  studentRoute: number[];
+  saveStudentRoute: () => void;
 };
 
 // Step 2: Create context
@@ -49,10 +51,15 @@ export const RouteSPProvider: React.FC<RouteSPProviderProps> = ({
   const [selectedRoute, setSelectedRoute] = useState<number[]>([1]);
   const [totalDistance, setTotalDistance] = useState<number>(0);
   const [reachableNodes, setReachableNodes] = useState<number[][]>([]);
+  const [studentRoute, setStudentRoute] = useState<number[]>([]);
   const { toast } = useToast();
   const { retrievedData } = useDataSPContext();
   const weightDistantData = retrievedData?.data?.weightDistantData || [];
   const coordinateData = retrievedData?.coordinate || [];
+
+  const saveStudentRoute = () => {
+    setStudentRoute([...selectedRoute]);
+  };
 
   const calculateTotalDistance = (route: any) => {
     if (!retrievedData || !retrievedData.data || !weightDistantData.length) {
@@ -83,9 +90,13 @@ export const RouteSPProvider: React.FC<RouteSPProviderProps> = ({
     setTotalDistance(parseFloat(totalDistance.toFixed(2)));
   };
 
-  const setOptimalSolutionRoute = (route: number[]) => {
+  const setOptimalSolutionRoute = (route: number[], totalDist?: number) => {
     setSelectedRoute(route);
-    calculateTotalDistance(route);
+    if (typeof totalDist === "number") {
+      setTotalDistance(totalDist);
+    } else {
+      calculateTotalDistance(route);
+    }
   };
 
   const getRoute = () => {
@@ -96,6 +107,7 @@ export const RouteSPProvider: React.FC<RouteSPProviderProps> = ({
     setSelectedRoute([1]);
     setReachableNodes([]);
     setTotalDistance(0);
+    setStudentRoute([]);
   };
 
   const addNodeToRoute = (
@@ -111,7 +123,7 @@ export const RouteSPProvider: React.FC<RouteSPProviderProps> = ({
             <MdErrorOutline className="text-white" size={"50px"} />
             <div>
               <ToastTitle className="text-xl font-bold text-white">
-              {`Node ${node} cannot be added`}
+                {`Node ${node} cannot be added`}
               </ToastTitle>
             </div>
           </div>
@@ -196,11 +208,11 @@ export const RouteSPProvider: React.FC<RouteSPProviderProps> = ({
           )}
           <div>
             <ToastTitle className="text-xl font-bold text-white">
-            {isSuccess ? "Removed successfully" : "Removal Prevented"}
+              {isSuccess ? "Removed successfully" : "Removal Prevented"}
             </ToastTitle>
             {isSuccess && (
               <ToastDescription className="text-lg text-white">
-              {`Node ${nodeToRemove} removed from the route.`}
+                {`Node ${nodeToRemove} removed from the route.`}
               </ToastDescription>
             )}
           </div>
@@ -224,6 +236,8 @@ export const RouteSPProvider: React.FC<RouteSPProviderProps> = ({
         addNodeToRoute,
         deleteNodeToRoute,
         setOptimalSolutionRoute,
+        studentRoute,
+        saveStudentRoute,
       }}
     >
       {children}
