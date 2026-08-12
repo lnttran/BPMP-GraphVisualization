@@ -222,12 +222,11 @@ export default function GraphVisualiser({
         });
       }
 
-if (result && i === lastNode) {
-  if ((window as any).bpmpButtonControl) {
-    (window as any).bpmpButtonControl.incrementAttempts();
-    checkOptimalPath();  
-  }
-}
+      if (result && i === lastNode) {
+        if ((window as any).bpmpButtonControl) {
+          (window as any).bpmpButtonControl.incrementAttempts();
+        }
+      }
 
       return result;
     } else {
@@ -244,58 +243,58 @@ if (result && i === lastNode) {
   };
 
   const checkOptimalPath = async () => {
-  console.log("=== Checking optimal solution ===");
-  console.log("Current selectedRoute:", selectedRoute);
-  console.log("Current selectedCargo:", selectedCargo);
-  console.log("selectedCargo length:", selectedCargo.length);
-  
-  try {
-    const response = await fetch(
-      `/api/data/optimalSolution?filename=${encodeURIComponent(filename)}`
-    );
-    
-    if (response.ok) {
-      const optimalSolution = await response.json();
-      // 转换 cargo 格式
-      const currentCargoSimple = selectedCargo.map(item => [item.pickup, item.dropoff]);
-      
-      console.log("Converted cargo:", currentCargoSimple);
-      console.log("Optimal cargo:", optimalSolution.content.cargo);
-      
-      const isRouteMatch = JSON.stringify(selectedRoute) === JSON.stringify(optimalSolution.content.route);
+    console.log("=== Checking optimal solution ===");
+    console.log("Current selectedRoute:", selectedRoute);
+    console.log("Current selectedCargo:", selectedCargo);
+    console.log("selectedCargo length:", selectedCargo.length);
 
-      const sortedCurrentCargo = [...currentCargoSimple].sort((a, b) => {
-        if (a[0] !== b[0]) return a[0] - b[0];
-        return a[1] - b[1];
-      });
-      
-      const sortedOptimalCargo = [...optimalSolution.content.cargo].sort((a, b) => {
-        if (a[0] !== b[0]) return a[0] - b[0];
-        return a[1] - b[1];
-      });
+    try {
+      const response = await fetch(
+        `/api/data/optimalSolution?filename=${encodeURIComponent(filename)}`
+      );
 
-      const isCargoMatch = JSON.stringify(sortedCurrentCargo) === JSON.stringify(sortedOptimalCargo);
-      
-      console.log("Route match:", isRouteMatch);
-      console.log("Cargo match:", isCargoMatch);
-      
-      if (isRouteMatch && isCargoMatch) {
-        console.log("✅ Found optimal solution!");
-        if ((window as any).bpmpButtonControl) {
-          (window as any).bpmpButtonControl.setOptimalFound();
+      if (response.ok) {
+        const optimalSolution = await response.json();
+        // 转换 cargo 格式
+        const currentCargoSimple = selectedCargo.map(item => [item.pickup, item.dropoff]);
+
+        console.log("Converted cargo:", currentCargoSimple);
+        console.log("Optimal cargo:", optimalSolution.content.cargo);
+
+        const isRouteMatch = JSON.stringify(selectedRoute) === JSON.stringify(optimalSolution.content.route);
+
+        const sortedCurrentCargo = [...currentCargoSimple].sort((a, b) => {
+          if (a[0] !== b[0]) return a[0] - b[0];
+          return a[1] - b[1];
+        });
+
+        const sortedOptimalCargo = [...optimalSolution.content.cargo].sort((a, b) => {
+          if (a[0] !== b[0]) return a[0] - b[0];
+          return a[1] - b[1];
+        });
+
+        const isCargoMatch = JSON.stringify(sortedCurrentCargo) === JSON.stringify(sortedOptimalCargo);
+
+        console.log("Route match:", isRouteMatch);
+        console.log("Cargo match:", isCargoMatch);
+
+        if (isRouteMatch && isCargoMatch) {
+          console.log("✅ Found optimal solution!");
+          if ((window as any).bpmpButtonControl) {
+            (window as any).bpmpButtonControl.setOptimalFound();
+          }
         }
       }
+    } catch (error) {
+      console.error("Error:", error);
     }
-  } catch (error) {
-    console.error("Error:", error);
-  }
-};
+  };
 
-useEffect(() => {
-  if (selectedRoute.length > 0 || selectedCargo.length > 0) {
-    checkOptimalPath();
-  }
-}, [selectedRoute, selectedCargo]);
+  useEffect(() => {
+    if (selectedRoute.length > 0 || selectedCargo.length > 0) {
+      checkOptimalPath();
+    }
+  }, [selectedRoute, selectedCargo]);
 
   const renderRoute = () => {
     let filteredLines: {
@@ -572,7 +571,7 @@ useEffect(() => {
         onChange={(value) => setMapState(value)}
         minScale={0.1}
         maxScale={3}
-        // className="w-full h-full"
+      // className="w-full h-full"
       >
         {renderHoverLines()}
         {renderRoute()}

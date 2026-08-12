@@ -26,47 +26,47 @@ import { MdErrorOutline } from "react-icons/md";
 const bpmpButtonControl = {
   attemptsMap: {} as Record<string, number>,
   optimalFoundMap: {} as Record<string, boolean>,
-  maxAttempts: 5,
+  maxAttempts: 1,
   currentFile: '',
-  
-  setCurrentFile: function(filename: string) {
+
+  setCurrentFile: function (filename: string) {
     this.currentFile = filename;
     if (!this.attemptsMap[filename]) {
       this.attemptsMap[filename] = 0;
       this.optimalFoundMap[filename] = false;
     }
   },
-  
-  getCurrentAttempts: function() {
+
+  getCurrentAttempts: function () {
     return this.attemptsMap[this.currentFile] || 0;
   },
-  
-  incrementAttempts: function() {
+
+  incrementAttempts: function () {
     if (!this.currentFile) return;
     if (!this.attemptsMap[this.currentFile]) {
       this.attemptsMap[this.currentFile] = 0;
     }
     this.attemptsMap[this.currentFile]++;
   },
-  
-  setOptimalFound: function() {
+
+  setOptimalFound: function () {
     if (!this.currentFile) return;
     this.optimalFoundMap[this.currentFile] = true;
   },
-  
-  canShowOptimal: function() {
+
+  canShowOptimal: function () {
     if (!this.currentFile) return false;
     const attempts = this.attemptsMap[this.currentFile] || 0;
     const found = this.optimalFoundMap[this.currentFile] || false;
     return found || attempts >= this.maxAttempts;
   },
-  
-  getRemainingAttempts: function() {
+
+  getRemainingAttempts: function () {
     const attempts = this.getCurrentAttempts();
     return Math.max(0, this.maxAttempts - attempts);
   },
-  
-  reset: function() {
+
+  reset: function () {
     if (!this.currentFile) return;
     this.attemptsMap[this.currentFile] = 0;
     this.optimalFoundMap[this.currentFile] = false;
@@ -116,7 +116,7 @@ export default function GraphVisualization() {
 
     if (!bpmpButtonControl.canShowOptimal()) {
       const remaining = bpmpButtonControl.getRemainingAttempts();
-      
+
       toast({
         variant: "destructive",
         style: { height: "auto", borderRadius: "15px" },
@@ -188,7 +188,7 @@ export default function GraphVisualization() {
     resetCargo();
     resetRoute();
     setResetSignal((prev) => !prev);
-    
+
     if ((window as any).bpmpButtonControl) {
       (window as any).bpmpButtonControl.reset();
     }
@@ -204,34 +204,34 @@ export default function GraphVisualization() {
           <div className="flex flex-col lg:flex-row justify-between gap-3 w-full">
             <div className="flex flex-row justify-between w-full">
 
-            
-            <Select value={selectedDataset} onValueChange={setSelectedDataset}>
-              <SelectTrigger className="w-[160px] sm:w-full lg:w-[500px] xl:w-[400px] border-black text-xs sm:text-sm ">
-                <SelectValue placeholder="Select dataset"/>
-              </SelectTrigger>
-              <SelectContent className="text-black bg-background">
-                <SelectGroup>
-                  {filenames.map((filename) => (
-                    <SelectItem key={filename} value={filename} className="text-xs sm:text-sm">
-                      {filename}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
 
-            <div className="flex items-center space-x-2 sm:hidden ">
-              <Switch
-                checked={isToggled}
-                onCheckedChange={handleToggle}
-                id="toggle-mode"
-                thumbClassName="data-[state=checked]:bg-background data-[state=unchecked]:bg-destructive"
-                className="data-[state=checked]:bg-destructive data-[state=unchecked]:bg-background border-destructive border-[1.5px]"
-              />
-              <label htmlFor="toggle-mode" className="text-xs">
-                All Requests
-              </label>
-            </div>
+              <Select value={selectedDataset} onValueChange={setSelectedDataset}>
+                <SelectTrigger className="w-[160px] sm:w-full lg:w-[500px] xl:w-[400px] border-black text-xs sm:text-sm ">
+                  <SelectValue placeholder="Select dataset" />
+                </SelectTrigger>
+                <SelectContent className="text-black bg-background">
+                  <SelectGroup>
+                    {filenames.map((filename) => (
+                      <SelectItem key={filename} value={filename} className="text-xs sm:text-sm">
+                        {filename}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+
+              <div className="flex items-center space-x-2 sm:hidden ">
+                <Switch
+                  checked={isToggled}
+                  onCheckedChange={handleToggle}
+                  id="toggle-mode"
+                  thumbClassName="data-[state=checked]:bg-background data-[state=unchecked]:bg-destructive"
+                  className="data-[state=checked]:bg-destructive data-[state=unchecked]:bg-background border-destructive border-[1.5px]"
+                />
+                <label htmlFor="toggle-mode" className="text-xs">
+                  All Requests
+                </label>
+              </div>
             </div>
 
             <div className="flex flex-row justify-between sm:justify-around w-full">
@@ -276,7 +276,7 @@ export default function GraphVisualization() {
                 className="text-white w-full sm:w-auto "
               >
                 <div className="text-xs sm:text-sm md:text-md">Show Optimal</div>
-                
+
               </Button>
               <Button
                 onClick={() => {
@@ -287,7 +287,7 @@ export default function GraphVisualization() {
                 variant="destructive"
                 className="text-white w-full sm:w-auto"
               >
-               <div className="text-xs sm:text-sm md:text-md">Reset</div>
+                <div className="text-xs sm:text-sm md:text-md">Reset</div>
               </Button>
             </div>
           </div>
