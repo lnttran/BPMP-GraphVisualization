@@ -16,6 +16,7 @@ import React, { useState, useEffect } from "react";
 import useSWR from "swr";
 import { useCargoContext } from "@/components/context/CargoContext";
 import { useRouteContext } from "@/components/context/RouteContext";
+import { CalculateProfit } from "@/components/tools/Tools";
 import { DataItem } from "@/db/data";
 import { useDataContext } from "../context/DataContext";
 import { toast } from "sonner";
@@ -78,8 +79,25 @@ if (typeof window !== 'undefined') {
 }
 
 export default function GraphVisualization() {
-  const { resetCargo, setOptimalSolutionCargo } = useCargoContext();
-  const { resetRoute, setOptimalSolutionRoute } = useRouteContext();
+  const { resetCargo, setOptimalSolutionCargo, selectedCargo, calculateTotalWeight } =
+    useCargoContext();
+  const {
+    resetRoute,
+    setOptimalSolutionRoute,
+    totalDistance,
+    routeWeightMap,
+    optimalProfit,
+    getRoute,
+    saveStudentAnswer,
+  } = useRouteContext();
+  const calculatedProfit = CalculateProfit({
+    selectedRouteWeightMap: routeWeightMap,
+    selectedCargo: selectedCargo,
+    distance: totalDistance,
+  });
+  const currentProfit = optimalProfit !== null
+    ? optimalProfit.toFixed(2)
+    : Number(calculatedProfit).toFixed(2);
   const { selectedDataset, setSelectedDataset, maxCapacity, maxDistance } =
     useDataContext();
   const { toast } = useToast();
@@ -136,6 +154,13 @@ export default function GraphVisualization() {
       });
       return;
     }
+
+    saveStudentAnswer({
+      totalCargo: calculateTotalWeight(),
+      totalDistance: totalDistance,
+      totalProfit: currentProfit,
+      route: getRoute(),
+    });
 
     try {
       const response = await fetch(

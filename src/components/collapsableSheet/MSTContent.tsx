@@ -3,9 +3,9 @@ import { useRouteMSTContext } from "../context/RouteMSTContext";
 
 export default function MSTContent({ dataItem }: { dataItem: DataItem }) {
   const weightDistantData = dataItem?.data?.weightDistantData || [];
-  const { getEdgesList, totalWeight, selectedEdges, selectedNodes } =
+  const { getEdgesList, totalWeight, selectedEdges, selectedNodes, studentEdges, studentNodes, studentTotalWeight } =
     useRouteMSTContext();
-  
+
   const coordinateData = dataItem?.coordinate || [];
   const totalNodes = coordinateData.length;
 
@@ -44,6 +44,38 @@ export default function MSTContent({ dataItem }: { dataItem: DataItem }) {
           </div>
         </div>
 
+        {studentEdges.length > 0 && (
+          <>
+            <div className="w-full border-t border-gray-300 my-2" />
+            <div className="flex flex-col w-full gap-3">
+              <p className="font-light text-sm">Your Answer</p>
+              <div className="grid grid-cols-2 gap-y-3 justify-between w-full">
+                <div className="flex flex-col">
+                  <p className="font-light text-sm">Total Weight</p>
+                  <p className="font-extrabold text-2xl">
+                    {studentTotalWeight === 0 ? "0" : studentTotalWeight}
+                  </p>
+                </div>
+                <div className="flex flex-col">
+                  <p className="font-light text-sm">Nodes Connected</p>
+                  <p className="font-extrabold text-2xl">
+                    {studentNodes.size} / {totalNodes}
+                  </p>
+                </div>
+              </div>
+              <div className="flex flex-col">
+                <p className="font-light text-sm">Selected Edges</p>
+                <div className="font-extrabold text-2xl">
+                  {studentEdges.map((edge, index) => (
+                    <div key={`student-${edge.from}-${edge.to}-${index}`}>
+                      {edge.from} ↔ {edge.to} : {edge.weight}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </>
+        )}
 
       </div>
     </div>

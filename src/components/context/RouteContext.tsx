@@ -35,7 +35,19 @@ type RouteContextType = {
   ) => { status: boolean; selectedRoute: number[] };
   deleteNodeToRoute: (nodeToRemove: number) => boolean;
   totalDistance: number;
-  optimalProfit: number | null; 
+  optimalProfit: number | null;
+  studentAnswer: {
+    totalCargo: number;
+    totalDistance: number;
+    totalProfit: number | string;
+    route: string;
+  } | null;
+  saveStudentAnswer: (answer: {
+    totalCargo: number;
+    totalDistance: number;
+    totalProfit: number | string;
+    route: string;
+  }) => void;
 };
 
 // Step 2: Create context
@@ -55,6 +67,22 @@ export const RouteProvider: React.FC<RouteProviderProps> = ({ children }) => {
   const { retrievedData, maxDistance } = useDataContext();
   const weightDistantData = retrievedData?.data?.weightDistantData || [];
   const coordinateData = retrievedData?.coordinate || [];
+
+  const [studentAnswer, setStudentAnswer] = useState<{
+    totalCargo: number;
+    totalDistance: number;
+    totalProfit: number | string;
+    route: string;
+  } | null>(null);
+
+  const saveStudentAnswer = (answer: {
+    totalCargo: number;
+    totalDistance: number;
+    totalProfit: number | string;
+    route: string;
+  }) => {
+    setStudentAnswer(answer);
+  };
 
   const calculateTotalDistance = (route: any) => {
     if (!retrievedData || !retrievedData.data || !weightDistantData.length) {
@@ -93,7 +121,7 @@ export const RouteProvider: React.FC<RouteProviderProps> = ({ children }) => {
     setSelectedRoute(route);
     calculateTotalDistance(route);
     if (profit !== undefined) {
-    setOptimalProfit(profit);
+      setOptimalProfit(profit);
     }
   };
 
@@ -105,8 +133,8 @@ export const RouteProvider: React.FC<RouteProviderProps> = ({ children }) => {
     setSelectedRoute([1]);
     setTotalDistance(0);
     setOptimalProfit(null);
+    setStudentAnswer(null);
   };
-
   const addNodeToRoute = (
     node: number,
     weight: number,
@@ -254,6 +282,8 @@ export const RouteProvider: React.FC<RouteProviderProps> = ({ children }) => {
         deleteNodeToRoute,
         setOptimalSolutionRoute,
         optimalProfit,
+        studentAnswer,
+        saveStudentAnswer,
       }}
     >
       {children}

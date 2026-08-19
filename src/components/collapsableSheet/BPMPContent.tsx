@@ -11,6 +11,7 @@ import { CalculateProfit } from "../tools/Tools";
 import { CargoCard } from "./CargoCard";
 import { useDataContext } from "../context/DataContext";
 
+
 const returnAvailableCargo = (
   selectedCargo: Cargo[],
   selectedRoute: number[],
@@ -42,8 +43,14 @@ const returnAvailableCargo = (
 
 export default function BPMPContent({ dataItem }: { dataItem: DataItem }) {
   const weightDistantData = dataItem?.data?.weightDistantData || [];
-  const { getRoute, totalDistance, selectedRoute, routeWeightMap, optimalProfit } =
-    useRouteContext();
+  const {
+    getRoute,
+    totalDistance,
+    selectedRoute,
+    routeWeightMap,
+    optimalProfit,
+    studentAnswer,
+  } = useRouteContext();
   const { priceCharge, travelCost, vehicleWeight } = useDataContext();
   const { selectedCargo, calculateTotalWeight, removeCargo, addCargo } =
     useCargoContext();
@@ -66,12 +73,12 @@ export default function BPMPContent({ dataItem }: { dataItem: DataItem }) {
           <div className="flex flex-col">
             <p className="font-light text-xs md:text-sm">Total Profit</p>
             <p className="font-extrabold text-lg md:text-2xl ">
-              {optimalProfit !== null 
-                ? optimalProfit.toFixed(2)  
-                : CalculateProfit({          
-                    selectedRouteWeightMap: routeWeightMap,
-                    selectedCargo: selectedCargo,
-                    distance: totalDistance,
+              {optimalProfit !== null
+                ? optimalProfit.toFixed(2)
+                : CalculateProfit({
+                  selectedRouteWeightMap: routeWeightMap,
+                  selectedCargo: selectedCargo,
+                  distance: totalDistance,
                 })
               }
             </p>
@@ -103,6 +110,44 @@ export default function BPMPContent({ dataItem }: { dataItem: DataItem }) {
           </div>
         </div>
       </div>
+      
+      {studentAnswer && (
+        <Accordion type="single" collapsible defaultValue="your-answer" className="w-full mt-3">
+          <AccordionItem value="your-answer" className="border-b-neutral-300">
+            <AccordionTrigger className="font-light text-xs md:text-sm">
+              Your Answer
+            </AccordionTrigger>
+            <AccordionContent>
+              <div className="grid grid-cols-2 gap-y-3 justify-between w-full mt-2">
+                <div className="flex flex-col">
+                  <p className="font-light text-xs md:text-sm">Total Cargo</p>
+                  <p className="font-extrabold text-lg md:text-2xl ">
+                    {studentAnswer.totalCargo}
+                  </p>
+                </div>
+                <div className="flex flex-col">
+                  <p className="font-light text-xs md:text-sm">Total Distance</p>
+                  <p className="font-extrabold text-lg md:text-2xl ">
+                    {studentAnswer.totalDistance}
+                  </p>
+                </div>
+                <div className="flex flex-col">
+                  <p className="font-light text-xs md:text-sm">Total Profit</p>
+                  <p className="font-extrabold text-lg md:text-2xl ">
+                    {studentAnswer.totalProfit}
+                  </p>
+                </div>
+              </div>
+              <div className="flex flex-col mt-3">
+                <p className="font-light text-xs md:text-sm">Route</p>
+                <div className="font-extrabold text-lg md:text-2xl ">
+                  {studentAnswer.route}
+                </div>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      )}
 
       <Accordion
         type="multiple"

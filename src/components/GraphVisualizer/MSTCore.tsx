@@ -78,7 +78,7 @@ if (typeof window !== 'undefined') {
 
 export default function MSTGraphVisualization() {
   const { selectedDataset, setSelectedDataset, retrievedData } = useDataMSTContext();
-  const { resetMST, setOptimalSolutionEdges, selectedNodes } = useRouteMSTContext();
+  const { resetMST, setOptimalSolutionEdges, selectedNodes, saveStudentRoute } = useRouteMSTContext();
   const { toast } = useToast();
 
   const [resetSignal, setResetSignal] = useState(false);
@@ -131,6 +131,8 @@ export default function MSTGraphVisualization() {
       return;
     }
 
+    saveStudentRoute();
+
     try {
       const response = await fetch(
         `/api/minimumspanningtree/data/optimalSolution?filename=${selectedDataset}`
@@ -142,7 +144,7 @@ export default function MSTGraphVisualization() {
         const edgeData = retrievedData?.data?.weightDistantData?.find(
           (d: any) => (d.x === from && d.y === to) || (d.x === to && d.y === from)
         );
-        return { from, to, weight: edgeData?.d ?? 0 }; 
+        return { from, to, weight: edgeData?.d ?? 0 };
       });
 
       setOptimalSolutionEdges(edges);
@@ -227,7 +229,7 @@ export default function MSTGraphVisualization() {
           <MSTGraphVisualiser
             filename={selectedDataset}
             resetSignal={resetSignal}
-            isToggled={isToggled} 
+            isToggled={isToggled}
           />
         </div>
       </div>

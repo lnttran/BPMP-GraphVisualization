@@ -23,8 +23,8 @@ type Edge = {
 
 // Step 1: Define context type
 type RouteMSTContextType = {
-  selectedEdges: Edge[];  
-  selectedNodes: Set<number>;  
+  selectedEdges: Edge[];
+  selectedNodes: Set<number>;
   setSelectedEdges: React.Dispatch<React.SetStateAction<Edge[]>>;
   setSelectedNodes: React.Dispatch<React.SetStateAction<Set<number>>>;
   setOptimalSolutionEdges: (edges: Edge[]) => void;
@@ -36,7 +36,11 @@ type RouteMSTContextType = {
     weight: number
   ) => { status: boolean };
   removeEdge: (from: number, to: number) => boolean;
-  totalWeight: number;  
+  totalWeight: number;
+  studentEdges: Edge[];
+  studentNodes: Set<number>;
+  studentTotalWeight: number;
+  saveStudentRoute: () => void;
 };
 
 // Step 2: Create context
@@ -53,6 +57,9 @@ export const RouteMSTProvider: React.FC<RouteMSTProviderProps> = ({
   const [selectedEdges, setSelectedEdges] = useState<Edge[]>([]);
   const [selectedNodes, setSelectedNodes] = useState<Set<number>>(new Set());
   const [totalWeight, setTotalWeight] = useState<number>(0);
+  const [studentEdges, setStudentEdges] = useState<Edge[]>([]);
+  const [studentNodes, setStudentNodes] = useState<Set<number>>(new Set());
+  const [studentTotalWeight, setStudentTotalWeight] = useState<number>(0);
   const { toast } = useToast();
   const { retrievedData } = useDataMSTContext();
   const weightDistantData = retrievedData?.data?.weightDistantData || [];
@@ -60,6 +67,12 @@ export const RouteMSTProvider: React.FC<RouteMSTProviderProps> = ({
   const calculateTotalWeight = (edges: Edge[]) => {
     const total = edges.reduce((sum, edge) => sum + edge.weight, 0);
     setTotalWeight(parseFloat(total.toFixed(2)));
+  };
+
+  const saveStudentRoute = () => {
+    setStudentEdges([...selectedEdges]);
+    setStudentNodes(new Set(selectedNodes));
+    setStudentTotalWeight(totalWeight);
   };
 
   const setOptimalSolutionEdges = (edges: Edge[]) => {
@@ -83,6 +96,9 @@ export const RouteMSTProvider: React.FC<RouteMSTProviderProps> = ({
     setSelectedEdges([]);
     setSelectedNodes(new Set());
     setTotalWeight(0);
+    setStudentEdges([]);
+    setStudentNodes(new Set());
+    setStudentTotalWeight(0);
   };
 
   const addEdge = (
@@ -226,6 +242,10 @@ export const RouteMSTProvider: React.FC<RouteMSTProviderProps> = ({
         addEdge,
         removeEdge,
         setOptimalSolutionEdges,
+        studentEdges,
+        studentNodes,
+        studentTotalWeight,
+        saveStudentRoute,
       }}
     >
       {children}
