@@ -90,6 +90,15 @@ export default function MSTGraphVisualization() {
     }
   }, [selectedDataset]);
 
+  useEffect(() => {
+    const totalNodes = retrievedData?.coordinate?.length || 0;
+    if (totalNodes > 0 && selectedNodes.size >= totalNodes) {
+      if ((window as any).mstButtonControl) {
+        (window as any).mstButtonControl.setOptimalFound();
+      }
+    }
+  }, [selectedNodes, retrievedData]);
+
   const { data: filenames, error } = useSWR<string[]>(
     `/api/minimumspanningtree/data/filename`,
     fetcher
@@ -109,8 +118,9 @@ export default function MSTGraphVisualization() {
     }
 
     const totalNodes = retrievedData?.coordinate?.length || 0;
+    const alreadyUnlocked = (window as any).mstButtonControl?.canShowOptimal();
 
-    if (selectedNodes.size < totalNodes || totalNodes === 0) {
+    if (!alreadyUnlocked && (selectedNodes.size < totalNodes || totalNodes === 0)) {
       toast({
         variant: "destructive",
         style: { height: "auto", borderRadius: "15px" },
