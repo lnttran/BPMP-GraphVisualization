@@ -90,6 +90,7 @@ export default function MSTGraphVisualiser({
       display: string;
     }[]
   >((lines, link) => {
+    if (link.x === link.y) return lines;
     const node1Coordinates = getCoordinatesByNode(link.x, coordinateData);
     const node2Coordinates = getCoordinatesByNode(link.y, coordinateData);
     const w = link.w;
