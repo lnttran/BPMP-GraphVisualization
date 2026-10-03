@@ -44,6 +44,7 @@ const BaseLayout = ({
           { label: "BPMP", href: "/dashboard/bpmp" },
           { label: "Shortest Path", href: "/dashboard/shortestpath" },
           { label: "Minimum Spanning Tree", href: "/dashboard/minimumspanningtree" },
+          { label: "Traveling Salesman Problem", href: "/dashboard/travelingsalesmanproblem"},
         ]}
       />
         {children}

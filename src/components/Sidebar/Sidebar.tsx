@@ -76,12 +76,16 @@ const Sidebar = ({
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="w-[250px] p-4">
-            <SheetTitle>
-              <div className="flex items-center gap-4 pb-6">
-                <Truck className="sidebar__logo" />
-                <p className="text-[24px] font-bold">{title}</p>
-              </div>
-            </SheetTitle>
+<SheetTitle>
+  <Link
+    href="/"
+    onClick={handleLinkClick}
+    className="flex items-center gap-4 pb-6"
+  >
+    <Truck className="sidebar__logo" />
+    <p className="text-[24px] font-bold">{title}</p>
+  </Link>
+</SheetTitle>
             <ul className="space-y-2">
               {sidebarItems.map(({ name, href, icon }) => (
                 <li key={name}>
@@ -110,10 +114,13 @@ const Sidebar = ({
           className="h-full w-[13rem] bg-popover p-3 transition-all duration-400 overflow-hidden ease-linear"
           data-collapse={isCollapsed}
         >
-          <div className="flex w-auto min-w-20 gap-4 items-center pb-10 pt-5">
-            <Truck className="sidebar__logo" />
-            {!isCollapsed && <p className="text-[24px] font-bold">{title}</p>}
-          </div>
+<Link
+  href="/"
+  className="flex w-auto min-w-20 gap-4 items-center pb-10 pt-5"
+>
+  <Truck className="sidebar__logo" />
+  {!isCollapsed && <p className="text-[24px] font-bold">{title}</p>}
+</Link>
           <ul className="list-none pt-8">
             {sidebarItems.map(({ name, href, icon }) => {
               return (

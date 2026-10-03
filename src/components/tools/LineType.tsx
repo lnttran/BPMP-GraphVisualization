@@ -146,3 +146,57 @@ export const LineTypeSP = ({
 };
 
 export const LineTypeMST = LineTypeSP; 
+
+function areNodesAdjacentInCycle(
+  from: number,
+  to: number,
+  route: number[]
+): boolean {
+  // reuse the original open-path adjacency check
+  if (areNodesAdjacentInRoute(from, to, route)) return true;
+
+  // check the closing edge: last node -> first node (TSP must return to start)
+  if (route.length > 1) {
+    const last = route[route.length - 1];
+    const first = route[0];
+    return last === from && first === to;
+  }
+  return false;
+}
+
+export const LineTypeTSP = ({
+  d,
+  from,
+  to,
+  selectedRoute,
+  isToggle = false,
+}: {
+  d: number;
+  from?: number;
+  to?: number;
+  selectedRoute?: number[];
+  isToggle?: boolean;
+}) => {
+  // selected distance has cargo = solid text-accent
+  if (d >= 9999) {
+    return { style: "solid", color: "text-accent", display: "hidden" };
+  } else if (selectedRoute && from !== undefined && to !== undefined) {
+    if (areNodesAdjacentInCycle(from, to, selectedRoute)) {
+      return { style: "solid", color: "text-accent", display: "block" };
+    }
+    if (isNodesAdjacentNotInOrderInRoute(from, to, selectedRoute)) {
+      return { style: "solid", color: "text-accent", display: "hidden" };
+    }
+    if (from > to && isToggle) {
+      return { style: "dashed", color: "text-accent", display: "block" };
+    }
+    return { style: "solid", color: "text-accent", display: "hidden" };
+  } else {
+    // unselected distance with cargo
+    return {
+      style: "dashed",
+      color: "text-accent",
+      display: "block",
+    };
+  }
+};

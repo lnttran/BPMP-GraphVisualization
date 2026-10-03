@@ -14,7 +14,7 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "incremental": true,
     "plugins": [
       {
@@ -36,7 +36,8 @@
     "src/components/ui/line.jsx",
     "src/components/ui/arrow.jsx",
     "src/app/api/data/[...fileName].js",
-    "src/db/data.js"
+    "src/db/data.js",
+    ".next/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

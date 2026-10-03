@@ -5,11 +5,13 @@ import {
   optimalSolutionSchema,
   optimalSolutionSPSchema,
   optimalSolutionMSTSchema, 
+  optimalSolutionTSPSchema,
 } from "./optimalSolution";
 
 //change the bellow for corresponding collection
 const shortestpathDb = mongoose.connection.useDb("shortestpath");
 const minimumspanningtreeDb = mongoose.connection.useDb("minimumspanningtree");
+const travelingsalesmanproblemDb = mongoose.connection.useDb("travelingsalesmanproblem");
 
 const dataMSTModel = minimumspanningtreeDb.models.Data || minimumspanningtreeDb.model("Data", dataSchema);
 const locationMSTModel = minimumspanningtreeDb.models.Location || minimumspanningtreeDb.model("Location", locationSchema);
@@ -36,6 +38,19 @@ const optimalSolutionModel =
   mongoose.models.OptimalSolution ||
   mongoose.model("OptimalSolution", optimalSolutionSchema);
 
+const dataTSPModel =
+  travelingsalesmanproblemDb.models.Data ||
+  travelingsalesmanproblemDb.model("Data", dataSchema);
+const locationTSPModel =
+  travelingsalesmanproblemDb.models.Location ||
+  travelingsalesmanproblemDb.model("Location", locationSchema);
+const coordinateTSPModel =
+  travelingsalesmanproblemDb.models.Coordinate ||
+  travelingsalesmanproblemDb.model("Coordinate", coordinateSchema);
+const optimalSolutionTSPModel =
+  travelingsalesmanproblemDb.models.OptimalSolutionTSP ||
+  travelingsalesmanproblemDb.model("OptimalSolutionTSP", optimalSolutionTSPSchema);
+
 export const DataSP = dataSPModel;
 export const CoordinateSP = coordinateSPModel;
 export const OptimalSolutionSP = optimalSolutionSPModel;
@@ -48,3 +63,7 @@ export const DataMST = dataMSTModel;
 export const CoordinateMST = coordinateMSTModel;
 export const LocationMST = locationMSTModel;
 export const OptimalSolutionMST = optimalSolutionMSTModel;
+export const DataTSP = dataTSPModel;
+export const CoordinateTSP = coordinateTSPModel;
+export const OptimalSolutionTSP = optimalSolutionTSPModel;
+export const LocationTSP = locationTSPModel;

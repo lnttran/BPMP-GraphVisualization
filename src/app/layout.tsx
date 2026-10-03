@@ -49,36 +49,42 @@ export default function RootLayout({
                     <nav className="flex items-center gap-8">
                       <Link
                         href="/website"
-                        className={`flex items-center gap-2 text-sm font-medium transition-colors duration-200 ${
-                          pathname === "/website"
+                        className={`flex items-center gap-2 text-sm font-medium transition-colors duration-200 ${pathname === "/website"
                             ? "text-emerald-600"
                             : "text-gray-600 hover:text-emerald-600"
-                        }`}
+                          }`}
                       >
                         {/* <Home className="w-4 h-4" /> */}
                         <span>Home</span>
                       </Link>
                       <Link
                         href="/website/bpmp"
-                        className={`flex items-center gap-2 text-sm font-medium transition-colors duration-200 ${
-                          pathname === "/website/bpmp"
+                        className={`flex items-center gap-2 text-sm font-medium transition-colors duration-200 ${pathname === "/website/bpmp"
                             ? "text-emerald-600"
                             : "text-gray-600 hover:text-emerald-600"
-                        }`}
+                          }`}
                       >
                         {/* <Network className="w-4 h-4" /> */}
                         <span>BPMP</span>
                       </Link>
                       <Link
                         href="/website/shortestpath"
-                        className={`flex items-center gap-2 text-sm font-medium transition-colors duration-200 ${
-                          pathname === "/website/shortestpath"
+                        className={`flex items-center gap-2 text-sm font-medium transition-colors duration-200 ${pathname === "/website/shortestpath"
                             ? "text-emerald-600"
                             : "text-gray-600 hover:text-emerald-600"
-                        }`}
+                          }`}
                       >
                         {/* <Route className="w-4 h-4" /> */}
                         <span>Shortest Path</span>
+                      </Link>
+                      <Link
+                        href="/website/minimumspanningtree"
+                        className={`flex items-center gap-2 text-sm font-medium transition-colors duration-200 ${pathname === "/website/minimumspanningtree"
+                            ? "text-emerald-600"
+                            : "text-gray-600 hover:text-emerald-600"
+                          }`}
+                      >
+                        <span>Minimum Spanning Tree</span>
                       </Link>
                       {/* <Link
                         href="/dashboard/bpmp"
@@ -88,8 +94,8 @@ export default function RootLayout({
                             : "text-gray-600 hover:text-emerald-600"
                         }`}
                       > */}
-                        {/* <Network className="w-4 h-4" /> */}
-                        {/* <span>Interactive Apps</span>
+                      {/* <Network className="w-4 h-4" /> */}
+                      {/* <span>Interactive Apps</span>
                       </Link> */}
                       <Dropdown
                         label="Interactive Apps"
@@ -107,6 +113,10 @@ export default function RootLayout({
                           {
                             label: "Minimum Spanning Tree",
                             href: "/dashboard/minimumspanningtree",
+                          },
+                          {
+                            label: "Traveling Salesman Problem",
+                            href: "/dashboard/travelingsalesmanproblem",
                           },
                         ]}
                       />

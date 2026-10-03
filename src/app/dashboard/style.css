@@ -191,6 +191,11 @@ body {
   background-color: var(--color-sidebar-item);
   margin-bottom: 1rem;
   border-radius: 0.8rem;
+  transition: background-color 0.15s ease;
+}
+
+.sidebar__link:hover:not(.sidebar__link--active) {
+  background-color: rgba(8, 28, 21, 0.06);
 }
 
 .sidebar__link--active {

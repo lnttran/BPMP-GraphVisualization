@@ -46,11 +46,9 @@ export default function BPMPPage() {
             </div>
 
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tight">
-              Backhaul Profit
               <span className="bg-gradient-to-r from-emerald-400 to-teal-500 text-transparent bg-clip-text">
-                {" "}
-                Maximization{" "}
-              </span>
+                Backhaul Profit Maximization
+              </span>{" "}
               Problem
             </h1>
 
@@ -61,9 +59,9 @@ export default function BPMPPage() {
                 href="https://bit.ly/49DEsSf"
                 className="underline text-white pointer font-semibold "
               >
-                Operations Research&nbsp;
+                Operations Research
               </a>
-              (OR) (also known as&nbsp;
+              &nbsp;(OR) (also known as&nbsp;
               <a
                 href="https://bit.ly/3BcW8aJ"
                 className="underline text-white pointer font-semibold "
@@ -77,7 +75,7 @@ export default function BPMPPage() {
               (2) selecting a subset of available delivery requests along this
               route to maximize profit, considering the vehicle&apos;s capacity.
               The video below gives a quick overview of BPMP and shows how 3PL
-              companies can solve it to avoid costly &ldquo;deadhead&ldquo;
+              companies can solve it to avoid costly &ldquo;deadhead&rdquo;
               miles, where vehicles travel empty incurring costs without
               generating revenue.
             </p>

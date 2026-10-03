@@ -53,12 +53,12 @@ export default function ShortestPathPage() {
 
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tight">
             <span className="bg-gradient-to-r from-emerald-400 to-teal-500 text-transparent bg-clip-text">
-            Shortest{" "}
-            </span>
-            Path Problem
+            Shortest Path
+            </span>{" "}
+            Problem
             </h1>
 
-          <p className="mx-auto text-gray-200 sm:text-md md:text-lg text-center mb-12 max-w-3xl">
+          <p className="mx-auto text-gray-200 sm:text-md md:text-lg text-justify mb-12 max-w-3xl">
               In Operations Research, Computer Science and related fields, the task of finding 
               the most efficient route through a network is known as the Shortest Path Problem.
             </p>
@@ -246,7 +246,7 @@ export default function ShortestPathPage() {
                 <span>Overview</span>
               </div>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0F1F1C]">
-                Understanding the Algorithm
+                Understanding the Challenge
               </h2>
               <p className="text-lg text-gray-600">
                 This overview explains the shortest path problem and some of its many applications.
@@ -259,7 +259,7 @@ export default function ShortestPathPage() {
                   <iframe
                     className="w-full h-full"
                     src="https://www.youtube.com/embed/p-hLoR7wBpo"
-                    title="BPMP Overview"
+                    title="Shortest Path Overview"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowFullScreen
                   ></iframe>

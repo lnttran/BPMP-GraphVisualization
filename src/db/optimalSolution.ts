@@ -2,18 +2,27 @@ import mongoose from "mongoose";
 
 
 export interface optimalSolution {
-    route: number[], 
+    route: number[],
     cargo: [number, number][];
-    profit: number, 
+    profit: number,
 }
 export interface optimalSolutionSP {
-    route: number[], 
-    totalDist: number, 
+    route: number[],
+    totalDist: number,
 }
+export interface optimalSolutionMST {
+    totalWeight: number;
+    edges: [number, number][];
+}
+export interface optimalSolutionTSP {
+    route: number[],
+    totalDist: number,
+}
+
 export const optimalSolutionSchema = new mongoose.Schema({
-    file: String, 
+    file: String,
     content: {
-        route: [Number], 
+        route: [Number],
         cargo: [[Number]],
         profit: Number,
     }
@@ -23,28 +32,34 @@ export const optimalSolutionSchema = new mongoose.Schema({
 })
 
 export const optimalSolutionSPSchema = new mongoose.Schema({
-    file: String, 
+    file: String,
     content: {
         totalDist: Number,
-        routes: [[Number]], 
+        routes: [[Number]],
     }
 }, {
     collection: "optimalSolutionSP",
     versionKey: false,
 })
 
-export interface optimalSolutionMST {
-  totalWeight: number;
-  edges: [number, number][];
-}
-
 export const optimalSolutionMSTSchema = new mongoose.Schema({
-  file: String,
-  content: {
-    totalWeight: Number,
-    edges: [[Number]],
-  }
+    file: String,
+    content: {
+        totalWeight: Number,
+        edges: [[Number]],
+    }
 }, {
-  collection: "optimalSolutionMST",
-  versionKey: false,
+    collection: "optimalSolutionMST",
+    versionKey: false,
+})
+
+export const optimalSolutionTSPSchema = new mongoose.Schema({
+    file: String, 
+    content: {
+        totalDist: Number,
+        routes: [[Number]], 
+    }
+}, {
+    collection: "optimalSolutionTSP",
+    versionKey: false,
 })

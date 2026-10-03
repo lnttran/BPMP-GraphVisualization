@@ -40,10 +40,10 @@ export default function LandingPage() {
             </div>
 
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tight">
-              Compact Network Flows for{" "}
               <span className="bg-gradient-to-r from-emerald-400 to-teal-500 text-transparent bg-clip-text">
-                Critical Infrastructure
-              </span>
+                Compact Network Flows
+              </span>{" "}
+              for Critical Infrastructure
             </h1>
 
             {/* <p className="max-w-4xl text-lg md:text-xl text-gray-300 mb-12"> */}
