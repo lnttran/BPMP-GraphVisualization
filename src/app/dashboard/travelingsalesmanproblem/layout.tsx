@@ -11,6 +11,7 @@ import BaseLayout from "@/components/Sidebar/BaseLayout";
 import { ToastProvider, ToastViewport } from "@/components/ui/toast";
 import { Toaster } from "@/components/ui/toaster";
 import { Database, GanttChart, House, Info } from "lucide-react";
+import { DataTSPProvider } from "@/components/context/DataTSPContext";
 
 const roboto_slab = Roboto_Slab({ subsets: ["latin"] });
 
@@ -75,7 +76,7 @@ export default function DashboardLayout({
           <div className="relative h-full">
             <SidebarProvider>
               <BaseLayout sidebarItems={sidebarTSPItems} title="Traveling Salesman Problem">
-                {children}
+                <DataTSPProvider>{children}</DataTSPProvider>
                 <Toaster />
               </BaseLayout>
             </SidebarProvider>
