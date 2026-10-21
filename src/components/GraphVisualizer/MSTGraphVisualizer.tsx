@@ -75,6 +75,32 @@ export default function MSTGraphVisualiser({
     }
   }, [resetSignal]);
 
+  // Kruskal: check if adding edge (from, to) would form a cycle
+  // with the edges already selected
+  const wouldCreateCycle = (from: number, to: number) => {
+    const adj = new Map<number, number[]>();
+    selectedEdges.forEach(edge => {
+      if (!adj.has(edge.from)) adj.set(edge.from, []);
+      if (!adj.has(edge.to)) adj.set(edge.to, []);
+      adj.get(edge.from)!.push(edge.to);
+      adj.get(edge.to)!.push(edge.from);
+    });
+
+    const visited = new Set<number>([from]);
+    const stack = [from];
+    while (stack.length > 0) {
+      const current = stack.pop()!;
+      if (current === to) return true;
+      for (const next of adj.get(current) || []) {
+        if (!visited.has(next)) {
+          visited.add(next);
+          stack.push(next);
+        }
+      }
+    }
+    return false;
+  };
+
   const lines = weightDistantData.reduce<
     {
       from: number;
@@ -150,7 +176,19 @@ export default function MSTGraphVisualiser({
         let isMatch = false;
 
         if (edges && edges.length > 0) {
-          isMatch = JSON.stringify(selectedEdges) === JSON.stringify(edges);
+          // Edges can now be picked in any order and any direction,
+          // so compare them as a set of undirected edges
+          const toKey = (e: any) => {
+            const a = Array.isArray(e) ? e[0] : e.from;
+            const b = Array.isArray(e) ? e[1] : e.to;
+            return `${Math.min(a, b)}-${Math.max(a, b)}`;
+          };
+          const optimalKeys = edges.map(toKey).sort();
+          const currentKeys = selectedEdges.map(toKey).sort();
+
+          isMatch =
+            optimalKeys.length === currentKeys.length &&
+            optimalKeys.every((key: string, i: number) => key === currentKeys[i]);
 
           console.log("Optimal edges:", edges);
           console.log("Current edges:", selectedEdges);
@@ -353,26 +391,19 @@ export default function MSTGraphVisualiser({
 
       const result = removeEdge(lastEdge.from, lastEdge.to);
       if (result) {
-        setSelectedNodes(prev => {
-          const newSet = new Set(prev);
-          newSet.delete(lastEdge.to);
-          if (selectedEdges.length === 1) {
-            newSet.delete(lastEdge.from);
-          }
-          return newSet;
+        // A node can belong to more than one edge now,
+        // so rebuild selectedNodes from the edges that are left
+        const remainingEdges = selectedEdges.slice(0, -1);
+        const newSet = new Set<number>();
+        remainingEdges.forEach(edge => {
+          newSet.add(edge.from);
+          newSet.add(edge.to);
         });
+        setSelectedNodes(newSet);
       }
     } else {
-      const fromSelected = selectedNodes.has(from);
-      const toSelected = selectedNodes.has(to);
-
-      if (selectedNodes.size === 0) {
-        setSelectedNodes(new Set([from]));
-        const { status: result } = addEdge(from, to, weight);
-        return;
-      }
-
-      if (fromSelected && toSelected) {
+      // Kruskal: any edge can be picked, as long as it does not form a cycle
+      if (wouldCreateCycle(from, to)) {
         toast({
           variant: "destructive",
           style: { height: "auto", borderRadius: "15px" },
@@ -381,8 +412,11 @@ export default function MSTGraphVisualiser({
               <MdErrorOutline className="text-white" size={"50px"} />
               <div>
                 <ToastTitle className="text-xl font-bold text-white">
-                  Both nodes already selected
+                  Cannot add this edge
                 </ToastTitle>
+                <ToastDescription className="text-lg text-white">
+                  This edge would form a cycle
+                </ToastDescription>
               </div>
             </div>
           ),
@@ -390,30 +424,18 @@ export default function MSTGraphVisualiser({
         return;
       }
 
-      if (!fromSelected && !toSelected) {
-        toast({
-          variant: "destructive",
-          style: { height: "auto", borderRadius: "15px" },
-          description: (
-            <div className="flex flex-row items-center gap-10">
-              <MdErrorOutline className="text-white" size={"50px"} />
-              <div>
-                <ToastTitle className="text-xl font-bold text-white">
-                  Must connect to selected node
-                </ToastTitle>
-              </div>
-            </div>
-          ),
-        });
-        return;
-      }
-
-      let finalFrom = fromSelected ? from : to;
-      let finalTo = fromSelected ? to : from;
-
-      const { status: result } = addEdge(finalFrom, finalTo, weight);
+      const { status: result } = addEdge(from, to, weight);
       if (result) {
-        if (selectedNodes.size + 1 === dataSize) {
+        setSelectedNodes(prev => {
+          const newSet = new Set(prev);
+          newSet.add(from);
+          newSet.add(to);
+          return newSet;
+        });
+
+        // A tree with n nodes has n - 1 edges. Since we never allow a cycle,
+        // n - 1 edges means every node is connected.
+        if (selectedEdges.length + 1 === dataSize - 1) {
           if ((window as any).mstButtonControl) {
             (window as any).mstButtonControl.incrementAttempts();
           }
@@ -515,20 +537,23 @@ export default function MSTGraphVisualiser({
         }
       });
 
-      if (selectedNodes.size > 0) {
-        const potentialLines = lines.filter(line => {
-          const fromSelected = selectedNodes.has(line.from) && !selectedNodes.has(line.to);
-          const toSelected = selectedNodes.has(line.to) && !selectedNodes.has(line.from);
-          return (fromSelected || toSelected) && line.d < 9999;
-        });
+      // Kruskal: show every edge that is not selected yet and
+      // would not form a cycle, anywhere in the graph
+      const potentialLines = lines.filter(line => {
+        const isSelected = selectedEdges.some(
+          edge =>
+            (edge.from === line.from && edge.to === line.to) ||
+            (edge.from === line.to && edge.to === line.from)
+        );
+        return !isSelected && line.d < 9999 && !wouldCreateCycle(line.from, line.to);
+      });
 
-        potentialLines.forEach(line => {
-          filteredLines.push({
-            ...line,
-            display: "block",
-          });
+      potentialLines.forEach(line => {
+        filteredLines.push({
+          ...line,
+          display: "block",
         });
-      }
+      });
     }
 
     return renderLines(filteredLines);

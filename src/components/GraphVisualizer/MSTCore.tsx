@@ -78,7 +78,7 @@ if (typeof window !== 'undefined') {
 
 export default function MSTGraphVisualization() {
   const { selectedDataset, setSelectedDataset, retrievedData } = useDataMSTContext();
-  const { resetMST, setOptimalSolutionEdges, selectedNodes, saveStudentRoute } = useRouteMSTContext();
+  const { resetMST, setOptimalSolutionEdges, selectedNodes, selectedEdges, saveStudentRoute } = useRouteMSTContext();
   const { toast } = useToast();
 
   const [resetSignal, setResetSignal] = useState(false);
@@ -92,12 +92,12 @@ export default function MSTGraphVisualization() {
 
   useEffect(() => {
     const totalNodes = retrievedData?.coordinate?.length || 0;
-    if (totalNodes > 0 && selectedNodes.size >= totalNodes) {
+    if (totalNodes > 0 && selectedEdges.length === totalNodes - 1) {
       if ((window as any).mstButtonControl) {
         (window as any).mstButtonControl.setOptimalFound();
       }
     }
-  }, [selectedNodes, retrievedData]);
+  }, [selectedEdges, retrievedData]);
 
   const { data: filenames, error } = useSWR<string[]>(
     `/api/minimumspanningtree/data/filename`,
@@ -120,7 +120,7 @@ export default function MSTGraphVisualization() {
     const totalNodes = retrievedData?.coordinate?.length || 0;
     const alreadyUnlocked = (window as any).mstButtonControl?.canShowOptimal();
 
-    if (!alreadyUnlocked && (selectedNodes.size < totalNodes || totalNodes === 0)) {
+    if (!alreadyUnlocked && (selectedEdges.length < totalNodes - 1 || totalNodes === 0)) {
       toast({
         variant: "destructive",
         style: { height: "auto", borderRadius: "15px" },
